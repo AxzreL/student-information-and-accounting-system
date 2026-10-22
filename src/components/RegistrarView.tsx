@@ -1,17 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Search,
-  UserPlus,
-  BookOpen,
-  Printer,
-  FileText,
-  Filter,
-  CheckCircle,
-  Clock,
-  GraduationCap,
-} from 'lucide-react';
 
 interface RegistrarViewProps {
   students: any[];
@@ -46,75 +35,68 @@ export default function RegistrarView({
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-      {/* Top Action Bar */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      {/* Top Station Header */}
       <div
-        className="glass-panel"
+        className="instrument-panel"
         style={{
-          padding: '1.25rem 1.5rem',
+          padding: '0.85rem 1.25rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: '1rem',
+          background: 'var(--bg-surface-sunken)',
         }}
       >
         <div>
-          <h2 style={{ fontSize: '1.25rem', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <GraduationCap size={22} style={{ color: 'var(--accent-emerald)' }} />
-            Registrar & Student Admissions
-          </h2>
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: '0.2rem 0 0' }}>
-            Manage student records, degree programs, curricula, and subject-level enrollment schedules.
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span className="tag-mono tag-amber">[STATION_02]</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', fontWeight: 800 }}>
+              REGISTRAR // CANDIDATE_STUDENT_DIRECTORY
+            </span>
+          </div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-dim)', marginTop: '0.2rem' }}>
+            MANAGE ACADEMIC ADMISSIONS, CURRICULAR LOAD SCHEDULING, AND CERTIFICATE OF REGISTRATION DISPATCH.
+          </div>
         </div>
 
-        <button onClick={onOpenNewStudent} className="btn btn-primary">
-          <UserPlus size={16} /> Register New Student
+        <button onClick={onOpenNewStudent} className="btn-mechanical btn-signal-amber">
+          [+ REGISTER_NEW_CANDIDATE] <span className="hotkey-tag">N</span>
         </button>
       </div>
 
-      {/* Filter & Search Bar */}
+      {/* Filter & Query Bar */}
       <div
-        className="glass-panel"
+        className="instrument-panel"
         style={{
-          padding: '1rem 1.25rem',
+          padding: '0.75rem 1rem',
           display: 'flex',
           alignItems: 'center',
-          gap: '1rem',
+          gap: '0.75rem',
           flexWrap: 'wrap',
+          background: 'var(--bg-surface)',
         }}
       >
         {/* Search */}
-        <div style={{ position: 'relative', flex: 1, minWidth: '260px' }}>
-          <Search
-            size={16}
-            style={{
-              position: 'absolute',
-              left: '0.85rem',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: 'var(--text-dim)',
-            }}
-          />
+        <div style={{ flex: 1, minWidth: '280px' }}>
           <input
             type="text"
-            className="input-field"
-            style={{ paddingLeft: '2.4rem' }}
-            placeholder="Search by Student No, First Name, or Last Name..."
+            className="input-instrument"
+            placeholder="QUERY: ENTER STUDENT_ID OR NAME..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
 
         {/* Program Filter */}
-        <div style={{ width: '220px' }}>
+        <div style={{ width: '240px' }}>
           <select
-            className="input-field"
+            className="input-instrument"
             value={selectedProgram}
             onChange={(e) => setSelectedProgram(e.target.value)}
           >
-            <option value="">All Degree Programs</option>
+            <option value="">[ALL_DEGREE_PROGRAMS]</option>
             {programs.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.code} - {p.name}
@@ -123,41 +105,45 @@ export default function RegistrarView({
           </select>
         </div>
 
-        {/* Year Level Filter */}
-        <div style={{ width: '150px' }}>
+        {/* Year Filter */}
+        <div style={{ width: '160px' }}>
           <select
-            className="input-field"
+            className="input-instrument"
             value={selectedYear}
             onChange={(e) => setSelectedYear(e.target.value)}
           >
-            <option value="">All Year Levels</option>
-            <option value="1">1st Year</option>
-            <option value="2">2nd Year</option>
-            <option value="3">3rd Year</option>
-            <option value="4">4th Year</option>
+            <option value="">[ALL_YEAR_LEVELS]</option>
+            <option value="1">YR_1 (FRESHMAN)</option>
+            <option value="2">YR_2 (SOPHOMORE)</option>
+            <option value="3">YR_3 (JUNIOR)</option>
+            <option value="4">YR_4 (SENIOR)</option>
           </select>
+        </div>
+
+        <div className="tag-mono" style={{ padding: '0.55rem 0.75rem' }}>
+          ENTRIES: {filteredStudents.length}/{students.length}
         </div>
       </div>
 
-      {/* Student Directory Table */}
-      <div className="glass-panel table-container">
-        <table className="data-table">
+      {/* High-Density Hairline Registry Table */}
+      <div className="instrument-panel" style={{ overflowX: 'auto' }}>
+        <table className="hairline-grid-table">
           <thead>
             <tr>
-              <th>STUDENT NO.</th>
-              <th>NAME & CONTACT</th>
-              <th>DEGREE PROGRAM</th>
-              <th>YEAR & STATUS</th>
-              <th>ENROLLMENT STATUS</th>
-              <th>ENROLLED UNITS</th>
-              <th style={{ textAlign: 'right' }}>ACTIONS</th>
+              <th>STUDENT_ID</th>
+              <th>CANDIDATE_NAME & CONTACT</th>
+              <th>CURRICULUM_PROGRAM</th>
+              <th>LEVEL_STATUS</th>
+              <th>ENROLLMENT_STATUS</th>
+              <th>CREDIT_LOAD</th>
+              <th style={{ textAlign: 'right' }}>OPERATIONS</th>
             </tr>
           </thead>
           <tbody>
             {filteredStudents.length === 0 ? (
               <tr>
-                <td colSpan={7} style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-dim)' }}>
-                  No students found matching your criteria.
+                <td colSpan={7} style={{ textAlign: 'center', padding: '3rem', fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}>
+                  [ZERO_RECORDS_MATCHING_SPECIFIED_QUERY]
                 </td>
               </tr>
             ) : (
@@ -168,92 +154,84 @@ export default function RegistrarView({
 
                 return (
                   <tr key={st.id}>
-                    <td>
-                      <span
-                        style={{
-                          fontWeight: 700,
-                          color: 'var(--accent-emerald)',
-                          fontFamily: 'var(--font-mono)',
-                        }}
-                      >
-                        {st.studentNo}
-                      </span>
+                    <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 800, color: 'var(--signal-amber)' }}>
+                      {st.studentNo}
                     </td>
                     <td>
-                      <div style={{ fontWeight: 600 }}>
+                      <div style={{ fontWeight: 700, fontSize: '0.82rem' }}>
                         {st.lastName}, {st.firstName} {st.middleName ? `${st.middleName[0]}.` : ''}
                       </div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>
-                        {st.email || st.phone || 'No contact provided'}
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-dim)' }}>
+                        {st.email || st.phone || 'NO_CONTACT_REGISTERED'}
                       </div>
                     </td>
                     <td>
-                      <div style={{ fontWeight: 600 }}>{st.program?.code}</div>
-                      <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)' }}>
-                        {st.program?.department?.name}
+                      <div style={{ fontWeight: 700, fontSize: '0.8rem' }}>{st.program?.code}</div>
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-dim)' }}>
+                        {st.program?.department?.code}
                       </div>
                     </td>
                     <td>
-                      <div>Year {st.yearLevel}</div>
-                      <span className="badge badge-info" style={{ fontSize: '0.65rem', marginTop: '0.2rem' }}>
-                        {st.status}
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>YEAR_{st.yearLevel}</div>
+                      <span className="tag-mono" style={{ fontSize: '0.62rem', marginTop: '2px' }}>
+                        [{st.status}]
                       </span>
                     </td>
                     <td>
                       {isEnrolled ? (
                         <span
-                          className={`badge ${
+                          className={`tag-mono ${
                             status === 'OFFICIALLY_ENROLLED'
-                              ? 'badge-success'
+                              ? 'tag-green'
                               : status === 'ASSESSED'
-                              ? 'badge-warning'
-                              : 'badge-info'
+                              ? 'tag-amber'
+                              : ''
                           }`}
+                          style={{ fontSize: '0.65rem' }}
                         >
                           {status === 'OFFICIALLY_ENROLLED'
-                            ? 'Officially Enrolled'
+                            ? '[OFFICIALLY_ENROLLED]'
                             : status === 'ASSESSED'
-                            ? 'Assessed'
-                            : 'Draft'}
+                            ? '[ASSESSED_PENDING]'
+                            : '[DRAFT_COMMITTED]'}
                         </span>
                       ) : (
-                        <span className="badge badge-danger" style={{ opacity: 0.7 }}>
-                          Not Enrolled
+                        <span className="tag-mono tag-red" style={{ fontSize: '0.65rem' }}>
+                          [UNREGISTERED]
                         </span>
                       )}
                     </td>
                     <td>
                       {isEnrolled ? (
                         <div>
-                          <span style={{ fontWeight: 700 }} className="tabular-numbers">
-                            {latestEnrollment.totalUnits} Units
+                          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '0.8rem' }}>
+                            {latestEnrollment.totalUnits}_UNITS
                           </span>
-                          <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)' }}>
-                            Lec: {latestEnrollment.totalLecUnits} | Lab: {latestEnrollment.totalLabUnits}
+                          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-dim)' }}>
+                            LEC:{latestEnrollment.totalLecUnits} | LAB:{latestEnrollment.totalLabUnits}
                           </div>
                         </div>
                       ) : (
-                        <span style={{ color: 'var(--text-dim)' }}>-</span>
+                        <span style={{ color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>--</span>
                       )}
                     </td>
                     <td style={{ textAlign: 'right' }}>
-                      <div style={{ display: 'inline-flex', gap: '0.4rem' }}>
+                      <div style={{ display: 'inline-flex', gap: '0.35rem' }}>
                         <button
                           onClick={() => onOpenEnrollment(st)}
-                          className="btn btn-secondary btn-sm"
-                          title="Enroll or change subjects"
+                          className="btn-mechanical btn-sm"
+                          title="Schedule curriculum subjects"
                         >
-                          <BookOpen size={14} />
-                          {isEnrolled ? 'Adjust' : 'Enroll'}
+                          {isEnrolled ? '[ADJUST_LOAD]' : '[ENROLL_LOAD]'}
                         </button>
 
                         {isEnrolled && (
                           <button
                             onClick={() => onOpenCor({ ...latestEnrollment, student: st })}
-                            className="btn btn-primary btn-sm"
-                            title="Print Certificate of Registration & Assessment Form"
+                            className="btn-mechanical btn-signal-green btn-sm"
+                            title="Generate Certificate of Registration"
                           >
-                            <Printer size={14} /> COR
+                            [PRINT_COR]
                           </button>
                         )}
                       </div>

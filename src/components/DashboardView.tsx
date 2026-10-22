@@ -1,18 +1,6 @@
 'use client';
 
 import React from 'react';
-import {
-  Users,
-  CreditCard,
-  TrendingUp,
-  AlertCircle,
-  FileText,
-  UserCheck,
-  CheckCircle,
-  Clock,
-  ArrowUpRight,
-  ShieldAlert,
-} from 'lucide-react';
 
 interface DashboardViewProps {
   stats: any;
@@ -34,346 +22,272 @@ export default function DashboardView({
   const currency = '₱';
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-      {/* KPI Cards Row */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+      {/* Precision Instrument Readouts (4 Metres) */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-          gap: '1.25rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gap: '1px',
+          background: 'var(--border-hairline)',
+          border: '1px solid var(--border-hairline)',
         }}
       >
-        {/* Card 1: Total Enrolled */}
-        <div className="glass-panel glass-panel-hover" style={{ padding: '1.25rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <div>
-              <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-dim)', textTransform: 'uppercase' }}>
-                Total Enrolled Students
-              </div>
-              <div style={{ fontSize: '1.85rem', fontWeight: 800, marginTop: '0.35rem' }} className="tabular-numbers">
-                {stats?.totalEnrolled || 0}
-              </div>
-            </div>
-            <div
-              style={{
-                width: '42px',
-                height: '42px',
-                borderRadius: 'var(--radius-md)',
-                background: 'rgba(59, 130, 246, 0.15)',
-                color: 'var(--accent-blue)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Users size={20} />
-            </div>
+        {/* Metre 1: Enrolled Headcount */}
+        <div style={{ background: 'var(--bg-surface)', padding: '1rem 1.25rem' }}>
+          <div className="instrument-header-bar" style={{ margin: '-1rem -1.25rem 0.85rem', padding: '0.45rem 1rem' }}>
+            <span>METRIC:01 // ENROLLMENT_LOAD</span>
+            <span style={{ color: 'var(--signal-green)' }}>[ONLINE]</span>
           </div>
-          <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-            <span style={{ color: 'var(--accent-emerald)', fontWeight: 600 }}>Active Term</span> • {stats?.totalStudents || 0} Registered Profiles
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+            <div className="telemetry-value" style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+              {stats?.totalEnrolled || 0}
+            </div>
+            <span className="tag-mono tag-cyan">HEADCOUNT</span>
+          </div>
+          <div style={{ marginTop: '0.65rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-dim)' }}>
+            REGISTERED_PROFILES: {stats?.totalStudents || 0} // ALLOCATION: 100%
           </div>
         </div>
 
-        {/* Card 2: Today's Collection */}
-        <div className="glass-panel glass-panel-hover" style={{ padding: '1.25rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <div>
-              <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-dim)', textTransform: 'uppercase' }}>
-                Today's Collections
-              </div>
-              <div style={{ fontSize: '1.85rem', fontWeight: 800, marginTop: '0.35rem', color: 'var(--accent-emerald)' }} className="tabular-numbers">
-                {currency}{Number(stats?.todayCollectionTotal || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-              </div>
-            </div>
-            <div
-              style={{
-                width: '42px',
-                height: '42px',
-                borderRadius: 'var(--radius-md)',
-                background: 'rgba(16, 185, 129, 0.15)',
-                color: 'var(--accent-emerald)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <CreditCard size={20} />
-            </div>
+        {/* Metre 2: Daily Collections */}
+        <div style={{ background: 'var(--bg-surface)', padding: '1rem 1.25rem' }}>
+          <div className="instrument-header-bar" style={{ margin: '-1rem -1.25rem 0.85rem', padding: '0.45rem 1rem' }}>
+            <span>METRIC:02 // DIURNAL_COLLECTIONS</span>
+            <span style={{ color: 'var(--signal-amber)' }}>[VERIFIED]</span>
           </div>
-          <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-            <span style={{ color: 'var(--accent-cyan)', fontWeight: 600 }}>Cashier Window</span> • Verified via OR Register
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+            <div className="telemetry-value" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--signal-amber)' }}>
+              {currency}{Number(stats?.todayCollectionTotal || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            </div>
+            <span className="tag-mono tag-amber">CASHIER_04</span>
+          </div>
+          <div style={{ marginTop: '0.65rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-dim)' }}>
+            CYCLE: CURRENT_DAY_REGISTER // VERIFIED_OR_ONLY
           </div>
         </div>
 
-        {/* Card 3: Total Collections */}
-        <div className="glass-panel glass-panel-hover" style={{ padding: '1.25rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <div>
-              <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-dim)', textTransform: 'uppercase' }}>
-                Total Semester Collections
-              </div>
-              <div style={{ fontSize: '1.85rem', fontWeight: 800, marginTop: '0.35rem', color: 'var(--accent-cyan)' }} className="tabular-numbers">
-                {currency}{Number(stats?.totalCollected || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-              </div>
-            </div>
-            <div
-              style={{
-                width: '42px',
-                height: '42px',
-                borderRadius: 'var(--radius-md)',
-                background: 'rgba(6, 182, 212, 0.15)',
-                color: 'var(--accent-cyan)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <TrendingUp size={20} />
-            </div>
+        {/* Metre 3: Semester Total Collection */}
+        <div style={{ background: 'var(--bg-surface)', padding: '1rem 1.25rem' }}>
+          <div className="instrument-header-bar" style={{ margin: '-1rem -1.25rem 0.85rem', padding: '0.45rem 1rem' }}>
+            <span>METRIC:03 // CUMULATIVE_REVENUE</span>
+            <span style={{ color: 'var(--text-secondary)' }}>[POSTED]</span>
           </div>
-          <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-            <span>Net Assessed: {currency}{Number(stats?.totalAssessed || 0).toLocaleString()}</span>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+            <div className="telemetry-value" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+              {currency}{Number(stats?.totalCollected || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            </div>
+            <span className="tag-mono">[NET_TOTAL]</span>
+          </div>
+          <div style={{ marginTop: '0.65rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-dim)' }}>
+            TOTAL_ASSESSED: {currency}{Number(stats?.totalAssessed || 0).toLocaleString()}
           </div>
         </div>
 
-        {/* Card 4: Accounts Receivable & Exam Clearance */}
-        <div className="glass-panel glass-panel-hover" style={{ padding: '1.25rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <div>
-              <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-dim)', textTransform: 'uppercase' }}>
-                Accounts Receivable (Pending)
-              </div>
-              <div style={{ fontSize: '1.85rem', fontWeight: 800, marginTop: '0.35rem', color: '#fb7185' }} className="tabular-numbers">
-                {currency}{Number(stats?.totalReceivables || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-              </div>
-            </div>
-            <div
-              style={{
-                width: '42px',
-                height: '42px',
-                borderRadius: 'var(--radius-md)',
-                background: 'rgba(244, 63, 94, 0.15)',
-                color: '#fb7185',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <AlertCircle size={20} />
-            </div>
+        {/* Metre 4: Receivables & Clearance */}
+        <div style={{ background: 'var(--bg-surface)', padding: '1rem 1.25rem' }}>
+          <div className="instrument-header-bar" style={{ margin: '-1rem -1.25rem 0.85rem', padding: '0.45rem 1rem' }}>
+            <span>METRIC:04 // RECEIVABLES_LEDGER</span>
+            <span style={{ color: 'var(--signal-red)' }}>[PENDING]</span>
           </div>
-          <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem' }}>
-            <span className="badge badge-success" style={{ fontSize: '0.65rem' }}>
-              {stats?.examClearedCount || 0} Cleared for Exams
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+            <div className="telemetry-value" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--signal-red)' }}>
+              {currency}{Number(stats?.totalReceivables || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            </div>
+            <span className="tag-mono tag-red">UNSETTLED</span>
+          </div>
+          <div style={{ marginTop: '0.65rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <span className="tag-mono tag-green" style={{ fontSize: '0.65rem' }}>
+              CLEARED: {stats?.examClearedCount || 0}
             </span>
-            <span className="badge badge-danger" style={{ fontSize: '0.65rem' }}>
-              {stats?.examHoldCount || 0} On Hold
+            <span className="tag-mono tag-red" style={{ fontSize: '0.65rem' }}>
+              HOLD: {stats?.examHoldCount || 0}
             </span>
           </div>
         </div>
       </div>
 
-      {/* Quick Action Banner */}
+      {/* Structured Tactical Command Strip */}
       <div
-        className="glass-panel"
+        className="instrument-panel"
         style={{
-          padding: '1.25rem 1.5rem',
+          padding: '0.85rem 1.25rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: '1rem',
-          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.08) 100%)',
-          borderColor: 'rgba(16, 185, 129, 0.3)',
+          background: 'var(--bg-surface-sunken)',
         }}
       >
-        <div>
-          <h3 style={{ fontSize: '1.1rem', margin: 0 }}>Enrollment & Accounting Quick Actions</h3>
-          <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: '0.2rem 0 0' }}>
-            Direct access to student admission, subject schedule enrollment, and cashier payment processing.
-          </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <span className="tag-mono tag-amber">[CONSOLE_CMD]</span>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', fontWeight: 700 }}>
+              TERMINAL INTERFACE DIRECT ACCESS
+            </div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-dim)' }}>
+              EXECUTE ADMISSION REGISTRATION // CASHIER PAYMENT CLEARANCE
+            </div>
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <button onClick={() => onNavigate('registrar')} className="btn btn-primary btn-sm">
-            <UserCheck size={16} /> Open Registrar Portal
+
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button onClick={() => onNavigate('registrar')} className="btn-mechanical btn-signal-amber btn-sm">
+            [CMD: ADMISSIONS_DESK] <span className="hotkey-tag">R</span>
           </button>
-          <button onClick={() => onNavigate('cashier')} className="btn btn-secondary btn-sm">
-            <CreditCard size={16} /> Open Cashier Counter
+          <button onClick={() => onNavigate('cashier')} className="btn-mechanical btn-sm">
+            [CMD: CASHIER_REGISTER] <span className="hotkey-tag">C</span>
           </button>
         </div>
       </div>
 
-      {/* Two Columns: Recent Collections & Recent Enrollments */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: '1.5rem' }}>
-        {/* Left: Recent Cashier Collections */}
-        <div className="glass-panel" style={{ padding: '1.25rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <CreditCard size={18} style={{ color: 'var(--accent-emerald)' }} />
-              <h4 style={{ fontSize: '0.95rem', margin: 0 }}>Recent Cashier Collections</h4>
-            </div>
+      {/* Dual Telemetry Log Feeds */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: '1.25rem' }}>
+        {/* Left: Financial Ledger Stream */}
+        <div className="instrument-panel">
+          <div className="instrument-header-bar">
+            <span>REGISTER_FEED // CASHIER_COLLECTIONS_LOG</span>
             <button
               onClick={() => onNavigate('cashier')}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: 'var(--accent-emerald)',
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.25rem',
-              }}
+              style={{ background: 'transparent', border: 'none', color: 'var(--signal-amber)', fontFamily: 'var(--font-mono)', fontSize: '0.68rem', cursor: 'pointer' }}
             >
-              View All <ArrowUpRight size={14} />
+              [FULL_LOG ➔]
             </button>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-            {recentPayments.length === 0 ? (
-              <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-dim)', fontSize: '0.85rem' }}>
-                No recent payment transactions recorded yet.
-              </div>
-            ) : (
-              recentPayments.map((p) => {
-                const st = p.assessment?.enrollment?.student;
-                return (
-                  <div
-                    key={p.id}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: '0.75rem',
-                      background: 'var(--bg-secondary)',
-                      borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--border-subtle)',
-                    }}
-                  >
-                    <div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <span style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--accent-emerald)' }}>
+          <div style={{ overflowX: 'auto' }}>
+            <table className="hairline-grid-table">
+              <thead>
+                <tr>
+                  <th>REF_OR</th>
+                  <th>PAYOR_IDENTITY</th>
+                  <th>METHOD</th>
+                  <th style={{ textAlign: 'right' }}>VAL_POSTED</th>
+                  <th style={{ textAlign: 'right' }}>ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentPayments.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} style={{ textAlign: 'center', padding: '2rem', fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}>
+                      [NO_TRANSACTIONS_LOGGED_IN_SESSION]
+                    </td>
+                  </tr>
+                ) : (
+                  recentPayments.map((p) => {
+                    const st = p.assessment?.enrollment?.student;
+                    return (
+                      <tr key={p.id}>
+                        <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--signal-amber)' }}>
                           {p.orNumber}
-                        </span>
-                        <span className="badge badge-info" style={{ fontSize: '0.65rem' }}>
-                          {p.paymentMethod}
-                        </span>
-                      </div>
-                      <div style={{ fontSize: '0.8rem', fontWeight: 600, marginTop: '0.2rem' }}>
-                        {st ? `${st.firstName} ${st.lastName}` : p.paidBy}
-                      </div>
-                      <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)' }}>
-                        {new Date(p.paymentDate).toLocaleDateString()} • Cashier: {p.cashierName}
-                      </div>
-                    </div>
-
-                    <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontWeight: 800, fontSize: '0.95rem', color: 'var(--text-main)' }} className="tabular-numbers">
-                        ₱{Number(p.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                      </div>
-                      <button
-                        onClick={() =>
-                          onOpenReceipt({
-                            payment: p,
-                            assessment: p.assessment,
-                            student: st,
-                          })
-                        }
-                        className="btn btn-secondary btn-sm"
-                        style={{ marginTop: '0.35rem', padding: '0.2rem 0.5rem', fontSize: '0.7rem' }}
-                      >
-                        Print OR
-                      </button>
-                    </div>
-                  </div>
-                );
-              })
-            )}
+                        </td>
+                        <td>
+                          <div style={{ fontWeight: 600, fontSize: '0.78rem' }}>
+                            {st ? `${st.lastName}, ${st.firstName}` : p.paidBy}
+                          </div>
+                          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-dim)' }}>
+                            {new Date(p.paymentDate).toLocaleDateString()}
+                          </div>
+                        </td>
+                        <td>
+                          <span className="tag-mono" style={{ fontSize: '0.62rem' }}>
+                            [{p.paymentMethod}]
+                          </span>
+                        </td>
+                        <td style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
+                          ₱{Number(p.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          <button
+                            onClick={() =>
+                              onOpenReceipt({
+                                payment: p,
+                                assessment: p.assessment,
+                                student: st,
+                              })
+                            }
+                            className="btn-mechanical btn-sm"
+                            style={{ padding: '0.2rem 0.45rem', fontSize: '0.65rem' }}
+                          >
+                            [OR]
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
 
-        {/* Right: Recent Student Enrollments */}
-        <div className="glass-panel" style={{ padding: '1.25rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <UserCheck size={18} style={{ color: 'var(--accent-cyan)' }} />
-              <h4 style={{ fontSize: '0.95rem', margin: 0 }}>Recent Student Enrollments</h4>
-            </div>
+        {/* Right: Academic Enrollment Stream */}
+        <div className="instrument-panel">
+          <div className="instrument-header-bar">
+            <span>REGISTRAR_FEED // ENROLLMENT_COMMITS</span>
             <button
               onClick={() => onNavigate('registrar')}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: 'var(--accent-cyan)',
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.25rem',
-              }}
+              style={{ background: 'transparent', border: 'none', color: 'var(--signal-amber)', fontFamily: 'var(--font-mono)', fontSize: '0.68rem', cursor: 'pointer' }}
             >
-              View Directory <ArrowUpRight size={14} />
+              [FULL_REGISTRY ➔]
             </button>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-            {recentEnrollments.length === 0 ? (
-              <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-dim)', fontSize: '0.85rem' }}>
-                No student enrollments for this term yet.
-              </div>
-            ) : (
-              recentEnrollments.map((enr) => (
-                <div
-                  key={enr.id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '0.75rem',
-                    background: 'var(--bg-secondary)',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border-subtle)',
-                  }}
-                >
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <span style={{ fontWeight: 700, fontSize: '0.85rem' }}>
+          <div style={{ overflowX: 'auto' }}>
+            <table className="hairline-grid-table">
+              <thead>
+                <tr>
+                  <th>STUDENT_ID</th>
+                  <th>CANDIDATE_NAME</th>
+                  <th>LOAD</th>
+                  <th>ASSESSMENT</th>
+                  <th style={{ textAlign: 'right' }}>ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentEnrollments.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} style={{ textAlign: 'center', padding: '2rem', fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}>
+                      [NO_ENROLLMENT_RECORDS_REGISTERED]
+                    </td>
+                  </tr>
+                ) : (
+                  recentEnrollments.map((enr) => (
+                    <tr key={enr.id}>
+                      <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--text-primary)' }}>
                         {enr.student?.studentNo}
-                      </span>
-                      <span
-                        className={`badge ${
-                          enr.status === 'OFFICIALLY_ENROLLED' ? 'badge-success' : 'badge-warning'
-                        }`}
-                        style={{ fontSize: '0.65rem' }}
-                      >
-                        {enr.status === 'OFFICIALLY_ENROLLED' ? 'Enrolled' : 'Assessed'}
-                      </span>
-                    </div>
-                    <div style={{ fontSize: '0.8rem', fontWeight: 600, marginTop: '0.2rem' }}>
-                      {enr.student?.firstName} {enr.student?.lastName}
-                    </div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)' }}>
-                      {enr.student?.program?.code} - Year {enr.yearLevel} • {enr.totalUnits} Units
-                    </div>
-                  </div>
-
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontWeight: 700, fontSize: '0.85rem' }} className="tabular-numbers">
-                      ₱{Number(enr.assessment?.netTotal || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                    </div>
-                    <button
-                      onClick={() => onOpenCor(enr)}
-                      className="btn btn-secondary btn-sm"
-                      style={{ marginTop: '0.35rem', padding: '0.2rem 0.5rem', fontSize: '0.7rem' }}
-                    >
-                      Print COR
-                    </button>
-                  </div>
-                </div>
-              ))
-            )}
+                      </td>
+                      <td>
+                        <div style={{ fontWeight: 600, fontSize: '0.78rem' }}>
+                          {enr.student?.lastName}, {enr.student?.firstName}
+                        </div>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-dim)' }}>
+                          {enr.student?.program?.code} // YR_{enr.yearLevel}
+                        </div>
+                      </td>
+                      <td>
+                        <span className="tag-mono" style={{ fontSize: '0.62rem' }}>
+                          {enr.totalUnits}_UNITS
+                        </span>
+                      </td>
+                      <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '0.78rem' }}>
+                        ₱{Number(enr.assessment?.netTotal || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      </td>
+                      <td style={{ textAlign: 'right' }}>
+                        <button
+                          onClick={() => onOpenCor(enr)}
+                          className="btn-mechanical btn-sm"
+                          style={{ padding: '0.2rem 0.45rem', fontSize: '0.65rem' }}
+                        >
+                          [COR]
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

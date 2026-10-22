@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, CreditCard, DollarSign, AlertCircle, CheckCircle } from 'lucide-react';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -40,12 +39,12 @@ export default function PaymentModal({
     e.preventDefault();
     const numAmount = parseFloat(amount);
     if (isNaN(numAmount) || numAmount <= 0) {
-      setError('Please enter a valid payment amount greater than zero.');
+      setError('VALID NUMERIC VALUE GREATER THAN ZERO REQUIRED.');
       return;
     }
 
     if (numAmount > balance) {
-      setError(`Payment cannot exceed the remaining balance of ₱${balance.toFixed(2)}.`);
+      setError(`VALUE CANNOT EXCEED OUTSTANDING BALANCE: ₱${balance.toFixed(2)}.`);
       return;
     }
 
@@ -68,7 +67,7 @@ export default function PaymentModal({
 
       const data = await res.json();
       if (!data.success) {
-        throw new Error(data.error || 'Payment processing failed');
+        throw new Error(data.error || 'Payment execution failed');
       }
 
       onPaymentSuccess(data.data);
@@ -82,140 +81,107 @@ export default function PaymentModal({
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-content" style={{ maxWidth: '640px' }}>
-        {/* Header */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '1.25rem 1.5rem',
-            borderBottom: '1px solid var(--border-subtle)',
-            background: 'var(--bg-secondary)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-            <div
-              style={{
-                width: '38px',
-                height: '38px',
-                borderRadius: 'var(--radius-md)',
-                background: 'rgba(6, 182, 212, 0.15)',
-                color: 'var(--accent-cyan)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <CreditCard size={18} />
-            </div>
-            <div>
-              <h3 style={{ fontSize: '1.1rem', margin: 0 }}>Cashier Payment Processing</h3>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
-                {student?.firstName} {student?.lastName} ({student?.studentNo})
-              </p>
-            </div>
+      <div className="modal-content-tactical" style={{ maxWidth: '640px' }}>
+        {/* Header Bar */}
+        <div className="instrument-header-bar" style={{ padding: '0.75rem 1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span className="tag-mono tag-amber">[FORM::PAY_03]</span>
+            <span style={{ fontWeight: 800 }}>
+              EXECUTE_PAYMENT_TRANSACTION // {student?.studentNo} // {student?.lastName}, {student?.firstName}
+            </span>
           </div>
-          <button
-            onClick={onClose}
-            style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
-          >
-            <X size={20} />
+          <button onClick={onClose} className="btn-mechanical btn-sm" style={{ padding: '0.15rem 0.45rem', fontSize: '0.65rem' }}>
+            [ESC]
           </button>
         </div>
 
-        {/* Balance Status Banner */}
+        {/* Telemetry Metric Strip */}
         <div
           style={{
-            padding: '1rem 1.5rem',
-            background: 'var(--bg-primary)',
-            borderBottom: '1px solid var(--border-subtle)',
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '1rem',
+            gap: '1px',
+            background: 'var(--border-hairline)',
+            borderBottom: '1px solid var(--border-hairline)',
             textAlign: 'center',
           }}
         >
-          <div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)' }}>NET ASSESSMENT</div>
-            <div style={{ fontSize: '1.05rem', fontWeight: 700 }} className="tabular-numbers">
+          <div style={{ background: 'var(--bg-surface-sunken)', padding: '0.75rem' }}>
+            <div className="telemetry-label" style={{ fontSize: '0.62rem' }}>NET_ASSESSMENT</div>
+            <div className="telemetry-value" style={{ fontWeight: 800, fontSize: '1.05rem' }}>
               ₱{Number(assessment.netTotal).toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </div>
           </div>
-          <div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)' }}>TOTAL PAID</div>
-            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--accent-emerald)' }} className="tabular-numbers">
+          <div style={{ background: 'var(--bg-surface-sunken)', padding: '0.75rem' }}>
+            <div className="telemetry-label" style={{ fontSize: '0.62rem', color: 'var(--signal-green)' }}>POSTED_CREDITS</div>
+            <div className="telemetry-value" style={{ fontWeight: 800, fontSize: '1.05rem', color: 'var(--signal-green)' }}>
               ₱{Number(assessment.totalPaid).toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </div>
           </div>
-          <div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)' }}>REMAINING BALANCE</div>
-            <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fb7185' }} className="tabular-numbers">
+          <div style={{ background: 'var(--bg-surface-sunken)', padding: '0.75rem' }}>
+            <div className="telemetry-label" style={{ fontSize: '0.62rem', color: 'var(--signal-red)' }}>BALANCE_DUE</div>
+            <div className="telemetry-value" style={{ fontWeight: 800, fontSize: '1.15rem', color: 'var(--signal-red)' }}>
               ₱{balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </div>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <form onSubmit={handleSubmit} style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
           {error && (
             <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.75rem',
-                borderRadius: 'var(--radius-md)',
-                background: 'rgba(244, 63, 94, 0.15)',
-                border: '1px solid rgba(244, 63, 94, 0.3)',
-                color: '#fb7185',
-                fontSize: '0.85rem',
+                padding: '0.55rem 0.75rem',
+                border: '1px solid var(--signal-red)',
+                background: 'var(--signal-red-dim)',
+                color: 'var(--signal-red)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.75rem',
               }}
             >
-              <AlertCircle size={16} />
-              <span>{error}</span>
+              [FAULT_DETECTED] {error}
             </div>
           )}
 
-          {/* Quick Preset Buttons */}
+          {/* Quick Presets */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-dim)', marginBottom: '0.4rem' }}>
-              QUICK PAYMENT SHORTCUTS
+            <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+              QUICK_PRESET_INJECTIONS
             </label>
-            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
               <button
                 type="button"
                 onClick={() => handlePreset(balance)}
-                className="btn btn-secondary btn-sm"
+                className="btn-mechanical btn-sm"
               >
-                Pay Full Balance (₱{balance.toFixed(2)})
+                [PAY_FULL: ₱{balance.toFixed(2)}]
               </button>
               {remainingDownpayment > 0 && (
                 <button
                   type="button"
                   onClick={() => handlePreset(remainingDownpayment)}
-                  className="btn btn-secondary btn-sm"
-                  style={{ color: 'var(--accent-emerald)' }}
+                  className="btn-mechanical btn-sm"
+                  style={{ color: 'var(--signal-green)' }}
                 >
-                  Pay Downpayment (₱{remainingDownpayment.toFixed(2)})
+                  [PAY_DOWN: ₱{remainingDownpayment.toFixed(2)}]
                 </button>
               )}
               {Number(assessment.prelimDue) > 0 && Number(assessment.prelimDue) <= balance && (
                 <button
                   type="button"
                   onClick={() => handlePreset(Number(assessment.prelimDue))}
-                  className="btn btn-secondary btn-sm"
+                  className="btn-mechanical btn-sm"
                 >
-                  Pay Installment (₱{Number(assessment.prelimDue).toFixed(2)})
+                  [PAY_TERM: ₱{Number(assessment.prelimDue).toFixed(2)}]
                 </button>
               )}
             </div>
           </div>
 
-          {/* Payment Amount & Method */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '0.75rem' }}>
+          {/* Amount & Method */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '0.65rem' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-                AMOUNT TO PAY (₱) *
+              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+                PAYMENT_VALUE (₱) *
               </label>
               <input
                 type="number"
@@ -223,55 +189,55 @@ export default function PaymentModal({
                 min="1"
                 max={balance}
                 required
-                className="input-field"
+                className="input-instrument"
                 placeholder="0.00"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                style={{ fontSize: '1.1rem', fontWeight: 700 }}
+                style={{ fontSize: '1rem', fontWeight: 700 }}
               />
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-                PAYMENT METHOD *
+              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+                PAYMENT_CHANNEL *
               </label>
               <select
-                className="input-field"
+                className="input-instrument"
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
               >
-                <option value="CASH">Cash Over-the-Counter</option>
-                <option value="GCASH">GCash</option>
-                <option value="PAYMAYA">Maya (PayMaya)</option>
-                <option value="BANK_TRANSFER">Bank Direct Deposit / Transfer</option>
-                <option value="CHECK">Manager / Company Check</option>
+                <option value="CASH">[CASH] OVER_THE_COUNTER</option>
+                <option value="GCASH">[ELECTRONIC] GCASH</option>
+                <option value="PAYMAYA">[ELECTRONIC] MAYA</option>
+                <option value="BANK_TRANSFER">[BANK] DIRECT_CLEARING</option>
+                <option value="CHECK">[INSTRUMENT] MANAGERS_CHECK</option>
               </select>
             </div>
           </div>
 
-          {/* Reference No & Paid By */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+          {/* Reference & Payor */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-                REFERENCE / TRANSACTION NO.
+              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+                REFERENCE_ID / TRANSACTION_TRACE
               </label>
               <input
                 type="text"
-                className="input-field"
-                placeholder="Optional (e.g. Ref # for GCash/Bank)"
+                className="input-instrument"
+                placeholder="OPTIONAL REF/CHECK NUMBER"
                 value={referenceNo}
                 onChange={(e) => setReferenceNo(e.target.value)}
               />
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-                RECEIVED FROM (PAYOR NAME)
+              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+                PAYOR_REMITTER_NAME
               </label>
               <input
                 type="text"
-                className="input-field"
-                placeholder={student ? `${student.firstName} ${student.lastName}` : 'Student or Parent'}
+                className="input-instrument"
+                placeholder={student ? `${student.firstName} ${student.lastName}` : 'PAYOR IDENTITY'}
                 value={paidBy}
                 onChange={(e) => setPaidBy(e.target.value)}
               />
@@ -280,45 +246,39 @@ export default function PaymentModal({
 
           {/* Remarks */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-              PAYMENT REMARKS / NOTES
+            <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+              AUDIT_REMARKS // TRANSACTION_MEMO
             </label>
             <input
               type="text"
-              className="input-field"
-              placeholder="e.g. Downpayment for Prelims clearance"
+              className="input-instrument"
+              placeholder="e.g. DOWNPAYMENT FOR MAJOR EXAM PERMIT CLEARANCE"
               value={remarks}
               onChange={(e) => setRemarks(e.target.value)}
             />
           </div>
 
-          {/* Exam Clearance Notice */}
+          {/* Notice */}
           <div
             style={{
-              padding: '0.65rem',
-              borderRadius: 'var(--radius-md)',
-              background: 'rgba(16, 185, 129, 0.1)',
-              border: '1px solid rgba(16, 185, 129, 0.25)',
-              fontSize: '0.75rem',
-              color: 'var(--accent-emerald)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
+              padding: '0.55rem 0.75rem',
+              background: 'var(--bg-surface-sunken)',
+              border: '1px solid var(--border-hairline)',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.68rem',
+              color: 'var(--text-dim)',
             }}
           >
-            <CheckCircle size={15} />
-            <span>
-              Processing this payment will auto-generate an Official Receipt (OR) and automatically update Exam Permit Clearance.
-            </span>
+            SYS_RULE: TRANSACTION WILL AUTOMATICALLY COMMIT NEXT SEQUENTIAL OR NUMBER AND RECALCULATE EXAM CLEARANCE STATUS.
           </div>
 
-          {/* Footer Buttons */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.5rem' }}>
-            <button type="button" onClick={onClose} className="btn btn-secondary">
-              Cancel
+          {/* Footer Controls */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', marginTop: '0.5rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-hairline)' }}>
+            <button type="button" onClick={onClose} className="btn-mechanical btn-sm">
+              [DISCARD]
             </button>
-            <button type="submit" disabled={loading} className="btn btn-primary">
-              {loading ? 'Processing Receipt...' : 'Collect Payment & Print Receipt'}
+            <button type="submit" disabled={loading} className="btn-mechanical btn-signal-amber btn-sm">
+              {loading ? '[EXECUTING...]' : '[EXECUTE_PAYMENT & PRINT_OR]'} <span className="hotkey-tag">↵</span>
             </button>
           </div>
         </form>

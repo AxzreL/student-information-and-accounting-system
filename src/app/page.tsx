@@ -224,12 +224,8 @@ export default function Home() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
-      {/* Ambient Dark Mode Atmospheric Mesh */}
-      <div className="dark-atmosphere" aria-hidden="true">
-        <div className="ambient-orb ambient-orb-1" />
-        <div className="ambient-orb ambient-orb-2" />
-        <div className="ambient-orb ambient-orb-3" />
-      </div>
+      {/* Precision Instrument Grid Matrix */}
+      <div className="instrument-grid" aria-hidden="true" />
 
       {/* Circular Screen Transition Overlay (Fallback) */}
       {circleRipple && (
@@ -242,28 +238,29 @@ export default function Home() {
         />
       )}
 
-      {/* Toast Notification */}
+      {/* Telemetry Toast Notification */}
       {toastMessage && (
         <div
           style={{
             position: 'fixed',
-            bottom: '24px',
-            right: '24px',
-            background: 'var(--accent-emerald)',
-            color: '#ffffff',
-            padding: '0.85rem 1.35rem',
-            borderRadius: 'var(--radius-md)',
-            boxShadow: 'var(--shadow-lg)',
+            bottom: '20px',
+            right: '20px',
+            background: 'var(--bg-surface-elevated)',
+            border: '1px solid var(--signal-amber)',
+            color: 'var(--text-primary)',
+            padding: '0.55rem 0.95rem',
+            borderRadius: 'var(--radius-strict)',
             zIndex: 9999,
-            fontWeight: 600,
-            fontSize: '0.9rem',
-            animation: 'slideUp 0.25s ease-out',
+            fontFamily: 'var(--font-mono)',
+            fontWeight: 700,
+            fontSize: '0.75rem',
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
+            letterSpacing: '0.04em',
           }}
         >
-          <span>✓</span>
+          <span style={{ color: 'var(--signal-amber)' }}>[SYS_EVENT]</span>
           <span>{toastMessage}</span>
         </div>
       )}
@@ -286,7 +283,7 @@ export default function Home() {
       />
 
       {/* Main Workspace Body */}
-      <main className="no-print" style={{ flex: 1, padding: '1.75rem', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
+      <main className="no-print" style={{ flex: 1, padding: '1.25rem', maxWidth: '1520px', width: '100%', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         {activeTab === 'dashboard' && (
           <DashboardView
             stats={statsData.stats}

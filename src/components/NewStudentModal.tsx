@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, UserPlus, AlertCircle } from 'lucide-react';
 
 interface NewStudentModalProps {
   isOpen: boolean;
@@ -63,137 +62,103 @@ export default function NewStudentModal({
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-content" style={{ maxWidth: '600px' }}>
-        {/* Header */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '1.25rem 1.5rem',
-            borderBottom: '1px solid var(--border-subtle)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-            <div
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: 'var(--radius-md)',
-                background: 'rgba(16, 185, 129, 0.15)',
-                color: 'var(--accent-emerald)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <UserPlus size={18} />
-            </div>
-            <div>
-              <h3 style={{ fontSize: '1.1rem', margin: 0 }}>Register New Student</h3>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
-                Admissions & Enrollment Record
-              </p>
-            </div>
+      <div className="modal-content-tactical" style={{ maxWidth: '640px' }}>
+        {/* Header Bar */}
+        <div className="instrument-header-bar" style={{ padding: '0.75rem 1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span className="tag-mono tag-amber">[FORM::ADM_01]</span>
+            <span style={{ fontWeight: 800 }}>REGISTER_NEW_STUDENT_PROFILE</span>
           </div>
           <button
             onClick={onClose}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'var(--text-muted)',
-              cursor: 'pointer',
-            }}
+            className="btn-mechanical btn-sm"
+            style={{ padding: '0.15rem 0.45rem', fontSize: '0.65rem' }}
           >
-            <X size={20} />
+            [ESC]
           </button>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {/* Form Body */}
+        <form onSubmit={handleSubmit} style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
           {error && (
             <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.75rem',
-                borderRadius: 'var(--radius-md)',
-                background: 'rgba(244, 63, 94, 0.15)',
-                border: '1px solid rgba(244, 63, 94, 0.3)',
-                color: '#fb7185',
-                fontSize: '0.85rem',
+                padding: '0.55rem 0.75rem',
+                border: '1px solid var(--signal-red)',
+                background: 'var(--signal-red-dim)',
+                color: 'var(--signal-red)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.75rem',
               }}
             >
-              <AlertCircle size={16} />
-              <span>{error}</span>
+              [ERROR::FAULT] {error}
             </div>
           )}
 
-          {/* Student No (Optional auto-gen) */}
+          {/* Student No */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-              STUDENT NUMBER (Leave blank to auto-generate)
+            <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+              STUDENT_IDENTIFIER // LEAVE_BLANK_FOR_AUTO_SEQUENCE
             </label>
             <input
               type="text"
-              className="input-field"
-              placeholder="e.g. 2024-00105"
+              className="input-instrument"
+              placeholder="AUTO-GENERATE (E.G. 2024-00105)"
               value={formData.studentNo}
               onChange={(e) => setFormData({ ...formData, studentNo: e.target.value })}
             />
           </div>
 
-          {/* Name Fields */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1.2fr', gap: '0.75rem' }}>
+          {/* Names */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1.2fr', gap: '0.65rem' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-                FIRST NAME *
+              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+                FIRST_NAME *
               </label>
               <input
                 type="text"
                 required
-                className="input-field"
-                placeholder="First name"
+                className="input-instrument"
+                placeholder="FIRST NAME"
                 value={formData.firstName}
                 onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
               />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-                MIDDLE NAME
+              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+                MIDDLE_NAME
               </label>
               <input
                 type="text"
-                className="input-field"
-                placeholder="Middle name"
+                className="input-instrument"
+                placeholder="MIDDLE NAME"
                 value={formData.middleName}
                 onChange={(e) => setFormData({ ...formData, middleName: e.target.value })}
               />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-                LAST NAME *
+              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+                LAST_NAME *
               </label>
               <input
                 type="text"
                 required
-                className="input-field"
-                placeholder="Last name"
+                className="input-instrument"
+                placeholder="LAST NAME"
                 value={formData.lastName}
                 onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
               />
             </div>
           </div>
 
-          {/* Program & Year Level */}
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '0.75rem' }}>
+          {/* Program, Level, Status */}
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '0.65rem' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-                DEGREE PROGRAM *
+              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+                DEGREE_PROGRAM *
               </label>
               <select
-                className="input-field"
+                className="input-instrument"
                 value={formData.programId}
                 onChange={(e) => setFormData({ ...formData, programId: e.target.value })}
                 required
@@ -207,72 +172,72 @@ export default function NewStudentModal({
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-                YEAR LEVEL
+              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+                YEAR_LEVEL
               </label>
               <select
-                className="input-field"
+                className="input-instrument"
                 value={formData.yearLevel}
                 onChange={(e) => setFormData({ ...formData, yearLevel: e.target.value })}
               >
-                <option value="1">1st Year</option>
-                <option value="2">2nd Year</option>
-                <option value="3">3rd Year</option>
-                <option value="4">4th Year</option>
+                <option value="1">YR_1</option>
+                <option value="2">YR_2</option>
+                <option value="3">YR_3</option>
+                <option value="4">YR_4</option>
               </select>
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-                STATUS
+              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+                ADMISSION_STATUS
               </label>
               <select
-                className="input-field"
+                className="input-instrument"
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
               >
-                <option value="REGULAR">Regular</option>
-                <option value="IRREGULAR">Irregular</option>
-                <option value="TRANSFEREE">Transferee</option>
-                <option value="RETURNEE">Returnee</option>
+                <option value="REGULAR">REGULAR</option>
+                <option value="IRREGULAR">IRREGULAR</option>
+                <option value="TRANSFEREE">TRANSFEREE</option>
+                <option value="RETURNEE">RETURNEE</option>
               </select>
             </div>
           </div>
 
-          {/* Gender & Contact Info */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1.5fr', gap: '0.75rem' }}>
+          {/* Gender & Contact */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1.5fr', gap: '0.65rem' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
+              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
                 GENDER
               </label>
               <select
-                className="input-field"
+                className="input-instrument"
                 value={formData.gender}
                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
               >
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
+                <option value="Male">MALE</option>
+                <option value="Female">FEMALE</option>
               </select>
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-                EMAIL ADDRESS
+              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+                EMAIL_COMM
               </label>
               <input
                 type="email"
-                className="input-field"
+                className="input-instrument"
                 placeholder="student@ssu.edu.ph"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-                CONTACT NUMBER
+              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+                PHONE_LINE
               </label>
               <input
                 type="tel"
-                className="input-field"
+                className="input-instrument"
                 placeholder="0917-000-0000"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -282,25 +247,25 @@ export default function NewStudentModal({
 
           {/* Home Address */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.35rem', color: 'var(--text-muted)' }}>
-              HOME ADDRESS / BARANGAY
+            <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
+              CIVIL_RESIDENCE // BARANGAY_LOCATION
             </label>
             <input
               type="text"
-              className="input-field"
+              className="input-instrument"
               placeholder="Brgy. Guindapunan, Catbalogan City, Samar"
               value={formData.address}
               onChange={(e) => setFormData({ ...formData, address: e.target.value })}
             />
           </div>
 
-          {/* Footer Buttons */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1rem' }}>
-            <button type="button" onClick={onClose} className="btn btn-secondary">
-              Cancel
+          {/* Footer Controls */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-hairline)' }}>
+            <button type="button" onClick={onClose} className="btn-mechanical btn-sm">
+              [DISCARD]
             </button>
-            <button type="submit" disabled={loading} className="btn btn-primary">
-              {loading ? 'Creating...' : 'Register Student'}
+            <button type="submit" disabled={loading} className="btn-mechanical btn-signal-amber btn-sm">
+              {loading ? '[COMMITTING...]' : '[COMMIT_REGISTRATION]'} <span className="hotkey-tag">↵</span>
             </button>
           </div>
         </form>
