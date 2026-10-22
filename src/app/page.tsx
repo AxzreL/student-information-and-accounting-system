@@ -223,10 +223,7 @@ export default function Home() {
   const activeTermName = currentTerm?.name || 'AY 2024-2025 First Semester';
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
-      {/* Precision Instrument Grid Matrix */}
-      <div className="instrument-grid" aria-hidden="true" />
-
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', background: 'var(--bg-main)' }}>
       {/* Circular Screen Transition Overlay (Fallback) */}
       {circleRipple && (
         <div
@@ -238,29 +235,37 @@ export default function Home() {
         />
       )}
 
-      {/* Telemetry Toast Notification */}
+      {/* Toast Notification */}
       {toastMessage && (
         <div
           style={{
             position: 'fixed',
-            bottom: '20px',
-            right: '20px',
-            background: 'var(--bg-surface-elevated)',
-            border: '1px solid var(--signal-amber)',
-            color: 'var(--text-primary)',
-            padding: '0.55rem 0.95rem',
-            borderRadius: 'var(--radius-strict)',
+            bottom: '24px',
+            right: '24px',
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border-default)',
+            color: 'var(--text-main)',
+            padding: '0.75rem 1.125rem',
+            borderRadius: 'var(--radius-md)',
+            boxShadow: 'var(--shadow-card)',
             zIndex: 9999,
-            fontFamily: 'var(--font-mono)',
-            fontWeight: 700,
-            fontSize: '0.75rem',
+            fontSize: '0.8125rem',
+            fontWeight: 500,
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
-            letterSpacing: '0.04em',
+            gap: '0.625rem',
+            animation: 'fadeIn 0.2s ease',
           }}
         >
-          <span style={{ color: 'var(--signal-amber)' }}>[SYS_EVENT]</span>
+          <span
+            style={{
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              backgroundColor: '#10b981',
+              display: 'inline-block',
+            }}
+          />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -283,7 +288,7 @@ export default function Home() {
       />
 
       {/* Main Workspace Body */}
-      <main className="no-print" style={{ flex: 1, padding: '1.25rem', maxWidth: '1520px', width: '100%', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+      <main className="no-print" style={{ flex: 1, padding: '2rem 1.5rem', maxWidth: '1440px', width: '100%', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         {activeTab === 'dashboard' && (
           <DashboardView
             stats={statsData.stats}

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { X } from 'lucide-react';
 
 interface NewStudentModalProps {
   isOpen: boolean;
@@ -62,89 +63,89 @@ export default function NewStudentModal({
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-content-tactical" style={{ maxWidth: '640px' }}>
-        {/* Header Bar */}
-        <div className="instrument-header-bar" style={{ padding: '0.75rem 1rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span className="tag-mono tag-amber">[FORM::ADM_01]</span>
-            <span style={{ fontWeight: 800 }}>REGISTER_NEW_STUDENT_PROFILE</span>
+      <div className="modal-dialog" style={{ maxWidth: '620px' }}>
+        {/* Header */}
+        <div className="card-header">
+          <div>
+            <div className="card-title">Register New Student</div>
+            <div className="card-description">Create an official student admission record</div>
           </div>
           <button
             onClick={onClose}
-            className="btn-mechanical btn-sm"
-            style={{ padding: '0.15rem 0.45rem', fontSize: '0.65rem' }}
+            className="btn-saas"
+            style={{ padding: '0.35rem', borderRadius: 'var(--radius-sm)' }}
           >
-            [ESC]
+            <X size={16} />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+        <form onSubmit={handleSubmit} style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {error && (
             <div
               style={{
-                padding: '0.55rem 0.75rem',
-                border: '1px solid var(--signal-red)',
-                background: 'var(--signal-red-dim)',
-                color: 'var(--signal-red)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.75rem',
+                padding: '0.65rem 0.85rem',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid var(--badge-red-border)',
+                background: 'var(--badge-red-bg)',
+                color: 'var(--badge-red-text)',
+                fontSize: '0.8rem',
               }}
             >
-              [ERROR::FAULT] {error}
+              {error}
             </div>
           )}
 
           {/* Student No */}
           <div>
-            <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
-              STUDENT_IDENTIFIER // LEAVE_BLANK_FOR_AUTO_SEQUENCE
+            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
+              Student Number (Leave blank to auto-generate)
             </label>
             <input
               type="text"
-              className="input-instrument"
-              placeholder="AUTO-GENERATE (E.G. 2024-00105)"
+              className="saas-input"
+              placeholder="e.g. 2024-00105"
               value={formData.studentNo}
               onChange={(e) => setFormData({ ...formData, studentNo: e.target.value })}
             />
           </div>
 
           {/* Names */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1.2fr', gap: '0.65rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1.2fr', gap: '0.75rem' }}>
             <div>
-              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
-                FIRST_NAME *
+              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
+                First Name *
               </label>
               <input
                 type="text"
                 required
-                className="input-instrument"
-                placeholder="FIRST NAME"
+                className="saas-input"
+                placeholder="First name"
                 value={formData.firstName}
                 onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
               />
             </div>
             <div>
-              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
-                MIDDLE_NAME
+              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
+                Middle Name
               </label>
               <input
                 type="text"
-                className="input-instrument"
-                placeholder="MIDDLE NAME"
+                className="saas-input"
+                placeholder="Middle name"
                 value={formData.middleName}
                 onChange={(e) => setFormData({ ...formData, middleName: e.target.value })}
               />
             </div>
             <div>
-              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
-                LAST_NAME *
+              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
+                Last Name *
               </label>
               <input
                 type="text"
                 required
-                className="input-instrument"
-                placeholder="LAST NAME"
+                className="saas-input"
+                placeholder="Last name"
                 value={formData.lastName}
                 onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
               />
@@ -152,13 +153,13 @@ export default function NewStudentModal({
           </div>
 
           {/* Program, Level, Status */}
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '0.65rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '0.75rem' }}>
             <div>
-              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
-                DEGREE_PROGRAM *
+              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
+                Degree Program *
               </label>
               <select
-                className="input-instrument"
+                className="saas-input"
                 value={formData.programId}
                 onChange={(e) => setFormData({ ...formData, programId: e.target.value })}
                 required
@@ -172,72 +173,72 @@ export default function NewStudentModal({
             </div>
 
             <div>
-              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
-                YEAR_LEVEL
+              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
+                Year Level
               </label>
               <select
-                className="input-instrument"
+                className="saas-input"
                 value={formData.yearLevel}
                 onChange={(e) => setFormData({ ...formData, yearLevel: e.target.value })}
               >
-                <option value="1">YR_1</option>
-                <option value="2">YR_2</option>
-                <option value="3">YR_3</option>
-                <option value="4">YR_4</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
               </select>
             </div>
 
             <div>
-              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
-                ADMISSION_STATUS
+              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
+                Admission Status
               </label>
               <select
-                className="input-instrument"
+                className="saas-input"
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
               >
-                <option value="REGULAR">REGULAR</option>
-                <option value="IRREGULAR">IRREGULAR</option>
-                <option value="TRANSFEREE">TRANSFEREE</option>
-                <option value="RETURNEE">RETURNEE</option>
+                <option value="REGULAR">Regular</option>
+                <option value="IRREGULAR">Irregular</option>
+                <option value="TRANSFEREE">Transferee</option>
+                <option value="RETURNEE">Returnee</option>
               </select>
             </div>
           </div>
 
           {/* Gender & Contact */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1.5fr', gap: '0.65rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1.5fr', gap: '0.75rem' }}>
             <div>
-              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
-                GENDER
+              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
+                Gender
               </label>
               <select
-                className="input-instrument"
+                className="saas-input"
                 value={formData.gender}
                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
               >
-                <option value="Male">MALE</option>
-                <option value="Female">FEMALE</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
               </select>
             </div>
             <div>
-              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
-                EMAIL_COMM
+              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
+                Email Address
               </label>
               <input
                 type="email"
-                className="input-instrument"
+                className="saas-input"
                 placeholder="student@ssu.edu.ph"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
             </div>
             <div>
-              <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
-                PHONE_LINE
+              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
+                Contact Number
               </label>
               <input
                 type="tel"
-                className="input-instrument"
+                className="saas-input"
                 placeholder="0917-000-0000"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -247,12 +248,12 @@ export default function NewStudentModal({
 
           {/* Home Address */}
           <div>
-            <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.3rem' }}>
-              CIVIL_RESIDENCE // BARANGAY_LOCATION
+            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
+              Home Address / Barangay
             </label>
             <input
               type="text"
-              className="input-instrument"
+              className="saas-input"
               placeholder="Brgy. Guindapunan, Catbalogan City, Samar"
               value={formData.address}
               onChange={(e) => setFormData({ ...formData, address: e.target.value })}
@@ -260,12 +261,12 @@ export default function NewStudentModal({
           </div>
 
           {/* Footer Controls */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-hairline)' }}>
-            <button type="button" onClick={onClose} className="btn-mechanical btn-sm">
-              [DISCARD]
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', marginTop: '0.75rem', paddingTop: '0.85rem', borderTop: '1px solid var(--border-subtle)' }}>
+            <button type="button" onClick={onClose} className="btn-saas">
+              Cancel
             </button>
-            <button type="submit" disabled={loading} className="btn-mechanical btn-signal-amber btn-sm">
-              {loading ? '[COMMITTING...]' : '[COMMIT_REGISTRATION]'} <span className="hotkey-tag">↵</span>
+            <button type="submit" disabled={loading} className="btn-saas btn-saas-primary">
+              {loading ? 'Registering...' : 'Register Student'}
             </button>
           </div>
         </form>

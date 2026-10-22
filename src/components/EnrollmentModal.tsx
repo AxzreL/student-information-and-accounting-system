@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { X, Check } from 'lucide-react';
 
 interface EnrollmentModalProps {
   isOpen: boolean;
@@ -91,7 +92,7 @@ export default function EnrollmentModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedSubjectIds.length === 0) {
-      setError('SELECT AT LEAST ONE SUBJECT CODE BEFORE COMMITTING.');
+      setError('Please select at least one subject to enroll.');
       return;
     }
 
@@ -106,8 +107,8 @@ export default function EnrollmentModal({
         subjects: selectedSubjects.map((s) => ({
           subjectId: s.id,
           section: `${student.program?.code || 'GEN'}-${student.yearLevel}A`,
-          schedule: s.labUnits > 0 ? 'TTH 13:00 - 16:00' : 'MWF 08:00 - 09:30',
-          room: s.labUnits > 0 ? 'COMP_LAB_02' : 'ROOM_304',
+          schedule: s.labUnits > 0 ? 'TTH 1:00 PM - 4:00 PM' : 'MWF 8:00 AM - 9:30 AM',
+          room: s.labUnits > 0 ? 'Computer Lab 2' : 'Room 304',
         })),
         discountType: discountType === 'None' ? null : discountType,
         customDiscountAmount: discountType === 'Custom' ? customDiscount : 0,
@@ -121,7 +122,7 @@ export default function EnrollmentModal({
 
       const data = await res.json();
       if (!data.success) {
-        throw new Error(data.error || 'Enrollment transaction aborted');
+        throw new Error(data.error || 'Enrollment transaction failed');
       }
 
       onEnrollmentSuccess(data.data);
@@ -135,55 +136,76 @@ export default function EnrollmentModal({
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-content-tactical" style={{ maxWidth: '940px' }}>
-        {/* Header Bar */}
-        <div className="instrument-header-bar" style={{ padding: '0.75rem 1rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span className="tag-mono tag-amber">[FORM::ENR_02]</span>
-            <span style={{ fontWeight: 800 }}>
-              LOAD_ALLOCATION_MATRIX // {student.studentNo} // {student.lastName}, {student.firstName}
-            </span>
+      <div className="modal-dialog" style={{ maxWidth: '900px' }}>
+        {/* Header */}
+        <div className="card-header">
+          <div>
+            <div className="card-title">Subject Enrollment & Fee Assessment</div>
+            <div className="card-description">
+              {student.firstName} {student.lastName} ({student.studentNo}) · {student.program?.name} (Year {student.yearLevel})
+            </div>
           </div>
-          <button onClick={onClose} className="btn-mechanical btn-sm" style={{ padding: '0.15rem 0.45rem', fontSize: '0.65rem' }}>
-            [ESC]
+          <button
+            onClick={onClose}
+            className="btn-saas"
+            style={{ padding: '0.35rem', borderRadius: 'var(--radius-sm)' }}
+          >
+            <X size={16} />
           </button>
         </div>
 
         {error && (
           <div
             style={{
-              margin: '0.75rem 1rem 0',
-              padding: '0.55rem 0.75rem',
-              border: '1px solid var(--signal-red)',
-              background: 'var(--signal-red-dim)',
-              color: 'var(--signal-red)',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.75rem',
+              margin: '1rem 1.25rem 0',
+              padding: '0.65rem 0.85rem',
+              borderRadius: 'var(--radius-md)',
+              border: '1px solid var(--badge-red-border)',
+              background: 'var(--badge-red-bg)',
+              color: 'var(--badge-red-text)',
+              fontSize: '0.8rem',
             }}
           >
-            [FAULT_DETECTED] {error}
+            {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ padding: '1rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '1rem' }}>
-            {/* Left: Subject Checklist */}
-            <div className="instrument-panel" style={{ padding: '0.75rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                <span className="telemetry-label">
-                  AVAILABLE_CURRICULAR_SUBJECTS ({selectedSubjectIds.length}_SELECTED)
+        <form onSubmit={handleSubmit} style={{ padding: '1.25rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: '1.25rem' }}>
+            {/* Left: Subject Picker */}
+            <div className="saas-card" style={{ padding: '0.85rem', background: 'var(--bg-surface-elevated)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem' }}>
+                <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  Select Subjects ({selectedSubjectIds.length} selected)
                 </span>
-                <div style={{ display: 'flex', gap: '0.35rem' }}>
-                  <button type="button" onClick={selectAll} className="btn-mechanical btn-sm" style={{ padding: '0.15rem 0.4rem', fontSize: '0.65rem' }}>
-                    [ALL]
+                <div style={{ display: 'flex', gap: '0.5rem', fontSize: '0.75rem' }}>
+                  <button
+                    type="button"
+                    onClick={selectAll}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', fontWeight: 500 }}
+                  >
+                    Select All
                   </button>
-                  <button type="button" onClick={clearAll} className="btn-mechanical btn-sm" style={{ padding: '0.15rem 0.4rem', fontSize: '0.65rem' }}>
-                    [CLR]
+                  <span style={{ color: 'var(--text-muted)' }}>·</span>
+                  <button
+                    type="button"
+                    onClick={clearAll}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
+                  >
+                    Clear
                   </button>
                 </div>
               </div>
 
-              <div style={{ maxHeight: '380px', overflowY: 'auto', border: '1px solid var(--border-hairline)' }}>
+              <div
+                style={{
+                  maxHeight: '380px',
+                  overflowY: 'auto',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: 'var(--radius-md)',
+                  background: 'var(--bg-surface)',
+                }}
+              >
                 {allSubjects.map((sub) => {
                   const isChecked = selectedSubjectIds.includes(sub.id);
                   return (
@@ -194,32 +216,46 @@ export default function EnrollmentModal({
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        padding: '0.55rem 0.75rem',
-                        borderBottom: '1px solid var(--border-hairline)',
-                        background: isChecked ? 'var(--signal-amber-dim)' : 'transparent',
+                        padding: '0.65rem 0.85rem',
+                        borderBottom: '1px solid var(--border-subtle)',
+                        background: isChecked ? 'var(--bg-surface-elevated)' : 'transparent',
                         cursor: 'pointer',
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.78rem',
+                        transition: 'background var(--trans-fast)',
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                        <span style={{ fontWeight: 800, color: isChecked ? 'var(--signal-amber)' : 'var(--text-dim)' }}>
-                          {isChecked ? '[X]' : '[ ]'}
-                        </span>
+                        <div
+                          style={{
+                            width: '16px',
+                            height: '16px',
+                            borderRadius: '3px',
+                            border: isChecked ? '1px solid var(--text-primary)' : '1px solid var(--border-strong)',
+                            background: isChecked ? 'var(--text-primary)' : 'transparent',
+                            color: 'var(--text-inverse)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                          }}
+                        >
+                          {isChecked && <Check size={12} strokeWidth={3} />}
+                        </div>
                         <div>
-                          <div style={{ fontWeight: 700, color: isChecked ? 'var(--signal-amber)' : 'var(--text-primary)' }}>
+                          <div style={{ fontWeight: 600, fontSize: '0.82rem', color: 'var(--text-primary)' }}>
                             {sub.code}
                           </div>
-                          <div style={{ fontSize: '0.68rem', color: 'var(--text-dim)', fontFamily: 'var(--font-sans)' }}>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
                             {sub.title}
                           </div>
                         </div>
                       </div>
 
                       <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                        <div style={{ fontWeight: 700 }}>{sub.totalUnits}_U</div>
-                        <div style={{ fontSize: '0.62rem', color: 'var(--text-dim)' }}>
-                          L:{sub.lecUnits} | B:{sub.labUnits}
+                        <div className="font-mono-numbers" style={{ fontWeight: 600, fontSize: '0.8rem' }}>
+                          {sub.totalUnits} units
+                        </div>
+                        <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                          Lec: {sub.lecUnits} · Lab: {sub.labUnits}
                         </div>
                       </div>
                     </div>
@@ -228,12 +264,11 @@ export default function EnrollmentModal({
               </div>
             </div>
 
-            {/* Right: Telemetry Fee Readout */}
-            <div className="instrument-panel" style={{ padding: '0.85rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            {/* Right: Live Fee Calculation */}
+            <div className="saas-card" style={{ padding: '1rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
-                <div className="instrument-header-bar" style={{ margin: '-0.85rem -0.85rem 0.75rem', padding: '0.45rem 0.85rem' }}>
-                  <span>TELEMETRY // COMPUTED_TARIFF</span>
-                  <span style={{ color: 'var(--signal-amber)' }}>[LIVE_SYNC]</span>
+                <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
+                  Fee Assessment Breakdown
                 </div>
 
                 {/* Unit Readout Grid */}
@@ -241,80 +276,82 @@ export default function EnrollmentModal({
                   style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(3, 1fr)',
-                    gap: '1px',
-                    background: 'var(--border-hairline)',
-                    border: '1px solid var(--border-hairline)',
+                    gap: '0.5rem',
                     textAlign: 'center',
-                    marginBottom: '0.85rem',
+                    marginBottom: '1rem',
                   }}
                 >
-                  <div style={{ background: 'var(--bg-surface-sunken)', padding: '0.5rem' }}>
-                    <div className="telemetry-label" style={{ fontSize: '0.6rem' }}>LEC_U</div>
-                    <div className="telemetry-value" style={{ fontWeight: 800, fontSize: '1rem' }}>{totalLecUnits}</div>
+                  <div style={{ background: 'var(--bg-surface-elevated)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '0.5rem' }}>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Lec Units</div>
+                    <div className="font-mono-numbers" style={{ fontWeight: 600, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
+                      {totalLecUnits}
+                    </div>
                   </div>
-                  <div style={{ background: 'var(--bg-surface-sunken)', padding: '0.5rem' }}>
-                    <div className="telemetry-label" style={{ fontSize: '0.6rem' }}>LAB_U</div>
-                    <div className="telemetry-value" style={{ fontWeight: 800, fontSize: '1rem' }}>{totalLabUnits}</div>
+                  <div style={{ background: 'var(--bg-surface-elevated)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '0.5rem' }}>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Lab Units</div>
+                    <div className="font-mono-numbers" style={{ fontWeight: 600, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
+                      {totalLabUnits}
+                    </div>
                   </div>
-                  <div style={{ background: 'var(--bg-surface-sunken)', padding: '0.5rem' }}>
-                    <div className="telemetry-label" style={{ fontSize: '0.6rem', color: 'var(--signal-amber)' }}>SUM_U</div>
-                    <div className="telemetry-value" style={{ fontWeight: 800, fontSize: '1rem', color: 'var(--signal-amber)' }}>
+                  <div style={{ background: 'var(--bg-surface-elevated)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '0.5rem' }}>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Total Units</div>
+                    <div className="font-mono-numbers" style={{ fontWeight: 600, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
                       {totalUnits}
                     </div>
                   </div>
                 </div>
 
                 {/* Tariff List */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', fontSize: '0.8rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: 'var(--text-dim)' }}>TUITION ({totalUnits}U × ₱250):</span>
-                    <span>₱{tuitionTotal.toFixed(2)}</span>
+                    <span style={{ color: 'var(--text-secondary)' }}>Tuition ({totalUnits} units × ₱250):</span>
+                    <span className="font-mono-numbers">₱{tuitionTotal.toFixed(2)}</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: 'var(--text-dim)' }}>MISC_FEES (MANDATORY):</span>
-                    <span>₱{miscTotal.toFixed(2)}</span>
+                    <span style={{ color: 'var(--text-secondary)' }}>Miscellaneous Fees:</span>
+                    <span className="font-mono-numbers">₱{miscTotal.toFixed(2)}</span>
                   </div>
                   {labTotal > 0 && (
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span style={{ color: 'var(--text-dim)' }}>LAB_EQUIP_FEE:</span>
-                      <span>₱{labTotal.toFixed(2)}</span>
+                      <span style={{ color: 'var(--text-secondary)' }}>Computer Laboratory Fee:</span>
+                      <span className="font-mono-numbers">₱{labTotal.toFixed(2)}</span>
                     </div>
                   )}
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: 'var(--text-dim)' }}>SECURITY_RFID_PASS:</span>
-                    <span>₱{otherTotal.toFixed(2)}</span>
+                    <span style={{ color: 'var(--text-secondary)' }}>RFID Student ID Card:</span>
+                    <span className="font-mono-numbers">₱{otherTotal.toFixed(2)}</span>
                   </div>
 
-                  <div style={{ borderTop: '1px solid var(--border-hairline)', paddingTop: '0.4rem', display: 'flex', justifyContent: 'space-between', fontWeight: 700 }}>
-                    <span>GROSS_SUBTOTAL:</span>
-                    <span>₱{grossTotal.toFixed(2)}</span>
+                  <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '0.5rem', display: 'flex', justifyContent: 'space-between', fontWeight: 500 }}>
+                    <span style={{ color: 'var(--text-primary)' }}>Gross Assessment:</span>
+                    <span className="font-mono-numbers">₱{grossTotal.toFixed(2)}</span>
                   </div>
 
-                  {/* Subsidy Selection */}
+                  {/* Scholarship Selection */}
                   <div style={{ marginTop: '0.35rem' }}>
-                    <label className="telemetry-label" style={{ display: 'block', marginBottom: '0.2rem' }}>
-                      SCHOLARSHIP_SUBSIDY_PROGRAM
+                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-muted)', marginBottom: '0.25rem' }}>
+                      Scholarship / Discount
                     </label>
                     <select
-                      className="input-instrument"
-                      style={{ padding: '0.35rem 0.5rem', fontSize: '0.72rem' }}
+                      className="saas-input"
+                      style={{ padding: '0.4rem 0.6rem', fontSize: '0.78rem' }}
                       value={discountType}
                       onChange={(e) => setDiscountType(e.target.value)}
                     >
-                      <option value="None">[NONE] REGULAR_ASSESSMENT</option>
-                      <option value="UniFAST Government Subsidy (RA 10931)">[UNIFAST] FREE_HIGHER_ED_100%</option>
-                      <option value="Academic Scholar (Full Tuition 100%)">[ACAD_FULL] 100%_TUITION_GRANT</option>
-                      <option value="Academic Scholar (Partial Tuition 50%)">[ACAD_PART] 50%_TUITION_GRANT</option>
-                      <option value="Employee Dependent (25% Discount)">[DEPENDENT] 25%_TUITION_DISCOUNT</option>
-                      <option value="Custom">[CUSTOM] ENTER_DISCOUNT_VAL</option>
+                      <option value="None">None (Standard Tuition)</option>
+                      <option value="UniFAST Government Subsidy (RA 10931)">UniFAST Free Higher Ed (100% Free)</option>
+                      <option value="Academic Scholar (Full Tuition 100%)">Academic Scholar (100% Tuition)</option>
+                      <option value="Academic Scholar (Partial Tuition 50%)">Academic Scholar (50% Tuition)</option>
+                      <option value="Employee Dependent (25% Discount)">Employee Dependent (25% Tuition)</option>
+                      <option value="Custom">Custom Discount (₱)</option>
                     </select>
 
                     {discountType === 'Custom' && (
                       <input
                         type="number"
-                        className="input-instrument"
-                        style={{ marginTop: '0.3rem', padding: '0.3rem 0.5rem' }}
-                        placeholder="ENTER AMOUNT (₱)"
+                        className="saas-input"
+                        style={{ marginTop: '0.35rem', padding: '0.35rem 0.6rem' }}
+                        placeholder="Enter discount in ₱"
                         value={customDiscount}
                         onChange={(e) => setCustomDiscount(parseFloat(e.target.value) || 0)}
                       />
@@ -322,48 +359,49 @@ export default function EnrollmentModal({
                   </div>
 
                   {discountAmount > 0 && (
-                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--signal-green)', fontWeight: 700 }}>
-                      <span>DEDUCTED_SUBSIDY:</span>
-                      <span>-₱{discountAmount.toFixed(2)}</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#10b981', fontWeight: 500 }}>
+                      <span>Applied Subsidy:</span>
+                      <span className="font-mono-numbers">-₱{discountAmount.toFixed(2)}</span>
                     </div>
                   )}
 
+                  {/* Net Due */}
                   <div
                     style={{
-                      borderTop: '1px solid var(--border-hairline-bright)',
-                      marginTop: '0.4rem',
-                      paddingTop: '0.5rem',
+                      borderTop: '1px solid var(--border-default)',
+                      marginTop: '0.45rem',
+                      paddingTop: '0.65rem',
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'baseline',
                     }}
                   >
-                    <span style={{ fontWeight: 800 }}>NET_TOTAL_DUE:</span>
-                    <span className="telemetry-value" style={{ fontWeight: 800, fontSize: '1.25rem', color: 'var(--signal-amber)' }}>
+                    <span style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text-primary)' }}>Net Assessment Due:</span>
+                    <span className="font-mono-numbers" style={{ fontWeight: 700, fontSize: '1.25rem', color: 'var(--text-primary)' }}>
                       ₱{netTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </span>
                   </div>
 
                   {netTotal > 0 && (
-                    <div style={{ padding: '0.4rem 0.55rem', background: 'var(--bg-surface-sunken)', border: '1px solid var(--border-hairline)', fontSize: '0.68rem', color: 'var(--text-dim)', marginTop: '0.35rem' }}>
-                      MIN_DOWNPAYMENT: <strong>₱{downpayment.toFixed(2)}</strong> // INST: 3×₱{termSplit.toFixed(2)}
+                    <div style={{ padding: '0.45rem 0.65rem', background: 'var(--bg-surface-elevated)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-sm)', fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '0.35rem' }}>
+                      Downpayment due: <strong>₱{downpayment.toFixed(2)}</strong> · Installments: 3 × ₱{termSplit.toFixed(2)}
                     </div>
                   )}
                 </div>
               </div>
 
               {/* Controls */}
-              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
-                <button type="button" onClick={onClose} className="btn-mechanical btn-sm" style={{ flex: 1 }}>
-                  [DISCARD]
+              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1.25rem' }}>
+                <button type="button" onClick={onClose} className="btn-saas" style={{ flex: 1 }}>
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading || selectedSubjectIds.length === 0}
-                  className="btn-mechanical btn-signal-amber btn-sm"
+                  className="btn-saas btn-saas-primary"
                   style={{ flex: 1.5 }}
                 >
-                  {loading ? '[COMMITTING...]' : '[COMMIT_ASSESSMENT]'} <span className="hotkey-tag">↵</span>
+                  {loading ? 'Confirming...' : 'Confirm & Assess'}
                 </button>
               </div>
             </div>

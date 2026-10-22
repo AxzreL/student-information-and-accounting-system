@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { Sun, Moon, School, ChevronDown } from 'lucide-react';
 
 export type UserRole = 'ADMIN' | 'REGISTRAR' | 'CASHIER';
 
@@ -27,268 +28,248 @@ export default function Header({
 }: HeaderProps) {
   const roleProfiles = {
     ADMIN: {
-      code: 'AUTH:SYS_ADMIN',
       name: 'Dr. Alejandro Gomez',
-      station: 'VP_ACAD_FINANCE',
+      title: 'System Administrator',
+      initials: 'AG',
     },
     REGISTRAR: {
-      code: 'AUTH:UNIV_REG',
       name: 'Maria Elena Veloso',
-      station: 'ADMISSIONS_DESK_01',
+      title: 'University Registrar',
+      initials: 'MV',
     },
     CASHIER: {
-      code: 'AUTH:CHIEF_CASHIER',
       name: 'Roberto Fernandez, CPA',
-      station: 'COLLECTIONS_REGISTER_04',
+      title: 'Finance & Cashier',
+      initials: 'RF',
     },
   };
 
   return (
-    <header className="no-print" style={{ borderBottom: '1px solid var(--border-hairline)', background: 'var(--bg-surface)' }}>
-      {/* Top Telemetry & Instrument Header */}
+    <header className="no-print" style={{ background: 'var(--bg-surface)', borderBottom: '1px solid var(--border-default)' }}>
+      {/* Top Navbar */}
       <div
         style={{
+          maxWidth: '1360px',
+          margin: '0 auto',
+          padding: '0.85rem 1.5rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0.65rem 1.25rem',
-          borderBottom: '1px solid var(--border-hairline)',
           flexWrap: 'wrap',
-          gap: '0.75rem',
+          gap: '1rem',
         }}
       >
-        {/* Unit Identity */}
+        {/* Left: Organization & App Brand */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
           <div
             style={{
-              padding: '0.2rem 0.45rem',
-              background: 'var(--signal-amber)',
-              color: '#0d0e10',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.75rem',
-              fontWeight: 800,
-              letterSpacing: '0.06em',
-              borderRadius: 'var(--radius-strict)',
+              width: '32px',
+              height: '32px',
+              borderRadius: 'var(--radius-md)',
+              background: 'var(--bg-surface-elevated)',
+              border: '1px solid var(--border-default)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--text-primary)',
             }}
           >
-            SSU::SIAS
+            <School size={16} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: '0.95rem', fontWeight: 800, letterSpacing: '-0.02em', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.015em' }}>
                 {institutionName}
               </span>
-              <span className="tag-mono" style={{ fontSize: '0.62rem' }}>
-                [SYS_ID: 2.4.0-PROD]
+              <span className="badge-status badge-neutral" style={{ fontSize: '0.7rem', padding: '0.1rem 0.4rem' }}>
+                SIAS
               </span>
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-dim)', letterSpacing: '0.04em' }}>
-              TELEMETRY: ACTIVE // STUDENT INFORMATION & ACCOUNTING CONSOLE
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+              Student Information & Accounting Portal
             </div>
           </div>
         </div>
 
-        {/* Console Controls: Academic Term, Role Rotary, Operator ID & Theme */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-          {/* Term Telemetry */}
-          <div className="tag-mono" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.3rem 0.6rem' }}>
-            <span style={{ color: 'var(--signal-green)' }}>●</span>
-            <span>{activeTermName.toUpperCase()}</span>
-          </div>
-
-          {/* Rotary Role Selectors */}
+        {/* Right Controls: Academic Term, Role Switcher, User & Theme */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
+          {/* Active Term Pill */}
           <div
+            className="badge-status badge-neutral"
             style={{
-              display: 'inline-flex',
-              background: 'var(--bg-surface-sunken)',
-              border: '1px solid var(--border-hairline)',
-              borderRadius: 'var(--radius-strict)',
-              padding: '2px',
+              padding: '0.3rem 0.65rem',
+              fontSize: '0.75rem',
+              color: 'var(--text-secondary)',
             }}
           >
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981' }} />
+            <span>{activeTermName}</span>
+          </div>
+
+          {/* Clean Segmented Role Switcher */}
+          <div className="segmented-control">
             <button
               onClick={() => onRoleChange('ADMIN')}
-              className={`btn-mechanical btn-sm ${currentRole === 'ADMIN' ? 'btn-signal-amber' : ''}`}
-              style={{
-                border: 'none',
-                background: currentRole === 'ADMIN' ? 'var(--signal-amber)' : 'transparent',
-                color: currentRole === 'ADMIN' ? '#0d0e10' : 'var(--text-secondary)',
-                fontSize: '0.68rem',
-              }}
+              className={`segmented-btn ${currentRole === 'ADMIN' ? 'active' : ''}`}
             >
-              [01_ADMIN]
+              Admin
             </button>
             <button
               onClick={() => onRoleChange('REGISTRAR')}
-              className={`btn-mechanical btn-sm ${currentRole === 'REGISTRAR' ? 'btn-signal-amber' : ''}`}
-              style={{
-                border: 'none',
-                background: currentRole === 'REGISTRAR' ? 'var(--signal-amber)' : 'transparent',
-                color: currentRole === 'REGISTRAR' ? '#0d0e10' : 'var(--text-secondary)',
-                fontSize: '0.68rem',
-              }}
+              className={`segmented-btn ${currentRole === 'REGISTRAR' ? 'active' : ''}`}
             >
-              [02_REGISTRAR]
+              Registrar
             </button>
             <button
               onClick={() => onRoleChange('CASHIER')}
-              className={`btn-mechanical btn-sm ${currentRole === 'CASHIER' ? 'btn-signal-amber' : ''}`}
-              style={{
-                border: 'none',
-                background: currentRole === 'CASHIER' ? 'var(--signal-amber)' : 'transparent',
-                color: currentRole === 'CASHIER' ? '#0d0e10' : 'var(--text-secondary)',
-                fontSize: '0.68rem',
-              }}
+              className={`segmented-btn ${currentRole === 'CASHIER' ? 'active' : ''}`}
             >
-              [03_CASHIER]
+              Cashier
             </button>
           </div>
 
-          {/* Operator Readout */}
+          {/* User Account Info */}
           <div
             style={{
-              padding: '0.25rem 0.65rem',
-              background: 'var(--bg-surface-sunken)',
-              border: '1px solid var(--border-hairline)',
-              borderRadius: 'var(--radius-strict)',
-              fontFamily: 'var(--font-mono)',
-              textAlign: 'right',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.55rem',
+              padding: '0.25rem 0.5rem',
+              borderRadius: 'var(--radius-md)',
+              background: 'var(--bg-surface-elevated)',
+              border: '1px solid var(--border-subtle)',
             }}
           >
-            <div style={{ fontSize: '0.68rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-              {roleProfiles[currentRole].name}
+            <div
+              style={{
+                width: '24px',
+                height: '24px',
+                borderRadius: 'var(--radius-sm)',
+                background: 'var(--border-default)',
+                color: 'var(--text-primary)',
+                fontSize: '0.72rem',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {roleProfiles[currentRole].initials}
             </div>
-            <div style={{ fontSize: '0.6rem', color: 'var(--text-dim)' }}>
-              {roleProfiles[currentRole].code} • {roleProfiles[currentRole].station}
+            <div style={{ textAlign: 'left', lineHeight: 1.2 }}>
+              <div style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                {roleProfiles[currentRole].name}
+              </div>
+              <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>
+                {roleProfiles[currentRole].title}
+              </div>
             </div>
           </div>
 
-          {/* Precision Rocker Theme Toggle */}
+          {/* Clean Theme Toggle Button */}
           <button
             onClick={onToggleTheme}
-            className="rocker-toggle"
-            title={`Toggle Theme Mode (Current: ${theme.toUpperCase()})`}
+            className="btn-saas"
+            style={{ padding: '0.45rem', width: '32px', height: '32px', borderRadius: 'var(--radius-md)' }}
+            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
             aria-label="Toggle Theme Mode"
           >
-            <span className={`rocker-option ${theme === 'dark' ? 'active' : ''}`}>DARK</span>
-            <span className={`rocker-option ${theme === 'light' ? 'active' : ''}`}>LIGHT</span>
+            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
           </button>
         </div>
       </div>
 
-      {/* Structured Tactical Navigation Bar */}
+      {/* Clean Tab Navigation Bar */}
       <div
         style={{
-          display: 'flex',
-          alignItems: 'stretch',
-          padding: '0 1.25rem',
-          background: 'var(--bg-surface-sunken)',
-          borderBottom: '1px solid var(--border-hairline)',
-          gap: '0',
-          overflowX: 'auto',
+          borderTop: '1px solid var(--border-subtle)',
+          background: 'var(--bg-surface)',
         }}
       >
-        <button
-          onClick={() => onTabChange('dashboard')}
+        <div
           style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.72rem',
-            fontWeight: 700,
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            padding: '0.65rem 1.15rem',
-            border: 'none',
-            borderRight: '1px solid var(--border-hairline)',
-            borderBottom: activeTab === 'dashboard' ? '2px solid var(--signal-amber)' : '2px solid transparent',
-            background: activeTab === 'dashboard' ? 'var(--bg-surface)' : 'transparent',
-            color: activeTab === 'dashboard' ? 'var(--text-primary)' : 'var(--text-dim)',
-            cursor: 'pointer',
-            transition: 'background var(--trans-instant)',
+            maxWidth: '1360px',
+            margin: '0 auto',
+            padding: '0 1.5rem',
             display: 'flex',
-            alignItems: 'center',
-            gap: '0.45rem',
+            gap: '0.25rem',
+            overflowX: 'auto',
           }}
         >
-          <span style={{ color: activeTab === 'dashboard' ? 'var(--signal-amber)' : 'inherit' }}>[01]</span>
-          SYSTEM_OVERVIEW
-        </button>
-
-        <button
-          onClick={() => onTabChange('registrar')}
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.72rem',
-            fontWeight: 700,
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            padding: '0.65rem 1.15rem',
-            border: 'none',
-            borderRight: '1px solid var(--border-hairline)',
-            borderBottom: activeTab === 'registrar' ? '2px solid var(--signal-amber)' : '2px solid transparent',
-            background: activeTab === 'registrar' ? 'var(--bg-surface)' : 'transparent',
-            color: activeTab === 'registrar' ? 'var(--text-primary)' : 'var(--text-dim)',
-            cursor: 'pointer',
-            transition: 'background var(--trans-instant)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.45rem',
-          }}
-        >
-          <span style={{ color: activeTab === 'registrar' ? 'var(--signal-amber)' : 'inherit' }}>[02]</span>
-          REGISTRAR_DIRECTORY
-        </button>
-
-        <button
-          onClick={() => onTabChange('cashier')}
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.72rem',
-            fontWeight: 700,
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            padding: '0.65rem 1.15rem',
-            border: 'none',
-            borderRight: '1px solid var(--border-hairline)',
-            borderBottom: activeTab === 'cashier' ? '2px solid var(--signal-amber)' : '2px solid transparent',
-            background: activeTab === 'cashier' ? 'var(--bg-surface)' : 'transparent',
-            color: activeTab === 'cashier' ? 'var(--text-primary)' : 'var(--text-dim)',
-            cursor: 'pointer',
-            transition: 'background var(--trans-instant)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.45rem',
-          }}
-        >
-          <span style={{ color: activeTab === 'cashier' ? 'var(--signal-amber)' : 'inherit' }}>[03]</span>
-          FINANCIAL_LEDGER_CASHIER
-        </button>
-
-        {currentRole === 'ADMIN' && (
           <button
-            onClick={() => onTabChange('admin')}
+            onClick={() => onTabChange('dashboard')}
             style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.72rem',
-              fontWeight: 700,
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              padding: '0.65rem 1.15rem',
+              fontSize: '0.82rem',
+              fontWeight: 500,
+              padding: '0.65rem 0.85rem',
               border: 'none',
-              borderRight: '1px solid var(--border-hairline)',
-              borderBottom: activeTab === 'admin' ? '2px solid var(--signal-amber)' : '2px solid transparent',
-              background: activeTab === 'admin' ? 'var(--bg-surface)' : 'transparent',
-              color: activeTab === 'admin' ? 'var(--text-primary)' : 'var(--text-dim)',
+              background: 'transparent',
+              color: activeTab === 'dashboard' ? 'var(--text-primary)' : 'var(--text-secondary)',
+              borderBottom: activeTab === 'dashboard' ? '2px solid var(--text-primary)' : '2px solid transparent',
               cursor: 'pointer',
-              transition: 'background var(--trans-instant)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.45rem',
+              transition: 'all var(--trans-fast)',
+              whiteSpace: 'nowrap',
             }}
           >
-            <span style={{ color: activeTab === 'admin' ? 'var(--signal-amber)' : 'inherit' }}>[04]</span>
-            MASTER_REGISTRY_AUDIT
+            Overview
           </button>
-        )}
+
+          <button
+            onClick={() => onTabChange('registrar')}
+            style={{
+              fontSize: '0.82rem',
+              fontWeight: 500,
+              padding: '0.65rem 0.85rem',
+              border: 'none',
+              background: 'transparent',
+              color: activeTab === 'registrar' ? 'var(--text-primary)' : 'var(--text-secondary)',
+              borderBottom: activeTab === 'registrar' ? '2px solid var(--text-primary)' : '2px solid transparent',
+              cursor: 'pointer',
+              transition: 'all var(--trans-fast)',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Registrar & Admissions
+          </button>
+
+          <button
+            onClick={() => onTabChange('cashier')}
+            style={{
+              fontSize: '0.82rem',
+              fontWeight: 500,
+              padding: '0.65rem 0.85rem',
+              border: 'none',
+              background: 'transparent',
+              color: activeTab === 'cashier' ? 'var(--text-primary)' : 'var(--text-secondary)',
+              borderBottom: activeTab === 'cashier' ? '2px solid var(--text-primary)' : '2px solid transparent',
+              cursor: 'pointer',
+              transition: 'all var(--trans-fast)',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Cashier & Accounting
+          </button>
+
+          {currentRole === 'ADMIN' && (
+            <button
+              onClick={() => onTabChange('admin')}
+              style={{
+                fontSize: '0.82rem',
+                fontWeight: 500,
+                padding: '0.65rem 0.85rem',
+                border: 'none',
+                background: 'transparent',
+                color: activeTab === 'admin' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                borderBottom: activeTab === 'admin' ? '2px solid var(--text-primary)' : '2px solid transparent',
+                cursor: 'pointer',
+                transition: 'all var(--trans-fast)',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              System Administration
+            </button>
+          )}
+        </div>
       </div>
     </header>
   );

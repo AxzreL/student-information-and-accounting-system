@@ -1,75 +1,94 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, monospace;
 
-  /* Teenage Engineering / Aerospace Instrument Palette (Dark Default) */
-  --bg-canvas: #0d0e10;
-  --bg-surface: #141619;
-  --bg-surface-elevated: #1a1d21;
-  --bg-surface-sunken: #090a0c;
-  --bg-surface-hover: #1f2328;
+  /* Linear / Stripe / Railway Modern Dark Theme */
+  --bg-canvas: #090a0c;
+  --bg-surface: #111215;
+  --bg-surface-elevated: #18191e;
+  --bg-surface-hover: #1f2026;
+  --bg-surface-subdued: #0d0e11;
 
-  /* 1px Hairline Structural Dividers */
-  --border-hairline: rgba(255, 255, 255, 0.08);
-  --border-hairline-bright: rgba(255, 255, 255, 0.18);
-  --border-focus: #ffb000;
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-default: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.22);
+  --border-focus: #3b82f6;
 
-  /* High-Contrast Technical Typography */
-  --text-primary: #f0f3f6;
-  --text-secondary: #9da7b3;
-  --text-dim: #5c6570;
-  --text-inverse: #0d0e10;
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --text-inverse: #090a0c;
 
-  /* Sharp Functional Telemetry Signal Colors */
-  --signal-amber: #ffb000;
-  --signal-amber-dim: rgba(255, 176, 0, 0.12);
-  --signal-green: #00e599;
-  --signal-green-dim: rgba(0, 229, 153, 0.12);
-  --signal-red: #ff4757;
-  --signal-red-dim: rgba(255, 71, 87, 0.12);
-  --signal-cyan: #00d2d3;
-  --signal-cyan-dim: rgba(0, 210, 211, 0.12);
+  /* Subtle, restrained status accents */
+  --badge-green-bg: rgba(16, 185, 129, 0.1);
+  --badge-green-text: #34d399;
+  --badge-green-border: rgba(16, 185, 129, 0.25);
 
-  /* Zero Drop Shadows - Pure Engineering Layout */
-  --shadow-none: none;
+  --badge-amber-bg: rgba(245, 158, 11, 0.1);
+  --badge-amber-text: #fbbf24;
+  --badge-amber-border: rgba(245, 158, 11, 0.25);
 
-  /* Strict Angular Radii */
-  --radius-strict: 2px;
-  --radius-sm: 2px;
-  --radius-md: 3px;
+  --badge-red-bg: rgba(244, 63, 94, 0.1);
+  --badge-red-text: #fb7185;
+  --badge-red-border: rgba(244, 63, 94, 0.25);
 
-  --trans-instant: 75ms ease;
+  --badge-blue-bg: rgba(59, 130, 246, 0.1);
+  --badge-blue-text: #60a5fa;
+  --badge-blue-border: rgba(59, 130, 246, 0.25);
+
+  --badge-gray-bg: rgba(255, 255, 255, 0.05);
+  --badge-gray-text: #d1d5db;
+  --badge-gray-border: rgba(255, 255, 255, 0.1);
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  --trans-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme='light'] {
-  --bg-canvas: #ebeef2;
+  --bg-canvas: #f9fafb;
   --bg-surface: #ffffff;
-  --bg-surface-elevated: #f4f6f8;
-  --bg-surface-sunken: #e2e6eb;
-  --bg-surface-hover: #f0f2f5;
+  --bg-surface-elevated: #f3f4f6;
+  --bg-surface-hover: #f1f2f5;
+  --bg-surface-subdued: #f9fafb;
 
-  --border-hairline: rgba(0, 0, 0, 0.12);
-  --border-hairline-bright: rgba(0, 0, 0, 0.28);
-  --border-focus: #d97706;
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-default: rgba(0, 0, 0, 0.12);
+  --border-strong: rgba(0, 0, 0, 0.2);
+  --border-focus: #2563eb;
 
-  --text-primary: #0d0e10;
-  --text-secondary: #4a5563;
-  --text-dim: #8492a3;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
   --text-inverse: #ffffff;
 
-  --signal-amber: #d97706;
-  --signal-amber-dim: rgba(217, 119, 6, 0.12);
-  --signal-green: #059669;
-  --signal-green-dim: rgba(5, 150, 105, 0.12);
-  --signal-red: #dc2626;
-  --signal-red-dim: rgba(220, 38, 38, 0.12);
-  --signal-cyan: #0891b2;
-  --signal-cyan-dim: rgba(8, 145, 178, 0.12);
+  --badge-green-bg: rgba(16, 185, 129, 0.12);
+  --badge-green-text: #059669;
+  --badge-green-border: rgba(16, 185, 129, 0.25);
+
+  --badge-amber-bg: rgba(245, 158, 11, 0.12);
+  --badge-amber-text: #d97706;
+  --badge-amber-border: rgba(245, 158, 11, 0.25);
+
+  --badge-red-bg: rgba(244, 63, 94, 0.12);
+  --badge-red-text: #e11d48;
+  --badge-red-border: rgba(244, 63, 94, 0.25);
+
+  --badge-blue-bg: rgba(59, 130, 246, 0.12);
+  --badge-blue-text: #2563eb;
+  --badge-blue-border: rgba(59, 130, 246, 0.25);
+
+  --badge-gray-bg: rgba(0, 0, 0, 0.05);
+  --badge-gray-text: #4b5563;
+  --badge-gray-border: rgba(0, 0, 0, 0.1);
 }
 
-/* Circular Screen View Transition API */
+/* Circular View Transition API Rules */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
@@ -109,300 +128,227 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.45;
-  letter-spacing: -0.015em;
-  position: relative;
-  overflow-x: hidden;
+  line-height: 1.5;
+  letter-spacing: -0.011em;
 }
 
-/* Grid Matrix Background Pattern */
-.instrument-grid {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 0;
-  background-image: 
-    linear-gradient(to right, var(--border-hairline) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--border-hairline) 1px, transparent 1px);
-  background-size: 40px 40px;
-  opacity: 0.55;
-}
-
-/* Technical Panels */
-.instrument-panel {
+/* Linear-style Structured Cards */
+.saas-card {
   background: var(--bg-surface);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-strict);
-  position: relative;
-  box-shadow: none;
-  transition: border-color var(--trans-instant);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  transition: border-color var(--trans-fast);
 }
 
-.instrument-panel:hover {
-  border-color: var(--border-hairline-bright);
+.saas-card:hover {
+  border-color: var(--border-strong);
 }
 
-.instrument-header-bar {
+.card-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.6rem 0.85rem;
-  background: var(--bg-surface-sunken);
-  border-bottom: 1px solid var(--border-hairline);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-dim);
 }
 
-/* Typography Hierarchy */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  color: var(--text-primary);
-}
-
-.telemetry-label {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
+.card-title {
+  font-size: 0.95rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-dim);
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
 }
 
-.telemetry-value {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
+.card-description {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-top: 0.15rem;
 }
 
-/* Technical Bracket Tags (Replacing generic pill badges) */
-.tag-mono {
+/* Restrained Status Badges */
+.badge-status {
   display: inline-flex;
   align-items: center;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 0.15rem 0.45rem;
-  border-radius: 0;
-  border: 1px solid var(--border-hairline);
-  background: var(--bg-surface-sunken);
-  color: var(--text-secondary);
-  line-height: 1.2;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
 }
 
-.tag-amber {
-  border-color: rgba(255, 176, 0, 0.4);
-  background: var(--signal-amber-dim);
-  color: var(--signal-amber);
+.badge-green {
+  background: var(--badge-green-bg);
+  color: var(--badge-green-text);
+  border: 1px solid var(--badge-green-border);
 }
 
-.tag-green {
-  border-color: rgba(0, 229, 153, 0.4);
-  background: var(--signal-green-dim);
-  color: var(--signal-green);
+.badge-amber {
+  background: var(--badge-amber-bg);
+  color: var(--badge-amber-text);
+  border: 1px solid var(--badge-amber-border);
 }
 
-.tag-red {
-  border-color: rgba(255, 71, 87, 0.4);
-  background: var(--signal-red-dim);
-  color: var(--signal-red);
+.badge-red {
+  background: var(--badge-red-bg);
+  color: var(--badge-red-text);
+  border: 1px solid var(--badge-red-border);
 }
 
-.tag-cyan {
-  border-color: rgba(0, 210, 211, 0.4);
-  background: var(--signal-cyan-dim);
-  color: var(--signal-cyan);
+.badge-blue {
+  background: var(--badge-blue-bg);
+  color: var(--badge-blue-text);
+  border: 1px solid var(--badge-blue-border);
 }
 
-/* Tactile Mechanical Controls */
-.btn-mechanical {
+.badge-neutral {
+  background: var(--badge-gray-bg);
+  color: var(--badge-gray-text);
+  border: 1px solid var(--badge-gray-border);
+}
+
+/* High-End Clean Buttons */
+.btn-saas {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  padding: 0.5rem 0.9rem;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  border-radius: var(--radius-strict);
-  border: 1px solid var(--border-hairline-bright);
+  padding: 0.5rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
   background: var(--bg-surface-elevated);
   color: var(--text-primary);
   cursor: pointer;
-  transition: all var(--trans-instant);
+  transition: all var(--trans-fast);
   user-select: none;
   white-space: nowrap;
 }
 
-.btn-mechanical:hover {
+.btn-saas:hover {
   background: var(--bg-surface-hover);
+  border-color: var(--border-strong);
+}
+
+.btn-saas-primary {
+  background: var(--text-primary);
+  color: var(--text-inverse);
   border-color: var(--text-primary);
-  color: #ffffff;
-}
-
-.btn-mechanical:active {
-  transform: translateY(1px);
-}
-
-.btn-signal-amber {
-  background: var(--signal-amber);
-  color: #0d0e10;
-  border-color: var(--signal-amber);
-}
-
-.btn-signal-amber:hover {
-  background: #ffbe26;
-  border-color: #ffbe26;
-  color: #0d0e10;
-}
-
-.btn-signal-green {
-  background: var(--signal-green);
-  color: #0d0e10;
-  border-color: var(--signal-green);
-}
-
-.btn-signal-green:hover {
-  background: #26f2ad;
-  border-color: #26f2ad;
-  color: #0d0e10;
-}
-
-.btn-sm {
-  padding: 0.35rem 0.65rem;
-  font-size: 0.72rem;
-}
-
-.hotkey-tag {
-  font-size: 0.65rem;
-  padding: 0.1rem 0.3rem;
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 1px;
-  color: var(--text-dim);
   font-weight: 600;
 }
 
-/* Hairline Data Grid */
-.hairline-grid-table {
+.btn-saas-primary:hover {
+  opacity: 0.9;
+  border-color: var(--text-primary);
+}
+
+.btn-saas-sm {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+}
+
+/* Clean Structured Data Table */
+.saas-table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.saas-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.82rem;
   text-align: left;
+  font-size: 0.85rem;
 }
 
-.hairline-grid-table th {
-  background: var(--bg-surface-sunken);
-  color: var(--text-dim);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
+.saas-table th {
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.65rem 0.85rem;
-  border-bottom: 1px solid var(--border-hairline);
-  border-right: 1px solid var(--border-hairline);
+  color: var(--text-secondary);
+  background: var(--bg-surface-subdued);
+  border-bottom: 1px solid var(--border-default);
   white-space: nowrap;
 }
 
-.hairline-grid-table th:last-child {
-  border-right: none;
-}
-
-.hairline-grid-table td {
-  padding: 0.7rem 0.85rem;
-  border-bottom: 1px solid var(--border-hairline);
-  border-right: 1px solid var(--border-hairline);
+.saas-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
   color: var(--text-primary);
-  background: var(--bg-surface);
 }
 
-.hairline-grid-table td:last-child {
-  border-right: none;
+.saas-table tbody tr {
+  transition: background var(--trans-fast);
 }
 
-.hairline-grid-table tr:hover td {
+.saas-table tbody tr:hover {
   background: var(--bg-surface-hover);
 }
 
-/* Mechanical Input Fields */
-.input-instrument {
+/* SaaS Form Controls */
+.saas-input {
   width: 100%;
   padding: 0.55rem 0.8rem;
-  background: var(--bg-surface-sunken);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-strict);
+  background: var(--bg-surface-subdued);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
   color: var(--text-primary);
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: 0.85rem;
+  font-family: inherit;
   outline: none;
-  transition: border-color var(--trans-instant);
+  transition: border-color var(--trans-fast);
 }
 
-.input-instrument:focus {
-  border-color: var(--signal-amber);
+.saas-input:focus {
+  border-color: var(--border-focus);
 }
 
-.input-instrument::placeholder {
-  color: var(--text-dim);
+.saas-input::placeholder {
+  color: var(--text-muted);
 }
 
-/* Rocker Theme Switch */
-.rocker-toggle {
+/* Modern Segmented Role Switcher */
+.segmented-control {
   display: inline-flex;
   align-items: center;
-  background: var(--bg-surface-sunken);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-strict);
+  background: var(--bg-surface-subdued);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
   padding: 2px;
+  gap: 2px;
+}
+
+.segmented-btn {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
   cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.segmented-btn.active {
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Monospace Helpers */
+.font-mono-numbers {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  user-select: none;
+  font-variant-numeric: tabular-nums;
 }
 
-.rocker-option {
-  padding: 0.25rem 0.55rem;
-  border-radius: var(--radius-strict);
-  color: var(--text-dim);
-  transition: all var(--trans-instant);
-  letter-spacing: 0.05em;
-}
-
-.rocker-option.active {
-  background: var(--signal-amber);
-  color: #0d0e10;
-}
-
-/* Custom Scrollbar - Minimal Hairline */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-surface-sunken);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border-hairline-bright);
-  border-radius: 0;
-}
-
-/* Modal - Tactical Wireframe */
+/* Modal Windows */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(9, 10, 12, 0.85);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -410,15 +356,28 @@ h1, h2, h3, h4, h5, h6 {
   padding: 1.5rem;
 }
 
-.modal-content-tactical {
+.modal-dialog {
   background: var(--bg-surface);
-  border: 1px solid var(--border-hairline-bright);
-  border-radius: var(--radius-strict);
-  max-width: 720px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  max-width: 680px;
   width: 100%;
-  max-height: 92vh;
+  max-height: 90vh;
   overflow-y: auto;
-  box-shadow: none;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+}
+
+/* Custom Minimal Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 999px;
 }
 
 /* Print Styles */
@@ -433,7 +392,6 @@ h1, h2, h3, h4, h5, h6 {
   nav,
   aside,
   header,
-  .instrument-grid,
   .modal-backdrop:not(.printing-target),
   button:not(.print-allow) {
     display: none !important;

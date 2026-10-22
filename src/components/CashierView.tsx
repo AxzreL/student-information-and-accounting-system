@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Search } from 'lucide-react';
 
 interface CashierViewProps {
   assessments: any[];
@@ -38,257 +39,259 @@ export default function CashierView({
   const totalBalance = filtered.reduce((sum, a) => sum + Number(a.balance), 0);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      {/* Station Header & Telemetry Indicators */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+      {/* Top Banner & Summary Chips */}
       <div
-        className="instrument-panel"
+        className="saas-card"
         style={{
-          padding: '0.85rem 1.25rem',
+          padding: '1.25rem 1.5rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: '1rem',
-          background: 'var(--bg-surface-sunken)',
         }}
       >
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span className="tag-mono tag-amber">[STATION_03]</span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', fontWeight: 800 }}>
-              CASHIER_TERMINAL // STUDENT_FINANCIAL_LEDGER
-            </span>
+          <div style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+            Cashier & Student Accounts
           </div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-dim)', marginTop: '0.2rem' }}>
-            TRANSACTION ASSESSMENT ENGINE // DISPATCH OFFICIAL RECEIPTS AND EXAM PERMIT CLEARANCES.
+          <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
+            Collect fee payments, issue official receipts, monitor balances, and update exam clearances.
           </div>
         </div>
 
-        {/* Telemetry Metric Readouts */}
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-          <div className="tag-mono" style={{ padding: '0.4rem 0.75rem' }}>
-            <span style={{ color: 'var(--text-dim)' }}>NET_ASSESSED: </span>
-            <strong style={{ color: 'var(--text-primary)', marginLeft: '4px' }}>
+          <div className="badge-status badge-neutral" style={{ padding: '0.35rem 0.65rem' }}>
+            <span>Net Assessed: </span>
+            <strong className="font-mono-numbers" style={{ color: 'var(--text-primary)', marginLeft: '4px' }}>
               ₱{totalAssessed.toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </strong>
           </div>
-          <div className="tag-mono tag-green" style={{ padding: '0.4rem 0.75rem' }}>
-            <span>TOTAL_COLLECTED: </span>
-            <strong style={{ marginLeft: '4px' }}>
+          <div className="badge-status badge-green" style={{ padding: '0.35rem 0.65rem' }}>
+            <span>Total Collected: </span>
+            <strong className="font-mono-numbers" style={{ marginLeft: '4px' }}>
               ₱{totalPaid.toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </strong>
           </div>
-          <div className="tag-mono tag-red" style={{ padding: '0.4rem 0.75rem' }}>
-            <span>RECEIVABLES: </span>
-            <strong style={{ marginLeft: '4px' }}>
+          <div className="badge-status badge-red" style={{ padding: '0.35rem 0.65rem' }}>
+            <span>Outstanding Balance: </span>
+            <strong className="font-mono-numbers" style={{ marginLeft: '4px' }}>
               ₱{totalBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </strong>
           </div>
         </div>
       </div>
 
-      {/* Query Filter Strip */}
+      {/* Filter and Search Bar */}
       <div
-        className="instrument-panel"
+        className="saas-card"
         style={{
-          padding: '0.75rem 1rem',
+          padding: '0.85rem 1rem',
           display: 'flex',
           alignItems: 'center',
           gap: '0.75rem',
           flexWrap: 'wrap',
-          background: 'var(--bg-surface)',
         }}
       >
-        {/* Search */}
-        <div style={{ flex: 1, minWidth: '280px' }}>
+        <div style={{ position: 'relative', flex: 1, minWidth: '260px' }}>
+          <Search
+            size={15}
+            style={{
+              position: 'absolute',
+              left: '0.75rem',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: 'var(--text-muted)',
+            }}
+          />
           <input
             type="text"
-            className="input-instrument"
-            placeholder="FILTER: ENTER CANDIDATE ID OR SURNAME..."
+            className="saas-input"
+            style={{ paddingLeft: '2.25rem' }}
+            placeholder="Search by student number or name..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
 
-        {/* Payment Status Filter */}
-        <div style={{ width: '200px' }}>
+        <div style={{ width: '190px' }}>
           <select
-            className="input-instrument"
+            className="saas-input"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
-            <option value="ALL">[ALL_PAYMENT_STATUSES]</option>
-            <option value="PAID">PAID_FULL (SETTLED)</option>
-            <option value="PARTIAL">PARTIAL_COMMITTED</option>
-            <option value="UNPAID">UNPAID_ZERO_CREDIT</option>
+            <option value="ALL">All Payment Statuses</option>
+            <option value="PAID">Fully Paid</option>
+            <option value="PARTIAL">Partially Paid</option>
+            <option value="UNPAID">Unpaid</option>
           </select>
         </div>
 
-        {/* Exam Permit Filter */}
-        <div style={{ width: '190px' }}>
+        <div style={{ width: '180px' }}>
           <select
-            className="input-instrument"
+            className="saas-input"
             value={permitFilter}
             onChange={(e) => setPermitFilter(e.target.value)}
           >
-            <option value="ALL">[ALL_EXAM_PERMITS]</option>
-            <option value="CLEARED">PERMIT: CLEARED</option>
-            <option value="HOLD">PERMIT: HOLD</option>
+            <option value="ALL">All Exam Permits</option>
+            <option value="CLEARED">Cleared for Exams</option>
+            <option value="HOLD">On Hold</option>
           </select>
         </div>
 
-        <div className="tag-mono" style={{ padding: '0.55rem 0.75rem' }}>
-          COUNT: {filtered.length}/{assessments.length}
+        <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', padding: '0 0.25rem' }}>
+          Showing {filtered.length} of {assessments.length} accounts
         </div>
       </div>
 
-      {/* Hairline Financial Ledger Table */}
-      <div className="instrument-panel" style={{ overflowX: 'auto' }}>
-        <table className="hairline-grid-table">
-          <thead>
-            <tr>
-              <th>STUDENT_ID & NAME</th>
-              <th>CURRICULUM_LOAD</th>
-              <th>NET_ASSESSMENT</th>
-              <th>POSTED_CREDITS</th>
-              <th>BALANCE_DUE</th>
-              <th>SETTLEMENT_STATE</th>
-              <th>EXAM_PERMIT</th>
-              <th style={{ textAlign: 'right' }}>OPERATIONS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.length === 0 ? (
+      {/* Clean Financial Accounts Table */}
+      <div className="saas-card" style={{ overflow: 'hidden' }}>
+        <div className="saas-table-container">
+          <table className="saas-table">
+            <thead>
               <tr>
-                <td colSpan={8} style={{ textAlign: 'center', padding: '3rem', fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}>
-                  [ZERO_ASSESSMENT_RECORDS_LOCATED]
-                </td>
+                <th>Student ID & Name</th>
+                <th>Program</th>
+                <th>Net Assessment</th>
+                <th>Total Paid</th>
+                <th>Remaining Balance</th>
+                <th>Payment Status</th>
+                <th>Exam Permit</th>
+                <th style={{ textAlign: 'right' }}>Actions</th>
               </tr>
-            ) : (
-              filtered.map((a) => {
-                const student = a.enrollment?.student;
-                const balance = Number(a.balance);
-                const net = Number(a.netTotal);
-                const paid = Number(a.totalPaid);
-                const isCleared = a.examPermitStatus === 'CLEARED';
-                const latestPayment = a.payments?.[0];
+            </thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={8} style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
+                    No student assessment accounts match the filter criteria.
+                  </td>
+                </tr>
+              ) : (
+                filtered.map((a) => {
+                  const student = a.enrollment?.student;
+                  const balance = Number(a.balance);
+                  const net = Number(a.netTotal);
+                  const paid = Number(a.totalPaid);
+                  const isCleared = a.examPermitStatus === 'CLEARED';
+                  const latestPayment = a.payments?.[0];
 
-                return (
-                  <tr key={a.id}>
-                    <td>
-                      <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 800, color: 'var(--signal-amber)' }}>
-                        {student?.studentNo}
-                      </div>
-                      <div style={{ fontWeight: 700, fontSize: '0.82rem' }}>
-                        {student?.lastName}, {student?.firstName}
-                      </div>
-                    </td>
-                    <td>
-                      <div style={{ fontWeight: 700, fontSize: '0.8rem' }}>{student?.program?.code}</div>
-                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-dim)' }}>
-                        LOAD: {a.enrollment?.totalUnits || 0}_UNITS
-                      </div>
-                    </td>
-                    <td>
-                      <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '0.82rem' }}>
-                        ₱{net.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                      </div>
-                      {Number(a.discountAmount) > 0 && (
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--signal-green)' }}>
-                          GRANT: -₱{Number(a.discountAmount).toFixed(2)}
+                  return (
+                    <tr key={a.id}>
+                      <td>
+                        <div className="font-mono-numbers" style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+                          {student?.studentNo}
                         </div>
-                      )}
-                    </td>
-                    <td>
-                      <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--signal-green)', fontSize: '0.82rem' }}>
-                        ₱{paid.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                      </div>
-                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: 'var(--text-dim)' }}>
-                        POSTED_TX: {a.payments?.length || 0}
-                      </div>
-                    </td>
-                    <td>
-                      <div
-                        style={{
-                          fontFamily: 'var(--font-mono)',
-                          fontWeight: 800,
-                          fontSize: '0.85rem',
-                          color: balance > 0 ? 'var(--signal-red)' : 'var(--signal-green)',
-                        }}
-                      >
-                        ₱{balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                      </div>
-                      {balance > 0 && Number(a.downpaymentDue) > 0 && (
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-dim)' }}>
-                          MIN_DOWN: ₱{Number(a.downpaymentDue).toFixed(2)}
+                        <div style={{ fontWeight: 500, fontSize: '0.82rem' }}>
+                          {student?.lastName}, {student?.firstName}
                         </div>
-                      )}
-                    </td>
-                    <td>
-                      <span
-                        className={`tag-mono ${
-                          a.status === 'PAID'
-                            ? 'tag-green'
-                            : a.status === 'PARTIAL'
-                            ? 'tag-amber'
-                            : 'tag-red'
-                        }`}
-                        style={{ fontSize: '0.65rem' }}
-                      >
-                        [{a.status}]
-                      </span>
-                    </td>
-                    <td>
-                      <span
-                        className={`tag-mono ${isCleared ? 'tag-green' : 'tag-red'}`}
-                        style={{ fontSize: '0.65rem' }}
-                      >
-                        {isCleared ? '[CLEARED]' : '[HOLD]'}
-                      </span>
-                    </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <div style={{ display: 'inline-flex', gap: '0.35rem' }}>
-                        {balance > 0 && (
-                          <button
-                            onClick={() => onOpenPayment(a)}
-                            className="btn-mechanical btn-signal-amber btn-sm"
-                            title="Execute cash or electronic payment"
-                          >
-                            [EXEC_PAY]
-                          </button>
+                      </td>
+                      <td>
+                        <div style={{ fontWeight: 500 }}>{student?.program?.code}</div>
+                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                          {a.enrollment?.totalUnits || 0} units
+                        </div>
+                      </td>
+                      <td>
+                        <div className="font-mono-numbers" style={{ fontWeight: 600 }}>
+                          ₱{net.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </div>
+                        {Number(a.discountAmount) > 0 && (
+                          <div style={{ fontSize: '0.72rem', color: '#10b981' }}>
+                            Grant: -₱{Number(a.discountAmount).toFixed(2)}
+                          </div>
                         )}
-
-                        <button
-                          onClick={() => onOpenSoa(a)}
-                          className="btn-mechanical btn-sm"
-                          title="Generate official Statement of Account"
+                      </td>
+                      <td>
+                        <div className="font-mono-numbers" style={{ fontWeight: 600, color: '#10b981' }}>
+                          ₱{paid.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </div>
+                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                          {a.payments?.length || 0} payments posted
+                        </div>
+                      </td>
+                      <td>
+                        <div
+                          className="font-mono-numbers"
+                          style={{
+                            fontWeight: 600,
+                            color: balance > 0 ? '#f43f5e' : '#10b981',
+                          }}
                         >
-                          [SOA]
-                        </button>
-
-                        {latestPayment && (
-                          <button
-                            onClick={() =>
-                              onOpenReceipt({
-                                payment: latestPayment,
-                                assessment: a,
-                                student,
-                              })
-                            }
-                            className="btn-mechanical btn-sm"
-                            title="Inspect official receipt"
-                          >
-                            [OR]
-                          </button>
+                          ₱{balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </div>
+                        {balance > 0 && Number(a.downpaymentDue) > 0 && (
+                          <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                            Min down: ₱{Number(a.downpaymentDue).toFixed(2)}
+                          </div>
                         )}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </table>
+                      </td>
+                      <td>
+                        <span
+                          className={`badge-status ${
+                            a.status === 'PAID'
+                              ? 'badge-green'
+                              : a.status === 'PARTIAL'
+                              ? 'badge-amber'
+                              : 'badge-red'
+                          }`}
+                        >
+                          {a.status === 'PAID'
+                            ? 'Fully Paid'
+                            : a.status === 'PARTIAL'
+                            ? 'Partial'
+                            : 'Unpaid'}
+                        </span>
+                      </td>
+                      <td>
+                        <span
+                          className={`badge-status ${isCleared ? 'badge-green' : 'badge-red'}`}
+                        >
+                          {isCleared ? 'Cleared' : 'On Hold'}
+                        </span>
+                      </td>
+                      <td style={{ textAlign: 'right' }}>
+                        <div style={{ display: 'inline-flex', gap: '0.35rem' }}>
+                          {balance > 0 && (
+                            <button
+                              onClick={() => onOpenPayment(a)}
+                              className="btn-saas btn-saas-primary btn-saas-sm"
+                            >
+                              Pay
+                            </button>
+                          )}
+
+                          <button
+                            onClick={() => onOpenSoa(a)}
+                            className="btn-saas btn-saas-sm"
+                          >
+                            Statement
+                          </button>
+
+                          {latestPayment && (
+                            <button
+                              onClick={() =>
+                                onOpenReceipt({
+                                  payment: latestPayment,
+                                  assessment: a,
+                                  student,
+                                })
+                              }
+                              className="btn-saas btn-saas-sm"
+                            >
+                              Receipt
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

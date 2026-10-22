@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { ArrowUpRight } from 'lucide-react';
 
 interface DashboardViewProps {
   stats: any;
@@ -22,156 +23,151 @@ export default function DashboardView({
   const currency = '₱';
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-      {/* Precision Instrument Readouts (4 Metres) */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      {/* 4 Clean SaaS Metric Cards */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: '1px',
-          background: 'var(--border-hairline)',
-          border: '1px solid var(--border-hairline)',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gap: '1rem',
         }}
       >
-        {/* Metre 1: Enrolled Headcount */}
-        <div style={{ background: 'var(--bg-surface)', padding: '1rem 1.25rem' }}>
-          <div className="instrument-header-bar" style={{ margin: '-1rem -1.25rem 0.85rem', padding: '0.45rem 1rem' }}>
-            <span>METRIC:01 // ENROLLMENT_LOAD</span>
-            <span style={{ color: 'var(--signal-green)' }}>[ONLINE]</span>
+        {/* Metric 1: Total Enrolled */}
+        <div className="saas-card" style={{ padding: '1.25rem' }}>
+          <div style={{ fontSize: '0.82rem', fontWeight: 500, color: 'var(--text-secondary)' }}>
+            Total Enrolled Students
           </div>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-            <div className="telemetry-value" style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-              {stats?.totalEnrolled || 0}
-            </div>
-            <span className="tag-mono tag-cyan">HEADCOUNT</span>
+          <div
+            className="font-mono-numbers"
+            style={{ fontSize: '2rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '0.35rem', letterSpacing: '-0.02em' }}
+          >
+            {stats?.totalEnrolled || 0}
           </div>
-          <div style={{ marginTop: '0.65rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-dim)' }}>
-            REGISTERED_PROFILES: {stats?.totalStudents || 0} // ALLOCATION: 100%
-          </div>
-        </div>
-
-        {/* Metre 2: Daily Collections */}
-        <div style={{ background: 'var(--bg-surface)', padding: '1rem 1.25rem' }}>
-          <div className="instrument-header-bar" style={{ margin: '-1rem -1.25rem 0.85rem', padding: '0.45rem 1rem' }}>
-            <span>METRIC:02 // DIURNAL_COLLECTIONS</span>
-            <span style={{ color: 'var(--signal-amber)' }}>[VERIFIED]</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-            <div className="telemetry-value" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--signal-amber)' }}>
-              {currency}{Number(stats?.todayCollectionTotal || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-            </div>
-            <span className="tag-mono tag-amber">CASHIER_04</span>
-          </div>
-          <div style={{ marginTop: '0.65rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-dim)' }}>
-            CYCLE: CURRENT_DAY_REGISTER // VERIFIED_OR_ONLY
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
+            {stats?.totalStudents || 0} total registered student profiles
           </div>
         </div>
 
-        {/* Metre 3: Semester Total Collection */}
-        <div style={{ background: 'var(--bg-surface)', padding: '1rem 1.25rem' }}>
-          <div className="instrument-header-bar" style={{ margin: '-1rem -1.25rem 0.85rem', padding: '0.45rem 1rem' }}>
-            <span>METRIC:03 // CUMULATIVE_REVENUE</span>
-            <span style={{ color: 'var(--text-secondary)' }}>[POSTED]</span>
+        {/* Metric 2: Today's Collections */}
+        <div className="saas-card" style={{ padding: '1.25rem' }}>
+          <div style={{ fontSize: '0.82rem', fontWeight: 500, color: 'var(--text-secondary)' }}>
+            Today's Collections
           </div>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-            <div className="telemetry-value" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-              {currency}{Number(stats?.totalCollected || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-            </div>
-            <span className="tag-mono">[NET_TOTAL]</span>
+          <div
+            className="font-mono-numbers"
+            style={{ fontSize: '2rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '0.35rem', letterSpacing: '-0.02em' }}
+          >
+            {currency}{Number(stats?.todayCollectionTotal || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
-          <div style={{ marginTop: '0.65rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-dim)' }}>
-            TOTAL_ASSESSED: {currency}{Number(stats?.totalAssessed || 0).toLocaleString()}
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
+            Processed through active cashier registers today
           </div>
         </div>
 
-        {/* Metre 4: Receivables & Clearance */}
-        <div style={{ background: 'var(--bg-surface)', padding: '1rem 1.25rem' }}>
-          <div className="instrument-header-bar" style={{ margin: '-1rem -1.25rem 0.85rem', padding: '0.45rem 1rem' }}>
-            <span>METRIC:04 // RECEIVABLES_LEDGER</span>
-            <span style={{ color: 'var(--signal-red)' }}>[PENDING]</span>
+        {/* Metric 3: Total Semester Collections */}
+        <div className="saas-card" style={{ padding: '1.25rem' }}>
+          <div style={{ fontSize: '0.82rem', fontWeight: 500, color: 'var(--text-secondary)' }}>
+            Total Semester Collections
           </div>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-            <div className="telemetry-value" style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--signal-red)' }}>
-              {currency}{Number(stats?.totalReceivables || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-            </div>
-            <span className="tag-mono tag-red">UNSETTLED</span>
+          <div
+            className="font-mono-numbers"
+            style={{ fontSize: '2rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '0.35rem', letterSpacing: '-0.02em' }}
+          >
+            {currency}{Number(stats?.totalCollected || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
-          <div style={{ marginTop: '0.65rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-            <span className="tag-mono tag-green" style={{ fontSize: '0.65rem' }}>
-              CLEARED: {stats?.examClearedCount || 0}
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
+            Out of {currency}{Number(stats?.totalAssessed || 0).toLocaleString()} net assessments
+          </div>
+        </div>
+
+        {/* Metric 4: Outstanding Receivables */}
+        <div className="saas-card" style={{ padding: '1.25rem' }}>
+          <div style={{ fontSize: '0.82rem', fontWeight: 500, color: 'var(--text-secondary)' }}>
+            Outstanding Balance
+          </div>
+          <div
+            className="font-mono-numbers"
+            style={{ fontSize: '2rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '0.35rem', letterSpacing: '-0.02em' }}
+          >
+            {currency}{Number(stats?.totalReceivables || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+          </div>
+          <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span className="badge-status badge-green" style={{ fontSize: '0.7rem' }}>
+              {stats?.examClearedCount || 0} Cleared
             </span>
-            <span className="tag-mono tag-red" style={{ fontSize: '0.65rem' }}>
-              HOLD: {stats?.examHoldCount || 0}
+            <span className="badge-status badge-red" style={{ fontSize: '0.7rem' }}>
+              {stats?.examHoldCount || 0} On Hold
             </span>
           </div>
         </div>
       </div>
 
-      {/* Structured Tactical Command Strip */}
+      {/* Quick Action Navigation Strip */}
       <div
-        className="instrument-panel"
+        className="saas-card"
         style={{
-          padding: '0.85rem 1.25rem',
+          padding: '1rem 1.25rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: '1rem',
-          background: 'var(--bg-surface-sunken)',
+          background: 'var(--bg-surface-elevated)',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <span className="tag-mono tag-amber">[CONSOLE_CMD]</span>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', fontWeight: 700 }}>
-              TERMINAL INTERFACE DIRECT ACCESS
-            </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-dim)' }}>
-              EXECUTE ADMISSION REGISTRATION // CASHIER PAYMENT CLEARANCE
-            </div>
+        <div>
+          <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+            Quick Actions
+          </div>
+          <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+            Navigate directly to student admissions or the payment collection register.
           </div>
         </div>
 
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button onClick={() => onNavigate('registrar')} className="btn-mechanical btn-signal-amber btn-sm">
-            [CMD: ADMISSIONS_DESK] <span className="hotkey-tag">R</span>
+          <button onClick={() => onNavigate('registrar')} className="btn-saas btn-saas-primary">
+            Registrar Workspace
           </button>
-          <button onClick={() => onNavigate('cashier')} className="btn-mechanical btn-sm">
-            [CMD: CASHIER_REGISTER] <span className="hotkey-tag">C</span>
+          <button onClick={() => onNavigate('cashier')} className="btn-saas">
+            Cashier Register
           </button>
         </div>
       </div>
 
-      {/* Dual Telemetry Log Feeds */}
+      {/* Two Clean Data Tables */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: '1.25rem' }}>
-        {/* Left: Financial Ledger Stream */}
-        <div className="instrument-panel">
-          <div className="instrument-header-bar">
-            <span>REGISTER_FEED // CASHIER_COLLECTIONS_LOG</span>
+        {/* Left Table: Recent Collections */}
+        <div className="saas-card" style={{ overflow: 'hidden' }}>
+          <div className="card-header">
+            <div>
+              <div className="card-title">Recent Collections</div>
+              <div className="card-description">Latest official payment receipts recorded</div>
+            </div>
             <button
               onClick={() => onNavigate('cashier')}
-              style={{ background: 'transparent', border: 'none', color: 'var(--signal-amber)', fontFamily: 'var(--font-mono)', fontSize: '0.68rem', cursor: 'pointer' }}
+              className="btn-saas btn-saas-sm"
+              style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', display: 'inline-flex', alignItems: 'center', gap: '0.2rem' }}
             >
-              [FULL_LOG ➔]
+              View all <ArrowUpRight size={13} />
             </button>
           </div>
 
-          <div style={{ overflowX: 'auto' }}>
-            <table className="hairline-grid-table">
+          <div className="saas-table-container">
+            <table className="saas-table">
               <thead>
                 <tr>
-                  <th>REF_OR</th>
-                  <th>PAYOR_IDENTITY</th>
-                  <th>METHOD</th>
-                  <th style={{ textAlign: 'right' }}>VAL_POSTED</th>
-                  <th style={{ textAlign: 'right' }}>ACTION</th>
+                  <th>Receipt No.</th>
+                  <th>Student Name</th>
+                  <th>Method</th>
+                  <th style={{ textAlign: 'right' }}>Amount</th>
+                  <th style={{ textAlign: 'right' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {recentPayments.length === 0 ? (
                   <tr>
-                    <td colSpan={5} style={{ textAlign: 'center', padding: '2rem', fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}>
-                      [NO_TRANSACTIONS_LOGGED_IN_SESSION]
+                    <td colSpan={5} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
+                      No payment transactions recorded yet.
                     </td>
                   </tr>
                 ) : (
@@ -179,24 +175,28 @@ export default function DashboardView({
                     const st = p.assessment?.enrollment?.student;
                     return (
                       <tr key={p.id}>
-                        <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--signal-amber)' }}>
-                          {p.orNumber}
+                        <td>
+                          <span className="font-mono-numbers" style={{ fontWeight: 600, fontSize: '0.8rem', color: 'var(--text-primary)' }}>
+                            {p.orNumber}
+                          </span>
                         </td>
                         <td>
-                          <div style={{ fontWeight: 600, fontSize: '0.78rem' }}>
-                            {st ? `${st.lastName}, ${st.firstName}` : p.paidBy}
+                          <div style={{ fontWeight: 500, fontSize: '0.82rem' }}>
+                            {st ? `${st.firstName} ${st.lastName}` : p.paidBy}
                           </div>
-                          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-dim)' }}>
+                          <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                             {new Date(p.paymentDate).toLocaleDateString()}
                           </div>
                         </td>
                         <td>
-                          <span className="tag-mono" style={{ fontSize: '0.62rem' }}>
-                            [{p.paymentMethod}]
+                          <span className="badge-status badge-neutral" style={{ fontSize: '0.7rem' }}>
+                            {p.paymentMethod}
                           </span>
                         </td>
-                        <td style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
-                          ₱{Number(p.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        <td style={{ textAlign: 'right' }}>
+                          <span className="font-mono-numbers" style={{ fontWeight: 600, fontSize: '0.82rem' }}>
+                            ₱{Number(p.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          </span>
                         </td>
                         <td style={{ textAlign: 'right' }}>
                           <button
@@ -207,10 +207,9 @@ export default function DashboardView({
                                 student: st,
                               })
                             }
-                            className="btn-mechanical btn-sm"
-                            style={{ padding: '0.2rem 0.45rem', fontSize: '0.65rem' }}
+                            className="btn-saas btn-saas-sm"
                           >
-                            [OR]
+                            Receipt
                           </button>
                         </td>
                       </tr>
@@ -222,65 +221,72 @@ export default function DashboardView({
           </div>
         </div>
 
-        {/* Right: Academic Enrollment Stream */}
-        <div className="instrument-panel">
-          <div className="instrument-header-bar">
-            <span>REGISTRAR_FEED // ENROLLMENT_COMMITS</span>
+        {/* Right Table: Recent Enrollments */}
+        <div className="saas-card" style={{ overflow: 'hidden' }}>
+          <div className="card-header">
+            <div>
+              <div className="card-title">Recent Enrollments</div>
+              <div className="card-description">Latest student study load commitments</div>
+            </div>
             <button
               onClick={() => onNavigate('registrar')}
-              style={{ background: 'transparent', border: 'none', color: 'var(--signal-amber)', fontFamily: 'var(--font-mono)', fontSize: '0.68rem', cursor: 'pointer' }}
+              className="btn-saas btn-saas-sm"
+              style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', display: 'inline-flex', alignItems: 'center', gap: '0.2rem' }}
             >
-              [FULL_REGISTRY ➔]
+              View directory <ArrowUpRight size={13} />
             </button>
           </div>
 
-          <div style={{ overflowX: 'auto' }}>
-            <table className="hairline-grid-table">
+          <div className="saas-table-container">
+            <table className="saas-table">
               <thead>
                 <tr>
-                  <th>STUDENT_ID</th>
-                  <th>CANDIDATE_NAME</th>
-                  <th>LOAD</th>
-                  <th>ASSESSMENT</th>
-                  <th style={{ textAlign: 'right' }}>ACTION</th>
+                  <th>Student No.</th>
+                  <th>Student Name</th>
+                  <th>Load</th>
+                  <th>Assessment</th>
+                  <th style={{ textAlign: 'right' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {recentEnrollments.length === 0 ? (
                   <tr>
-                    <td colSpan={5} style={{ textAlign: 'center', padding: '2rem', fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}>
-                      [NO_ENROLLMENT_RECORDS_REGISTERED]
+                    <td colSpan={5} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
+                      No enrollments recorded for this term yet.
                     </td>
                   </tr>
                 ) : (
                   recentEnrollments.map((enr) => (
                     <tr key={enr.id}>
-                      <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--text-primary)' }}>
-                        {enr.student?.studentNo}
-                      </td>
                       <td>
-                        <div style={{ fontWeight: 600, fontSize: '0.78rem' }}>
-                          {enr.student?.lastName}, {enr.student?.firstName}
-                        </div>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-dim)' }}>
-                          {enr.student?.program?.code} // YR_{enr.yearLevel}
-                        </div>
-                      </td>
-                      <td>
-                        <span className="tag-mono" style={{ fontSize: '0.62rem' }}>
-                          {enr.totalUnits}_UNITS
+                        <span className="font-mono-numbers" style={{ fontWeight: 600, fontSize: '0.8rem', color: 'var(--text-primary)' }}>
+                          {enr.student?.studentNo}
                         </span>
                       </td>
-                      <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '0.78rem' }}>
-                        ₱{Number(enr.assessment?.netTotal || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      <td>
+                        <div style={{ fontWeight: 500, fontSize: '0.82rem' }}>
+                          {enr.student?.firstName} {enr.student?.lastName}
+                        </div>
+                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                          {enr.student?.program?.code} · Year {enr.yearLevel}
+                        </div>
+                      </td>
+                      <td>
+                        <span className="badge-status badge-neutral" style={{ fontSize: '0.7rem' }}>
+                          {enr.totalUnits} units
+                        </span>
+                      </td>
+                      <td>
+                        <span className="font-mono-numbers" style={{ fontWeight: 600, fontSize: '0.82rem' }}>
+                          ₱{Number(enr.assessment?.netTotal || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </span>
                       </td>
                       <td style={{ textAlign: 'right' }}>
                         <button
                           onClick={() => onOpenCor(enr)}
-                          className="btn-mechanical btn-sm"
-                          style={{ padding: '0.2rem 0.45rem', fontSize: '0.65rem' }}
+                          className="btn-saas btn-saas-sm"
                         >
-                          [COR]
+                          View COR
                         </button>
                       </td>
                     </tr>
