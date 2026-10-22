@@ -1,0 +1,268 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  REGISTRAR
+  CASHIER
+}
+
+enum StudentStatus {
+  REGULAR
+  IRREGULAR
+  TRANSFEREE
+  RETURNEE
+}
+
+enum EnrollmentStatus {
+  DRAFT
+  ASSESSED
+  OFFICIALLY_ENROLLED
+  DROPPED
+}
+
+enum ExamPermitStatus {
+  HOLD
+  CLEARED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PARTIAL
+  PAID
+}
+
+enum PaymentMethod {
+  CASH
+  CHECK
+  BANK_TRANSFER
+  GCASH
+  PAYMAYA
+}
+
+enum FeeCategory {
+  TUITION
+  MISCELLANEOUS
+  LABORATORY
+  OTHER
+}
+
+model User {
+  id           String     @id @default(uuid())
+  name         String
+  email        String     @unique
+  passwordHash String     @default("password123")
+  role         Role       @default(REGISTRAR)
+  department   String?
+  active       Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  auditLogs    AuditLog[]
+}
+
+model SystemSetting {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       String   @db.Text
+  description String?
+  updatedAt   DateTime @updatedAt
+}
+
+model Department {
+  id          String    @id @default(uuid())
+  code        String    @unique
+  name        String
+  description String?
+  programs    Program[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Program {
+  id              String           @id @default(uuid())
+  code            String           @unique
+  name            String
+  departmentId    String
+  department      Department       @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  yearsCount      Int              @default(4)
+  students        Student[]
+  programSubjects ProgramSubject[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model Subject {
+  id               String            @id @default(uuid())
+  code             String            @unique
+  title            String
+  lecUnits         Int               @default(3)
+  labUnits         Int               @default(0)
+  totalUnits       Int               @default(3)
+  prerequisite     String?
+  programSubjects  ProgramSubject[]
+  enrolledSubjects EnrolledSubject[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model ProgramSubject {
+  id        String   @id @default(uuid())
+  programId String
+  program   Program  @relation(fields: [programId], references: [id], onDelete: Cascade)
+  subjectId String
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  yearLevel Int
+  semester  String
+  createdAt DateTime @default(now())
+
+  @@unique([programId, subjectId, yearLevel, semester])
+}
+
+model AcademicTerm {
+  id          String       @id @default(uuid())
+  code        String       @unique
+  name        String
+  schoolYear  String
+  semester    String
+  isCurrent   Boolean      @default(false)
+  enrollments Enrollment[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Student {
+  id            String        @id @default(uuid())
+  studentNo     String        @unique
+  firstName     String
+  middleName    String?
+  lastName      String
+  extensionName String?
+  gender        String
+  birthDate     DateTime?
+  email         String?
+  phone         String?
+  address       String?
+  guardianName  String?
+  guardianPhone String?
+  yearLevel     Int           @default(1)
+  status        StudentStatus @default(REGULAR)
+  programId     String
+  program       Program       @relation(fields: [programId], references: [id])
+  enrollments   Enrollment[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Enrollment {
+  id            String           @id @default(uuid())
+  studentId     String
+  student       Student          @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  termId        String
+  academicTerm  AcademicTerm     @relation(fields: [termId], references: [id])
+  yearLevel     Int
+  status        EnrollmentStatus @default(DRAFT)
+  totalLecUnits Int              @default(0)
+  totalLabUnits Int              @default(0)
+  totalUnits    Int              @default(0)
+  dateEnrolled  DateTime         @default(now())
+  subjects      EnrolledSubject[]
+  assessment    Assessment?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@unique([studentId, termId])
+}
+
+model EnrolledSubject {
+  id           String     @id @default(uuid())
+  enrollmentId String
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  subjectId    String
+  subject      Subject    @relation(fields: [subjectId], references: [id])
+  section      String     @default("A")
+  schedule     String?
+  room         String?
+  grade        String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model FeeTemplate {
+  id        String      @id @default(uuid())
+  category  FeeCategory @default(MISCELLANEOUS)
+  code      String      @unique
+  name      String
+  amount    Decimal     @db.Decimal(10, 2)
+  isPerUnit Boolean     @default(false)
+  isDefault Boolean     @default(true)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model Assessment {
+  id               String           @id @default(uuid())
+  enrollmentId     String           @unique
+  enrollment       Enrollment       @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  tuitionFee       Decimal          @db.Decimal(10, 2)
+  miscTotal        Decimal          @db.Decimal(10, 2)
+  labTotal         Decimal          @db.Decimal(10, 2)
+  otherTotal       Decimal          @default(0.00) @db.Decimal(10, 2)
+  grossTotal       Decimal          @db.Decimal(10, 2)
+  discountType     String?
+  discountAmount   Decimal          @default(0.00) @db.Decimal(10, 2)
+  netTotal         Decimal          @db.Decimal(10, 2)
+  totalPaid        Decimal          @default(0.00) @db.Decimal(10, 2)
+  balance          Decimal          @db.Decimal(10, 2)
+  downpaymentDue   Decimal          @default(0.00) @db.Decimal(10, 2)
+  prelimDue        Decimal          @default(0.00) @db.Decimal(10, 2)
+  midtermDue       Decimal          @default(0.00) @db.Decimal(10, 2)
+  finalDue         Decimal          @default(0.00) @db.Decimal(10, 2)
+  examPermitStatus ExamPermitStatus @default(HOLD)
+  status           PaymentStatus    @default(UNPAID)
+  items            AssessmentItem[]
+  payments         Payment[]
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+}
+
+model AssessmentItem {
+  id           String      @id @default(uuid())
+  assessmentId String
+  assessment   Assessment  @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  category     FeeCategory
+  feeName      String
+  amount       Decimal     @db.Decimal(10, 2)
+}
+
+model Payment {
+  id           String        @id @default(uuid())
+  assessmentId String
+  assessment   Assessment    @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  orNumber     String        @unique
+  amount       Decimal       @db.Decimal(10, 2)
+  paymentMethod PaymentMethod @default(CASH)
+  referenceNo  String?
+  paidBy       String
+  cashierName  String
+  remarks      String?
+  paymentDate  DateTime      @default(now())
+  createdAt    DateTime      @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userName  String
+  role      String
+  action    String
+  entity    String
+  details   String?  @db.Text
+  createdAt DateTime @default(now())
+}
