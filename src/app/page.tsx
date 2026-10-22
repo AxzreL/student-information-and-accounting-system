@@ -13,6 +13,7 @@ import PaymentModal from '@/components/PaymentModal';
 import PrintReceiptModal from '@/components/PrintReceiptModal';
 import PrintCorModal from '@/components/PrintCorModal';
 import PrintSoaModal from '@/components/PrintSoaModal';
+import CursorGlow from '@/components/CursorGlow';
 
 export default function Home() {
   const [currentRole, setCurrentRole] = useState<UserRole>('REGISTRAR');
@@ -223,7 +224,10 @@ export default function Home() {
   const activeTermName = currentTerm?.name || 'AY 2024-2025 First Semester';
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', background: 'var(--bg-main)' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', background: 'var(--bg-canvas)' }}>
+      {/* Ambient Cursor Spotlight */}
+      <CursorGlow />
+
       {/* Circular Screen Transition Overlay (Fallback) */}
       {circleRipple && (
         <div
