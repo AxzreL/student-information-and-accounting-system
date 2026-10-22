@@ -26,16 +26,16 @@ export default function CursorGlow() {
         });
       }
 
-      // Emit light on movement
+      // Emit subtle glass sheen on movement
       setIsEmitting(true);
 
-      // Reset timer: fade light out smoothly 550ms after motion ceases
+      // Reset timer: softly dissolve glass sheen 450ms after motion ceases
       if (idleTimerRef.current) {
         clearTimeout(idleTimerRef.current);
       }
       idleTimerRef.current = setTimeout(() => {
         setIsEmitting(false);
-      }, 550);
+      }, 450);
     };
 
     const handleMouseLeave = () => {
