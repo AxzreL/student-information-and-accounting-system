@@ -3,8 +3,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 /**
- * Ambient background light that strictly sits on the background canvas
- * and emits a soft luminescence only when the cursor is in motion.
+ * Architectural glass background with motion-reactive specular illumination.
+ * Strictly positioned on the background canvas (z-index: 0), rendering a smoked glass
+ * backdrop whose crystalline grid and specular sheen gently illuminate only when the cursor moves.
  */
 export default function CursorGlow() {
   const [isEmitting, setIsEmitting] = useState(false);
@@ -26,10 +27,10 @@ export default function CursorGlow() {
         });
       }
 
-      // Emit subtle glass sheen on movement
+      // Emit subtle glass sheen and grid illumination on movement
       setIsEmitting(true);
 
-      // Reset timer: softly dissolve glass sheen 450ms after motion ceases
+      // Smoothly dissolve glass sheen 450ms after motion ceases
       if (idleTimerRef.current) {
         clearTimeout(idleTimerRef.current);
       }
@@ -55,9 +56,15 @@ export default function CursorGlow() {
   }, []);
 
   return (
-    <div
-      className={`cursor-bg-spotlight ${isEmitting ? 'emitting' : ''}`}
-      aria-hidden="true"
-    />
+    <div className="glass-canvas-container" aria-hidden="true">
+      {/* Permanent, ultra-subtle base smoked glass canvas depth */}
+      <div className="glass-canvas-base" />
+
+      {/* Optical glass specular reflection - glides smoothly with cursor */}
+      <div className={`glass-specular-sheen ${isEmitting ? 'emitting' : ''}`} />
+
+      {/* Crystalline glass grid - softly illuminates only around moving cursor */}
+      <div className={`glass-grid-illumination ${isEmitting ? 'emitting' : ''}`} />
+    </div>
   );
 }
