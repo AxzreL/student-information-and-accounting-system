@@ -4,16 +4,16 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', Consolas, monospace;
 
-  /* Linear / Stripe / Railway Modern Dark Theme */
+  /* Linear / Stripe / Railway Modern Dark Theme Tokens */
   --bg-canvas: #090a0c;
   --bg-surface: #111215;
   --bg-surface-elevated: #18191e;
-  --bg-surface-hover: #1f2026;
+  --bg-surface-hover: #222329;
   --bg-surface-subdued: #0d0e11;
 
-  --border-subtle: rgba(255, 255, 255, 0.07);
-  --border-default: rgba(255, 255, 255, 0.12);
-  --border-strong: rgba(255, 255, 255, 0.22);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-default: rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.25);
   --border-focus: #3b82f6;
 
   --text-primary: #f3f4f6;
@@ -21,26 +21,37 @@
   --text-muted: #6b7280;
   --text-inverse: #090a0c;
 
-  /* Subtle, restrained status accents */
-  --badge-green-bg: rgba(16, 185, 129, 0.1);
+  /* Dedicated Button Tokens (Dark Mode) */
+  --btn-primary-bg: #2563eb;
+  --btn-primary-hover-bg: #1d4ed8;
+  --btn-primary-text: #ffffff;
+  --btn-primary-border: #2563eb;
+
+  --btn-secondary-bg: #18191e;
+  --btn-secondary-hover-bg: #23242b;
+  --btn-secondary-text: #f3f4f6;
+  --btn-secondary-border: rgba(255, 255, 255, 0.14);
+
+  /* Subtle, restrained status accents (Dark Mode) */
+  --badge-green-bg: rgba(16, 185, 129, 0.15);
   --badge-green-text: #34d399;
-  --badge-green-border: rgba(16, 185, 129, 0.25);
+  --badge-green-border: rgba(16, 185, 129, 0.3);
 
-  --badge-amber-bg: rgba(245, 158, 11, 0.1);
+  --badge-amber-bg: rgba(245, 158, 11, 0.15);
   --badge-amber-text: #fbbf24;
-  --badge-amber-border: rgba(245, 158, 11, 0.25);
+  --badge-amber-border: rgba(245, 158, 11, 0.3);
 
-  --badge-red-bg: rgba(244, 63, 94, 0.1);
+  --badge-red-bg: rgba(244, 63, 94, 0.15);
   --badge-red-text: #fb7185;
-  --badge-red-border: rgba(244, 63, 94, 0.25);
+  --badge-red-border: rgba(244, 63, 94, 0.3);
 
-  --badge-blue-bg: rgba(59, 130, 246, 0.1);
+  --badge-blue-bg: rgba(59, 130, 246, 0.15);
   --badge-blue-text: #60a5fa;
-  --badge-blue-border: rgba(59, 130, 246, 0.25);
+  --badge-blue-border: rgba(59, 130, 246, 0.3);
 
-  --badge-gray-bg: rgba(255, 255, 255, 0.05);
-  --badge-gray-text: #d1d5db;
-  --badge-gray-border: rgba(255, 255, 255, 0.1);
+  --badge-gray-bg: rgba(255, 255, 255, 0.08);
+  --badge-gray-text: #e5e7eb;
+  --badge-gray-border: rgba(255, 255, 255, 0.15);
 
   --radius-sm: 4px;
   --radius-md: 6px;
@@ -51,41 +62,54 @@
 }
 
 [data-theme='light'] {
-  --bg-canvas: #f9fafb;
+  /* Clean Stripe / Linear Light Theme Tokens */
+  --bg-canvas: #f8fafc;
   --bg-surface: #ffffff;
-  --bg-surface-elevated: #f3f4f6;
-  --bg-surface-hover: #f1f2f5;
-  --bg-surface-subdued: #f9fafb;
+  --bg-surface-elevated: #f1f5f9;
+  --bg-surface-hover: #e2e8f0;
+  --bg-surface-subdued: #f8fafc;
 
-  --border-subtle: rgba(0, 0, 0, 0.06);
-  --border-default: rgba(0, 0, 0, 0.12);
-  --border-strong: rgba(0, 0, 0, 0.2);
+  --border-subtle: #e2e8f0;
+  --border-default: #cbd5e1;
+  --border-strong: #94a3b8;
   --border-focus: #2563eb;
 
-  --text-primary: #111827;
-  --text-secondary: #4b5563;
-  --text-muted: #9ca3af;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
   --text-inverse: #ffffff;
 
-  --badge-green-bg: rgba(16, 185, 129, 0.12);
-  --badge-green-text: #059669;
-  --badge-green-border: rgba(16, 185, 129, 0.25);
+  /* Dedicated Button Tokens (Light Mode) */
+  --btn-primary-bg: #2563eb;
+  --btn-primary-hover-bg: #1d4ed8;
+  --btn-primary-text: #ffffff;
+  --btn-primary-border: #2563eb;
 
-  --badge-amber-bg: rgba(245, 158, 11, 0.12);
-  --badge-amber-text: #d97706;
-  --badge-amber-border: rgba(245, 158, 11, 0.25);
+  --btn-secondary-bg: #ffffff;
+  --btn-secondary-hover-bg: #f8fafc;
+  --btn-secondary-text: #0f172a;
+  --btn-secondary-border: #cbd5e1;
 
-  --badge-red-bg: rgba(244, 63, 94, 0.12);
-  --badge-red-text: #e11d48;
-  --badge-red-border: rgba(244, 63, 94, 0.25);
+  /* WCAG AAA High-Contrast Status Badges (Light Mode) */
+  --badge-green-bg: #ecfdf5;
+  --badge-green-text: #065f46;
+  --badge-green-border: #a7f3d0;
 
-  --badge-blue-bg: rgba(59, 130, 246, 0.12);
-  --badge-blue-text: #2563eb;
-  --badge-blue-border: rgba(59, 130, 246, 0.25);
+  --badge-amber-bg: #fffbeb;
+  --badge-amber-text: #92400e;
+  --badge-amber-border: #fde68a;
 
-  --badge-gray-bg: rgba(0, 0, 0, 0.05);
-  --badge-gray-text: #4b5563;
-  --badge-gray-border: rgba(0, 0, 0, 0.1);
+  --badge-red-bg: #fff1f2;
+  --badge-red-text: #9f1239;
+  --badge-red-border: #fecdd3;
+
+  --badge-blue-bg: #eff6ff;
+  --badge-blue-text: #1e40af;
+  --badge-blue-border: #bfdbfe;
+
+  --badge-gray-bg: #f1f5f9;
+  --badge-gray-text: #1e293b;
+  --badge-gray-border: #cbd5e1;
 }
 
 /* Circular View Transition API Rules */
@@ -120,6 +144,13 @@
   padding: 0;
 }
 
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
 html,
 body {
   font-family: var(--font-sans);
@@ -138,6 +169,10 @@ body {
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   transition: border-color var(--trans-fast);
+}
+
+[data-theme='light'] .saas-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .saas-card:hover {
@@ -207,7 +242,7 @@ body {
   border: 1px solid var(--badge-gray-border);
 }
 
-/* High-End Clean Buttons */
+/* High-End Clean Buttons (Guaranteed Contrast in Both Themes) */
 .btn-saas {
   display: inline-flex;
   align-items: center;
@@ -217,9 +252,9 @@ body {
   font-size: 0.82rem;
   font-weight: 500;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-default);
-  background: var(--bg-surface-elevated);
-  color: var(--text-primary);
+  border: 1px solid var(--btn-secondary-border);
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text) !important;
   cursor: pointer;
   transition: all var(--trans-fast);
   user-select: none;
@@ -227,26 +262,55 @@ body {
 }
 
 .btn-saas:hover {
-  background: var(--bg-surface-hover);
+  background: var(--btn-secondary-hover-bg);
+  color: var(--btn-secondary-text) !important;
   border-color: var(--border-strong);
 }
 
+/* Primary Action Buttons - High Specificity to Prevent Hover Overwrite */
+.btn-saas.btn-saas-primary,
 .btn-saas-primary {
-  background: var(--text-primary);
-  color: var(--text-inverse);
-  border-color: var(--text-primary);
+  background: var(--btn-primary-bg) !important;
+  color: var(--btn-primary-text) !important;
+  border: 1px solid var(--btn-primary-border) !important;
   font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+.btn-saas.btn-saas-primary:hover,
 .btn-saas-primary:hover {
-  opacity: 0.9;
-  border-color: var(--text-primary);
+  background: var(--btn-primary-hover-bg) !important;
+  color: var(--btn-primary-text) !important;
+  border-color: var(--btn-primary-hover-bg) !important;
+  opacity: 0.95;
 }
 
 .btn-saas-sm {
   padding: 0.3rem 0.6rem;
   font-size: 0.75rem;
 }
+
+/* Clean Link Button */
+.btn-link {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--trans-fast);
+}
+
+.btn-link:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface-hover);
+}
+
 
 /* Clean Structured Data Table */
 .saas-table-container {
@@ -314,12 +378,12 @@ body {
   background: var(--bg-surface-subdued);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
-  padding: 2px;
-  gap: 2px;
+  padding: 3px;
+  gap: 3px;
 }
 
 .segmented-btn {
-  padding: 0.3rem 0.75rem;
+  padding: 0.35rem 0.8rem;
   font-size: 0.78rem;
   font-weight: 500;
   border-radius: var(--radius-sm);
@@ -330,11 +394,45 @@ body {
   transition: all var(--trans-fast);
 }
 
+.segmented-btn:hover {
+  color: var(--text-primary);
+}
+
 .segmented-btn.active {
   background: var(--bg-surface-elevated);
   color: var(--text-primary);
   font-weight: 600;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme='light'] .segmented-btn.active {
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Clean Header Navigation Tabs */
+.tab-nav-btn {
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.65rem 0.85rem;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+  white-space: nowrap;
+}
+
+.tab-nav-btn:hover {
+  color: var(--text-primary);
+}
+
+.tab-nav-btn.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--border-focus);
+  font-weight: 600;
 }
 
 /* Monospace Helpers */

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Users, CreditCard } from 'lucide-react';
 
 interface DashboardViewProps {
   stats: any;
@@ -124,12 +124,12 @@ export default function DashboardView({
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           <button onClick={() => onNavigate('registrar')} className="btn-saas btn-saas-primary">
-            Registrar Workspace
+            <Users size={14} /> Registrar Workspace
           </button>
           <button onClick={() => onNavigate('cashier')} className="btn-saas">
-            Cashier Register
+            <CreditCard size={14} /> Cashier Register
           </button>
         </div>
       </div>
@@ -145,8 +145,7 @@ export default function DashboardView({
             </div>
             <button
               onClick={() => onNavigate('cashier')}
-              className="btn-saas btn-saas-sm"
-              style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', display: 'inline-flex', alignItems: 'center', gap: '0.2rem' }}
+              className="btn-link"
             >
               View all <ArrowUpRight size={13} />
             </button>
@@ -230,8 +229,7 @@ export default function DashboardView({
             </div>
             <button
               onClick={() => onNavigate('registrar')}
-              className="btn-saas btn-saas-sm"
-              style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', display: 'inline-flex', alignItems: 'center', gap: '0.2rem' }}
+              className="btn-link"
             >
               View directory <ArrowUpRight size={13} />
             </button>

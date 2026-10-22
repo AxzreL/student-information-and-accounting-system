@@ -198,54 +198,21 @@ export default function Header({
         >
           <button
             onClick={() => onTabChange('dashboard')}
-            style={{
-              fontSize: '0.82rem',
-              fontWeight: 500,
-              padding: '0.65rem 0.85rem',
-              border: 'none',
-              background: 'transparent',
-              color: activeTab === 'dashboard' ? 'var(--text-primary)' : 'var(--text-secondary)',
-              borderBottom: activeTab === 'dashboard' ? '2px solid var(--text-primary)' : '2px solid transparent',
-              cursor: 'pointer',
-              transition: 'all var(--trans-fast)',
-              whiteSpace: 'nowrap',
-            }}
+            className={`tab-nav-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
           >
             Overview
           </button>
 
           <button
             onClick={() => onTabChange('registrar')}
-            style={{
-              fontSize: '0.82rem',
-              fontWeight: 500,
-              padding: '0.65rem 0.85rem',
-              border: 'none',
-              background: 'transparent',
-              color: activeTab === 'registrar' ? 'var(--text-primary)' : 'var(--text-secondary)',
-              borderBottom: activeTab === 'registrar' ? '2px solid var(--text-primary)' : '2px solid transparent',
-              cursor: 'pointer',
-              transition: 'all var(--trans-fast)',
-              whiteSpace: 'nowrap',
-            }}
+            className={`tab-nav-btn ${activeTab === 'registrar' ? 'active' : ''}`}
           >
             Registrar & Admissions
           </button>
 
           <button
             onClick={() => onTabChange('cashier')}
-            style={{
-              fontSize: '0.82rem',
-              fontWeight: 500,
-              padding: '0.65rem 0.85rem',
-              border: 'none',
-              background: 'transparent',
-              color: activeTab === 'cashier' ? 'var(--text-primary)' : 'var(--text-secondary)',
-              borderBottom: activeTab === 'cashier' ? '2px solid var(--text-primary)' : '2px solid transparent',
-              cursor: 'pointer',
-              transition: 'all var(--trans-fast)',
-              whiteSpace: 'nowrap',
-            }}
+            className={`tab-nav-btn ${activeTab === 'cashier' ? 'active' : ''}`}
           >
             Cashier & Accounting
           </button>
@@ -253,18 +220,7 @@ export default function Header({
           {currentRole === 'ADMIN' && (
             <button
               onClick={() => onTabChange('admin')}
-              style={{
-                fontSize: '0.82rem',
-                fontWeight: 500,
-                padding: '0.65rem 0.85rem',
-                border: 'none',
-                background: 'transparent',
-                color: activeTab === 'admin' ? 'var(--text-primary)' : 'var(--text-secondary)',
-                borderBottom: activeTab === 'admin' ? '2px solid var(--text-primary)' : '2px solid transparent',
-                cursor: 'pointer',
-                transition: 'all var(--trans-fast)',
-                whiteSpace: 'nowrap',
-              }}
+              className={`tab-nav-btn ${activeTab === 'admin' ? 'active' : ''}`}
             >
               System Administration
             </button>
