@@ -42,11 +42,6 @@
   --badge-gray-text: #d1d5db;
   --badge-gray-border: rgba(255, 255, 255, 0.1);
 
-  /* Ultra-subtle glass background and specular sheen tokens */
-  --glass-sheen-core: rgba(255, 255, 255, 0.045);
-  --glass-sheen-ambient: rgba(255, 255, 255, 0.015);
-  --glass-grid-color: rgba(255, 255, 255, 0.04);
-
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 8px;
@@ -91,10 +86,6 @@
   --badge-gray-bg: rgba(0, 0, 0, 0.05);
   --badge-gray-text: #4b5563;
   --badge-gray-border: rgba(0, 0, 0, 0.1);
-
-  --glass-sheen-core: rgba(148, 163, 184, 0.05);
-  --glass-sheen-ambient: rgba(148, 163, 184, 0.015);
-  --glass-grid-color: rgba(0, 0, 0, 0.035);
 }
 
 /* Circular View Transition API Rules */
@@ -122,94 +113,6 @@
   will-change: clip-path;
   transition: clip-path 500ms cubic-bezier(0.2, 0, 0, 1);
 }
-
-/* Architectural Glass Background & Motion Illumination System */
-.glass-canvas-container {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0; /* Strictly background layer behind content cards and tables */
-  overflow: hidden;
-}
-
-/* 1. Permanent ultra-faint glass canvas depth (smoked glass ambient vignette) */
-.glass-canvas-base {
-  position: absolute;
-  inset: 0;
-  background: 
-    radial-gradient(120% 80% at 50% -10%, rgba(255, 255, 255, 0.02) 0%, transparent 60%),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.008) 0%, transparent 100%);
-}
-
-[data-theme='light'] .glass-canvas-base {
-  background: 
-    radial-gradient(120% 80% at 50% -10%, rgba(0, 0, 0, 0.015) 0%, transparent 60%),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.008) 0%, transparent 100%);
-}
-
-/* 2. Optical Glass Specular Sheen (Emits softly on cursor movement) */
-.glass-specular-sheen {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity;
-  background: 
-    /* Specular elongated glass reflection */
-    radial-gradient(
-      ellipse 480px 200px at var(--mouse-x, -1000px) var(--mouse-y, -1000px),
-      var(--glass-sheen-core) 0%,
-      transparent 70%
-    ),
-    /* Faint ambient glass dispersion */
-    radial-gradient(
-      circle 360px at var(--mouse-x, -1000px) var(--mouse-y, -1000px),
-      var(--glass-sheen-ambient) 0%,
-      transparent 65%
-    );
-}
-
-.glass-specular-sheen.emitting {
-  opacity: 1;
-  transition: opacity 0.22s ease-out;
-}
-
-/* 3. Crystalline Glass Grid Illumination (Revealed only around moving cursor) */
-.glass-grid-illumination {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity;
-  background-image: 
-    linear-gradient(to right, var(--glass-grid-color) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--glass-grid-color) 1px, transparent 1px);
-  background-size: 36px 36px;
-  mask-image: radial-gradient(
-    280px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px),
-    black 0%,
-    rgba(0, 0, 0, 0.4) 40%,
-    transparent 70%
-  );
-  -webkit-mask-image: radial-gradient(
-    280px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px),
-    black 0%,
-    rgba(0, 0, 0, 0.4) 40%,
-    transparent 70%
-  );
-}
-
-.glass-grid-illumination.emitting {
-  opacity: 1;
-  transition: opacity 0.22s ease-out;
-}
-
-@media (hover: none) and (pointer: coarse) {
-  .glass-canvas-container {
-    display: none !important;
-  }
-}
-
 
 * {
   box-sizing: border-box;
