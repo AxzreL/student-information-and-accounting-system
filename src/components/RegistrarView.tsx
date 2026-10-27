@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, Plus } from 'lucide-react';
+import { Search, Plus, FileCheck } from 'lucide-react';
 
 interface RegistrarViewProps {
   students: any[];
@@ -9,6 +9,7 @@ interface RegistrarViewProps {
   onOpenNewStudent: () => void;
   onOpenEnrollment: (student: any) => void;
   onOpenCor: (enrollmentData: any) => void;
+  onOpenAcademicClearance?: () => void;
 }
 
 export default function RegistrarView({
@@ -17,6 +18,7 @@ export default function RegistrarView({
   onOpenNewStudent,
   onOpenEnrollment,
   onOpenCor,
+  onOpenAcademicClearance,
 }: RegistrarViewProps) {
   const [search, setSearch] = useState('');
   const [selectedProgram, setSelectedProgram] = useState('');
@@ -58,9 +60,21 @@ export default function RegistrarView({
           </div>
         </div>
 
-        <button onClick={onOpenNewStudent} className="btn-saas btn-saas-primary">
-          <Plus size={15} /> Register Student
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap' }}>
+          {onOpenAcademicClearance && (
+            <button
+              onClick={onOpenAcademicClearance}
+              className="btn-saas"
+              style={{ fontSize: '0.82rem' }}
+              title="Pull student grade status from SGP to verify graduation and academic clearance"
+            >
+              <FileCheck size={15} /> Academic & Clearance Report (SGP)
+            </button>
+          )}
+          <button onClick={onOpenNewStudent} className="btn-saas btn-saas-primary">
+            <Plus size={15} /> Register Student
+          </button>
+        </div>
       </div>
 
       {/* Filter and Search Bar */}

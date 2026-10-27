@@ -11,6 +11,8 @@ enum Role {
   ADMIN
   REGISTRAR
   CASHIER
+  FACULTY
+  STUDENT
 }
 
 enum StudentStatus {
@@ -180,17 +182,25 @@ model Enrollment {
 }
 
 model EnrolledSubject {
-  id           String     @id @default(uuid())
-  enrollmentId String
-  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
-  subjectId    String
-  subject      Subject    @relation(fields: [subjectId], references: [id])
-  section      String     @default("A")
-  schedule     String?
-  room         String?
-  grade        String?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id            String     @id @default(uuid())
+  enrollmentId  String
+  enrollment    Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  subjectId     String
+  subject       Subject    @relation(fields: [subjectId], references: [id])
+  section       String     @default("A")
+  schedule      String?
+  room          String?
+  instructor    String?    @default("Prof. Maria Santos, MSIT")
+  prelimGrade   Decimal?   @db.Decimal(5, 2)
+  midtermGrade  Decimal?   @db.Decimal(5, 2)
+  finalsGrade   Decimal?   @db.Decimal(5, 2)
+  computedGrade Decimal?   @db.Decimal(5, 2)
+  grade         String?
+  remarks       String?
+  isSubmitted   Boolean    @default(false)
+  submittedAt   DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 }
 
 model FeeTemplate {

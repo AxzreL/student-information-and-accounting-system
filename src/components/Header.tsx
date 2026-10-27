@@ -3,7 +3,7 @@
 import React from 'react';
 import { Sun, Moon, School, ChevronDown } from 'lucide-react';
 
-export type UserRole = 'ADMIN' | 'REGISTRAR' | 'CASHIER';
+export type UserRole = 'ADMIN' | 'REGISTRAR' | 'CASHIER' | 'FACULTY' | 'STUDENT';
 
 interface HeaderProps {
   currentRole: UserRole;
@@ -26,21 +26,31 @@ export default function Header({
   institutionName,
   activeTermName,
 }: HeaderProps) {
-  const roleProfiles = {
+  const roleProfiles: Record<UserRole, { name: string; title: string; initials: string }> = {
     ADMIN: {
       name: 'Dr. Alejandro Gomez',
-      title: 'System Administrator',
+      title: 'System Administrator (SIAS & SGP)',
       initials: 'AG',
     },
     REGISTRAR: {
       name: 'Maria Elena Veloso',
-      title: 'University Registrar',
+      title: 'University Registrar (SIAS)',
       initials: 'MV',
     },
     CASHIER: {
       name: 'Roberto Fernandez, CPA',
-      title: 'Finance & Cashier',
+      title: 'Finance & Cashier (SIAS)',
       initials: 'RF',
+    },
+    FACULTY: {
+      name: 'Prof. Maria Santos, MSIT',
+      title: 'Faculty / Grade Encoder (SGP)',
+      initials: 'MS',
+    },
+    STUDENT: {
+      name: 'Mark Anthony Reyes',
+      title: 'Enrolled Student Portal (SGP)',
+      initials: 'MR',
     },
   };
 
@@ -82,11 +92,11 @@ export default function Header({
                 {institutionName}
               </span>
               <span className="badge-status badge-neutral" style={{ fontSize: '0.7rem', padding: '0.1rem 0.4rem' }}>
-                SIAS
+                SIAS ⇄ SGP
               </span>
             </div>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-              Student Information & Accounting Portal
+              Student Information, Accounting & Grades Portal
             </div>
           </div>
         </div>
@@ -125,6 +135,18 @@ export default function Header({
               className={`segmented-btn ${currentRole === 'CASHIER' ? 'active' : ''}`}
             >
               Cashier
+            </button>
+            <button
+              onClick={() => onRoleChange('FACULTY')}
+              className={`segmented-btn ${currentRole === 'FACULTY' ? 'active' : ''}`}
+            >
+              Faculty
+            </button>
+            <button
+              onClick={() => onRoleChange('STUDENT')}
+              className={`segmented-btn ${currentRole === 'STUDENT' ? 'active' : ''}`}
+            >
+              Student
             </button>
           </div>
 
@@ -200,7 +222,7 @@ export default function Header({
             onClick={() => onTabChange('dashboard')}
             className={`tab-nav-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
           >
-            Overview
+            Overview (SIAS)
           </button>
 
           <button
@@ -215,6 +237,20 @@ export default function Header({
             className={`tab-nav-btn ${activeTab === 'cashier' ? 'active' : ''}`}
           >
             Cashier & Accounting
+          </button>
+
+          <button
+            onClick={() => onTabChange('teacher-grades')}
+            className={`tab-nav-btn ${activeTab === 'teacher-grades' ? 'active' : ''}`}
+          >
+            Faculty Grade Sheets (SGP)
+          </button>
+
+          <button
+            onClick={() => onTabChange('student-grades')}
+            className={`tab-nav-btn ${activeTab === 'student-grades' ? 'active' : ''}`}
+          >
+            Student Grades & Clearance (SGP)
           </button>
 
           {currentRole === 'ADMIN' && (
