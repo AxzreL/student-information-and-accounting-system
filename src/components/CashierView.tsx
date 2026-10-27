@@ -68,15 +68,17 @@ export default function CashierView({
               ₱{totalAssessed.toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </strong>
           </div>
-          <div className="badge-status badge-green" style={{ padding: '0.35rem 0.65rem' }}>
+          <div className="badge-status badge-neutral" style={{ padding: '0.35rem 0.65rem' }}>
+            <span className="badge-dot badge-dot-green" />
             <span>Total Collected: </span>
-            <strong className="font-mono-numbers" style={{ marginLeft: '4px' }}>
+            <strong className="font-mono-numbers" style={{ color: 'var(--text-primary)', marginLeft: '4px' }}>
               ₱{totalPaid.toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </strong>
           </div>
-          <div className="badge-status badge-red" style={{ padding: '0.35rem 0.65rem' }}>
+          <div className="badge-status badge-neutral" style={{ padding: '0.35rem 0.65rem' }}>
+            <span className="badge-dot badge-dot-red" />
             <span>Outstanding Balance: </span>
-            <strong className="font-mono-numbers" style={{ marginLeft: '4px' }}>
+            <strong className="font-mono-numbers" style={{ color: 'var(--text-primary)', marginLeft: '4px' }}>
               ₱{totalBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </strong>
           </div>

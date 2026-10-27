@@ -142,19 +142,7 @@ export default function PaymentModal({
 
         <form onSubmit={handleSubmit} style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {error && (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.65rem 0.85rem',
-                borderRadius: 'var(--radius-md)',
-                background: 'var(--badge-red-bg)',
-                border: '1px solid var(--badge-red-border)',
-                color: 'var(--badge-red-text)',
-                fontSize: '0.82rem',
-              }}
-            >
+            <div className="alert-danger">
               <AlertCircle size={16} style={{ flexShrink: 0 }} />
               <span>{error}</span>
             </div>
@@ -178,7 +166,6 @@ export default function PaymentModal({
                   type="button"
                   onClick={() => handlePreset(remainingDownpayment)}
                   className="btn-saas btn-saas-sm"
-                  style={{ borderColor: 'var(--badge-green-border)', color: 'var(--badge-green-text)' }}
                 >
                   Pay Downpayment: <span className="font-mono-numbers" style={{ marginLeft: '0.25rem', fontWeight: 600 }}>₱{remainingDownpayment.toFixed(2)}</span>
                 </button>

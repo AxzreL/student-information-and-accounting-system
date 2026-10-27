@@ -57,7 +57,8 @@ export default function AdminView({
           </div>
         </div>
 
-        <span className="badge-status badge-green">
+        <span className="badge-status badge-neutral">
+          <span className="badge-dot badge-dot-green" />
           System Operational · MySQL 8.4
         </span>
       </div>
@@ -75,7 +76,7 @@ export default function AdminView({
 
           <div style={{ padding: '1.25rem' }}>
             <div style={{ padding: '1rem', background: 'var(--bg-surface-elevated)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-              <span className="badge-status badge-green" style={{ fontSize: '0.72rem' }}>
+              <span className="badge-status badge-neutral" style={{ fontSize: '0.72rem' }}>
                 Current Semester
               </span>
               <div style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '0.35rem' }}>
@@ -173,13 +174,7 @@ export default function AdminView({
                     <td style={{ fontWeight: 500 }}>{log.userName}</td>
                     <td>
                       <span
-                        className={`badge-status ${
-                          log.role === 'ADMIN'
-                            ? 'badge-blue'
-                            : log.role === 'CASHIER'
-                            ? 'badge-green'
-                            : 'badge-amber'
-                        }`}
+                        className="badge-status badge-neutral"
                         style={{ fontSize: '0.7rem' }}
                       >
                         {log.role === 'ADMIN' ? 'Admin' : log.role === 'CASHIER' ? 'Cashier' : 'Registrar'}

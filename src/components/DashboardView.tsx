@@ -92,10 +92,12 @@ export default function DashboardView({
             {currency}{Number(stats?.totalReceivables || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </div>
           <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span className="badge-status badge-green" style={{ fontSize: '0.7rem' }}>
+            <span className="badge-status badge-neutral" style={{ fontSize: '0.7rem' }}>
+              <span className="badge-dot badge-dot-green" />
               {stats?.examClearedCount || 0} Cleared
             </span>
-            <span className="badge-status badge-red" style={{ fontSize: '0.7rem' }}>
+            <span className="badge-status badge-neutral" style={{ fontSize: '0.7rem' }}>
+              <span className="badge-dot badge-dot-red" />
               {stats?.examHoldCount || 0} On Hold
             </span>
           </div>

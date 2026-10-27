@@ -82,16 +82,7 @@ export default function NewStudentModal({
         {/* Form Body */}
         <form onSubmit={handleSubmit} style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {error && (
-            <div
-              style={{
-                padding: '0.65rem 0.85rem',
-                borderRadius: 'var(--radius-md)',
-                border: '1px solid var(--badge-red-border)',
-                background: 'var(--badge-red-bg)',
-                color: 'var(--badge-red-text)',
-                fontSize: '0.8rem',
-              }}
-            >
+            <div className="alert-danger">
               {error}
             </div>
           )}

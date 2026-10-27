@@ -155,17 +155,7 @@ export default function EnrollmentModal({
         </div>
 
         {error && (
-          <div
-            style={{
-              margin: '1rem 1.25rem 0',
-              padding: '0.65rem 0.85rem',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--badge-red-border)',
-              background: 'var(--badge-red-bg)',
-              color: 'var(--badge-red-text)',
-              fontSize: '0.8rem',
-            }}
-          >
+          <div className="alert-danger" style={{ margin: '1rem 1.25rem 0' }}>
             {error}
           </div>
         )}
