@@ -1,8 +1,12 @@
-import { NextResponse } from 'next/server';
+import { jsonWithCors, handleOptions } from '@/lib/cors';
 import prisma from '@/lib/prisma';
 
+export async function OPTIONS() {
+  return handleOptions();
+}
+
 // Compute Philippine collegiate grade point and remarks
-export function computeFinalRating(prelim: number | null, midterm: number | null, finals: number | null, manualGrade?: string | null) {
+function computeFinalRating(prelim: number | null, midterm: number | null, finals: number | null, manualGrade?: string | null) {
   if (manualGrade && ['INC', 'DRP', 'UW'].includes(manualGrade.toUpperCase())) {
     return {
       computed: null,
@@ -50,7 +54,7 @@ export async function GET(request: Request) {
     const section = searchParams.get('section');
 
     if (!subjectId || !section) {
-      return NextResponse.json({ success: false, error: 'subjectId and section are required' }, { status: 400 });
+      return jsonWithCors({ success: false, error: 'subjectId and section are required' }, { status: 400 });
     }
 
     const currentTerm = await prisma.academicTerm.findFirst({
@@ -125,7 +129,7 @@ export async function GET(request: Request) {
       };
     });
 
-    return NextResponse.json({
+    return jsonWithCors({
       success: true,
       subject: subjectInfo,
       section,
@@ -133,7 +137,7 @@ export async function GET(request: Request) {
     });
   } catch (error: any) {
     console.error('Error fetching SGP class grades:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return jsonWithCors({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -144,7 +148,7 @@ export async function POST(request: Request) {
     const { grades, isSubmitting, instructorName } = body;
 
     if (!Array.isArray(grades) || grades.length === 0) {
-      return NextResponse.json({ success: false, error: 'grades array is required' }, { status: 400 });
+      return jsonWithCors({ success: false, error: 'grades array is required' }, { status: 400 });
     }
 
     const updated = [];
@@ -198,7 +202,7 @@ export async function POST(request: Request) {
       });
     }
 
-    return NextResponse.json({
+    return jsonWithCors({
       success: true,
       count: updated.length,
       isSubmitted: Boolean(isSubmitting),
@@ -208,6 +212,6 @@ export async function POST(request: Request) {
     });
   } catch (error: any) {
     console.error('Error saving SGP grades:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return jsonWithCors({ success: false, error: error.message }, { status: 500 });
   }
 }

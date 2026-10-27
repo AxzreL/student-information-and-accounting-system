@@ -1,5 +1,9 @@
-import { NextResponse } from 'next/server';
+import { jsonWithCors, handleOptions } from '@/lib/cors';
 import prisma from '@/lib/prisma';
+
+export async function OPTIONS() {
+  return handleOptions();
+}
 
 // GET /api/sgp/student-grades?studentId=... or ?studentNo=...
 export async function GET(request: Request) {
@@ -13,7 +17,7 @@ export async function GET(request: Request) {
     });
 
     if (!currentTerm) {
-      return NextResponse.json({ success: false, error: 'No active academic term found' }, { status: 404 });
+      return jsonWithCors({ success: false, error: 'No active academic term found' }, { status: 404 });
     }
 
     // Get list of all enrolled students for the portal dropdown
@@ -70,7 +74,7 @@ export async function GET(request: Request) {
     }
 
     if (!targetStudentId) {
-      return NextResponse.json({ success: false, error: 'No enrolled students found', students: [] });
+      return jsonWithCors({ success: false, error: 'No enrolled students found', students: [] });
     }
 
     const studentRecord = await prisma.student.findUnique({
@@ -104,7 +108,7 @@ export async function GET(request: Request) {
     });
 
     if (!studentRecord || studentRecord.enrollments.length === 0) {
-      return NextResponse.json({
+      return jsonWithCors({
         success: false,
         error: 'Student has no active enrollment for the current term',
         students: studentRoster,
@@ -168,7 +172,7 @@ export async function GET(request: Request) {
 
     const gwa = totalGradedUnits > 0 ? (totalEarnedGradePoints / totalGradedUnits).toFixed(2) : null;
 
-    return NextResponse.json({
+    return jsonWithCors({
       success: true,
       students: studentRoster,
       currentTerm,
@@ -216,6 +220,6 @@ export async function GET(request: Request) {
     });
   } catch (error: any) {
     console.error('Error fetching student grades:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return jsonWithCors({ success: false, error: error.message }, { status: 500 });
   }
 }

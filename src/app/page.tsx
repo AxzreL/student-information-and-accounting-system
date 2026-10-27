@@ -14,9 +14,6 @@ import PrintReceiptModal from '@/components/PrintReceiptModal';
 import PrintCorModal from '@/components/PrintCorModal';
 import PrintSoaModal from '@/components/PrintSoaModal';
 
-import TeacherGradesView from '@/components/sgp/TeacherGradesView';
-import StudentGradesView from '@/components/sgp/StudentGradesView';
-import PrintGradeSlipModal from '@/components/sgp/PrintGradeSlipModal';
 import AcademicClearanceModal from '@/components/AcademicClearanceModal';
 
 export default function Home() {
@@ -48,9 +45,7 @@ export default function Home() {
   const [receiptData, setReceiptData] = useState<any>(null);
   const [corData, setCorData] = useState<any>(null);
   const [soaData, setSoaData] = useState<any>(null);
-  const [gradeSlipData, setGradeSlipData] = useState<any>(null);
   const [isAcademicClearanceOpen, setIsAcademicClearanceOpen] = useState(false);
-  const [sgpTargetStudentId, setSgpTargetStudentId] = useState<string>('');
 
   // Notification Toast
   const [toastMessage, setToastMessage] = useState<string>('');
@@ -285,8 +280,6 @@ export default function Home() {
           setCurrentRole(r);
           if (r === 'REGISTRAR') setActiveTab('registrar');
           else if (r === 'CASHIER') setActiveTab('cashier');
-          else if (r === 'FACULTY') setActiveTab('teacher-grades');
-          else if (r === 'STUDENT') setActiveTab('student-grades');
           else if (r === 'ADMIN') setActiveTab('dashboard');
         }}
         activeTab={activeTab}
@@ -295,6 +288,7 @@ export default function Home() {
         onToggleTheme={toggleTheme}
         institutionName={institutionName}
         activeTermName={activeTermName}
+        onOpenClearanceModal={() => setIsAcademicClearanceOpen(true)}
       />
 
       {/* Main Workspace Body */}
@@ -327,28 +321,6 @@ export default function Home() {
             onOpenPayment={setPaymentAssessment}
             onOpenSoa={setSoaData}
             onOpenReceipt={setReceiptData}
-          />
-        )}
-
-        {activeTab === 'teacher-grades' && (
-          <TeacherGradesView
-            onNavigateToStudentPortal={(stId) => {
-              setSgpTargetStudentId(stId);
-              setActiveTab('student-grades');
-            }}
-            onNavigateToCashier={() => setActiveTab('cashier')}
-            showToast={showToast}
-          />
-        )}
-
-        {activeTab === 'student-grades' && (
-          <StudentGradesView
-            initialStudentId={sgpTargetStudentId}
-            onNavigateToCashier={() => {
-              setActiveTab('cashier');
-            }}
-            onOpenGradeSlipPrint={setGradeSlipData}
-            showToast={showToast}
           />
         )}
 
@@ -407,14 +379,6 @@ export default function Home() {
         isOpen={!!soaData}
         onClose={() => setSoaData(null)}
         assessmentData={soaData}
-        institutionName={institutionName}
-        institutionAddress={institutionAddress}
-      />
-
-      <PrintGradeSlipModal
-        isOpen={!!gradeSlipData}
-        onClose={() => setGradeSlipData(null)}
-        gradeData={gradeSlipData}
         institutionName={institutionName}
         institutionAddress={institutionAddress}
       />

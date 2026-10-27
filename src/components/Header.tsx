@@ -1,9 +1,8 @@
 'use client';
 
-import React from 'react';
-import { Sun, Moon, School, ChevronDown } from 'lucide-react';
+import { Sun, Moon, School, ChevronDown, ExternalLink, Award } from 'lucide-react';
 
-export type UserRole = 'ADMIN' | 'REGISTRAR' | 'CASHIER' | 'FACULTY' | 'STUDENT';
+export type UserRole = 'ADMIN' | 'REGISTRAR' | 'CASHIER';
 
 interface HeaderProps {
   currentRole: UserRole;
@@ -14,6 +13,7 @@ interface HeaderProps {
   onToggleTheme: (e?: React.MouseEvent<HTMLButtonElement>) => void;
   institutionName: string;
   activeTermName: string;
+  onOpenClearanceModal?: () => void;
 }
 
 export default function Header({
@@ -25,11 +25,12 @@ export default function Header({
   onToggleTheme,
   institutionName,
   activeTermName,
+  onOpenClearanceModal,
 }: HeaderProps) {
   const roleProfiles: Record<UserRole, { name: string; title: string; initials: string }> = {
     ADMIN: {
       name: 'Dr. Alejandro Gomez',
-      title: 'System Administrator (SIAS & SGP)',
+      title: 'System Administrator (SIAS)',
       initials: 'AG',
     },
     REGISTRAR: {
@@ -41,16 +42,6 @@ export default function Header({
       name: 'Roberto Fernandez, CPA',
       title: 'Finance & Cashier (SIAS)',
       initials: 'RF',
-    },
-    FACULTY: {
-      name: 'Prof. Maria Santos, MSIT',
-      title: 'Faculty / Grade Encoder (SGP)',
-      initials: 'MS',
-    },
-    STUDENT: {
-      name: 'Mark Anthony Reyes',
-      title: 'Enrolled Student Portal (SGP)',
-      initials: 'MR',
     },
   };
 
@@ -91,18 +82,18 @@ export default function Header({
               <span style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.015em' }}>
                 {institutionName}
               </span>
-              <span className="badge-status badge-neutral" style={{ fontSize: '0.7rem', padding: '0.1rem 0.4rem' }}>
-                SIAS ⇄ SGP
+              <span className="badge-status badge-neutral" style={{ fontSize: '0.68rem', padding: '0.1rem 0.4rem' }}>
+                SIAS Port:3000
               </span>
             </div>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-              Student Information, Accounting & Grades Portal
+              Student Information and Accounting System (System of Record)
             </div>
           </div>
         </div>
 
-        {/* Right Controls: Academic Term, Role Switcher, User & Theme */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
+        {/* Right Controls: Academic Term, Role Switcher, SGP Cross-link & Theme */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
           {/* Active Term Pill */}
           <div
             className="badge-status badge-neutral"
@@ -116,7 +107,7 @@ export default function Header({
             <span>{activeTermName}</span>
           </div>
 
-          {/* Clean Segmented Role Switcher */}
+          {/* Clean Segmented Role Switcher: Admin, Registrar, Cashier */}
           <div className="segmented-control">
             <button
               onClick={() => onRoleChange('ADMIN')}
@@ -136,19 +127,26 @@ export default function Header({
             >
               Cashier
             </button>
-            <button
-              onClick={() => onRoleChange('FACULTY')}
-              className={`segmented-btn ${currentRole === 'FACULTY' ? 'active' : ''}`}
-            >
-              Faculty
-            </button>
-            <button
-              onClick={() => onRoleChange('STUDENT')}
-              className={`segmented-btn ${currentRole === 'STUDENT' ? 'active' : ''}`}
-            >
-              Student
-            </button>
           </div>
+
+          {/* Cross-System Link to Separate Student Grades Portal (Port 3001) */}
+          <a
+            href="http://localhost:3001"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-saas"
+            style={{
+              fontSize: '0.75rem',
+              padding: '0.35rem 0.75rem',
+              textDecoration: 'none',
+              gap: '0.4rem',
+            }}
+            title="Launch separate Student Grades Portal (Faculty Grade Encoding & Student Report Cards) on Port 3001"
+          >
+            <Award size={13} style={{ color: '#3b82f6' }} />
+            <span>Student Grades Portal</span>
+            <ExternalLink size={12} style={{ opacity: 0.6 }} />
+          </a>
 
           {/* User Account Info */}
           <div
@@ -239,19 +237,16 @@ export default function Header({
             Cashier & Accounting
           </button>
 
-          <button
-            onClick={() => onTabChange('teacher-grades')}
-            className={`tab-nav-btn ${activeTab === 'teacher-grades' ? 'active' : ''}`}
-          >
-            Faculty Grade Sheets (SGP)
-          </button>
-
-          <button
-            onClick={() => onTabChange('student-grades')}
-            className={`tab-nav-btn ${activeTab === 'student-grades' ? 'active' : ''}`}
-          >
-            Student Grades & Clearance (SGP)
-          </button>
+          {onOpenClearanceModal && (
+            <button
+              onClick={onOpenClearanceModal}
+              className="tab-nav-btn"
+              style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}
+            >
+              <Award size={13} style={{ color: '#3b82f6' }} />
+              <span>Academic & Clearance Report (SGP)</span>
+            </button>
+          )}
 
           {currentRole === 'ADMIN' && (
             <button

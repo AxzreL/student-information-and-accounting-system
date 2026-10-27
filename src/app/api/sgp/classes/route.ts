@@ -1,5 +1,9 @@
-import { NextResponse } from 'next/server';
+import { jsonWithCors, handleOptions } from '@/lib/cors';
 import prisma from '@/lib/prisma';
+
+export async function OPTIONS() {
+  return handleOptions();
+}
 
 // GET /api/sgp/classes - Returns all active class sections with enrolled student count and submission status
 export async function GET() {
@@ -9,7 +13,7 @@ export async function GET() {
     });
 
     if (!currentTerm) {
-      return NextResponse.json({ success: false, error: 'No active academic term found' }, { status: 404 });
+      return jsonWithCors({ success: false, error: 'No active academic term found' }, { status: 404 });
     }
 
     // SIAS owns subjects and sections: query enrolled subjects in the current term
@@ -70,9 +74,9 @@ export async function GET() {
       isFullySubmitted: c.enrolledCount > 0 && c.submittedCount === c.enrolledCount,
     }));
 
-    return NextResponse.json({ success: true, classes, currentTerm });
+    return jsonWithCors({ success: true, classes, currentTerm });
   } catch (error: any) {
     console.error('Error fetching SGP classes:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return jsonWithCors({ success: false, error: error.message }, { status: 500 });
   }
 }

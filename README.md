@@ -80,21 +80,51 @@ npx prisma db push
 node prisma/seed.js
 ```
 
-### 5. Start the Development Server
+### 5. Start the Systems
+
+This solution features **two separate, integrated systems** running on independent ports:
+
+#### System 1: Student Information and Accounting System (SIAS)
+The system of record for student profiles, enrollment, courses, sections, fees, assessments, payments, balances, and receipts.
 ```bash
+# In the root project directory:
 npm run dev
 ```
+Runs at [http://localhost:3000](http://localhost:3000).
 
-Open [http://localhost:3000](http://localhost:3000) in your web browser!
+#### System 2: Student Grades Portal (SGP)
+The separate portal where teachers encode grades and students view them, featuring weighted grade computation (Prelim 30%, Midterm 30%, Finals 40%), class records, and printable collegiate report cards / grade slips.
+```bash
+# In a separate terminal:
+cd student-grades-portal
+npm install
+npm run dev
+```
+Runs at [http://localhost:3001](http://localhost:3001).
+
+---
+
+## 🔗 How SIAS and SGP Integrate
+
+1. **Student Data & Class Lists**: SGP reads student enrollments and subject loads directly from SIAS via REST API (`http://localhost:3000/api/sgp/...`), ensuring no duplicate registrations.
+2. **Balance Clearance Policy ("No Clearance, No Grades")**: SGP checks the student's live balance and exam permit status in SIAS before unlocking official grades or allowing report card printing.
+   - Cleared students (e.g. `Mark Anthony Reyes` `2024-00101` or scholar `Princess Mae Tan` `2024-00102`) can view grades and print their Certificate of Grades.
+   - Students with unsettled balances (e.g. `Sarah Jane Mendoza` `2024-00201`) see their grades withheld with a direct link to the SIAS Cashier.
+3. **Subjects & Sections Master**: SIAS owns all subjects, units, schedules, rooms, and sections; SGP consumes them for instructor class records.
+4. **Academic Clearance Reports**: SIAS Registrar can pull academic standings, GWA, and passed/failed units from SGP to cross-reference with cashier clearances for graduation and re-enrollment.
 
 ---
 
 ## 👥 Demo User Accounts
 
-You can test any role directly using the **Fast Role Switcher** at the top of the screen:
-- **Administrator**: `Dr. Alejandro Gomez` (`admin@sias.edu.ph` / `admin123`)
-- **University Registrar**: `Maria Elena Veloso` (`registrar@sias.edu.ph` / `registrar123`)
-- **Finance & Cashier Officer**: `Roberto Fernandez, CPA` (`cashier@sias.edu.ph` / `cashier123`)
+You can test either system independently:
+- **SIAS (Port 3000)**:
+  - **Administrator**: `Dr. Alejandro Gomez`
+  - **University Registrar**: `Maria Elena Veloso`
+  - **Finance & Cashier Officer**: `Roberto Fernandez, CPA`
+- **SGP (Port 3001)**:
+  - **Faculty Instructor**: Select classes, encode Prelim/Midterm/Finals, and submit official grades.
+  - **Student Portal**: Select any student from the dropdown to observe live financial clearance and grade slip generation.
 
 ---
 
