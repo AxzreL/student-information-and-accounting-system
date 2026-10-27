@@ -115,16 +115,31 @@ Runs at [http://localhost:3001](http://localhost:3001).
 
 ---
 
-## 👥 Demo User Accounts
+## 👥 Authentication & Demo Accounts
 
-You can test either system independently:
-- **SIAS (Port 3000)**:
-  - **Administrator**: `Dr. Alejandro Gomez`
-  - **University Registrar**: `Maria Elena Veloso`
-  - **Finance & Cashier Officer**: `Roberto Fernandez, CPA`
-- **SGP (Port 3001)**:
-  - **Faculty Instructor**: Select classes, encode Prelim/Midterm/Finals, and submit official grades.
-  - **Student Portal**: Select any student from the dropdown to observe live financial clearance and grade slip generation.
+Both systems feature dedicated login screens with **1-click demo presets** or manual credential entry:
+
+### 1. SIAS Administrative Login (Port 3000)
+| Role | Email | Password | Access / Description |
+| :--- | :--- | :--- | :--- |
+| **Administrator** | `admin@sias.edu.ph` | `admin123` | Full system oversight, academic terms, fee templates, audit logs |
+| **University Registrar** | `registrar@sias.edu.ph` | `registrar123` | Student admissions, subject enrollment, study loads, academic clearance |
+| **Finance & Cashier** | `cashier@sias.edu.ph` | `cashier123` | Student ledger, payment posting, official receipts, exam permit clearance |
+
+### 2. SGP Grades Portal Login (Port 3001)
+* **Faculty / Teacher Login:**
+  | Instructor | Email | Password | Assigned Classes |
+  | :--- | :--- | :--- | :--- |
+  | **Prof. Maria Santos, MSIT** | `faculty@sias.edu.ph` | `faculty123` | Introduction to Computing, Discrete Math |
+  | **Engr. Dan Gomez, MIT** | `dgomez@sias.edu.ph` | `faculty123` | Computer Programming 1 (Python) |
+  | **Dr. Alicia Tan, PhD** | `atan@sias.edu.ph` | `faculty123` | Understanding the Self |
+
+* **Student Portal Login:**
+  | Student Name | Student No. | Password | SIAS Financial Clearance Status |
+  | :--- | :--- | :--- | :--- |
+  | **Mark Anthony Reyes** | `2024-00101` | `student123` | **CLEARED** (Partial payment, ₱4,600 bal) — Grades Unlocked (GWA 1.49) |
+  | **Princess Mae Tan** | `2024-00102` | `student123` | **CLEARED** (UniFAST Scholar, ₱0 bal) — President's List (GWA 1.07) |
+  | **Sarah Jane Mendoza** | `2024-00201` | `student123` | **HOLD** (Unpaid ₱5,650 bal) — Official Grades Withheld |
 
 ---
 

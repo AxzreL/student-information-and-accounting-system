@@ -15,8 +15,11 @@ import PrintCorModal from '@/components/PrintCorModal';
 import PrintSoaModal from '@/components/PrintSoaModal';
 
 import AcademicClearanceModal from '@/components/AcademicClearanceModal';
+import SiasLoginView from '@/components/SiasLoginView';
 
 export default function Home() {
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [authInitialized, setAuthInitialized] = useState(false);
   const [currentRole, setCurrentRole] = useState<UserRole>('REGISTRAR');
   const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
@@ -144,9 +147,41 @@ export default function Home() {
       } else {
         document.documentElement.setAttribute('data-theme', 'dark');
       }
+
+      // Check saved user session
+      const savedUser = localStorage.getItem('sias_auth_user');
+      if (savedUser) {
+        const parsed = JSON.parse(savedUser);
+        setCurrentUser(parsed);
+        setCurrentRole(parsed.role || 'REGISTRAR');
+        if (parsed.role === 'REGISTRAR') setActiveTab('registrar');
+        else if (parsed.role === 'CASHIER') setActiveTab('cashier');
+        else if (parsed.role === 'ADMIN') setActiveTab('dashboard');
+      }
     } catch (e) {}
+    setAuthInitialized(true);
     fetchAllData();
   }, []);
+
+  const handleLoginSuccess = (user: any) => {
+    setCurrentUser(user);
+    try {
+      localStorage.setItem('sias_auth_user', JSON.stringify(user));
+    } catch (e) {}
+    setCurrentRole(user.role || 'REGISTRAR');
+    if (user.role === 'REGISTRAR') setActiveTab('registrar');
+    else if (user.role === 'CASHIER') setActiveTab('cashier');
+    else if (user.role === 'ADMIN') setActiveTab('dashboard');
+    showToast(`Welcome back, ${user.name}!`);
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    try {
+      localStorage.removeItem('sias_auth_user');
+    } catch (e) {}
+    showToast('Signed out from SIAS.');
+  };
 
   const fetchAllData = async () => {
     try {
@@ -225,6 +260,16 @@ export default function Home() {
     settings?.institution_address || 'Arteche Blvd, Catbalogan City, Samar, Philippines';
   const activeTermName = currentTerm?.name || 'AY 2024-2025 First Semester';
 
+  // If user is not authenticated and auth check finished, show SIAS Login
+  if (authInitialized && !currentUser) {
+    return (
+      <SiasLoginView
+        onLoginSuccess={handleLoginSuccess}
+        institutionName={institutionName}
+      />
+    );
+  }
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', background: 'var(--bg-canvas)' }}>
       {/* Circular Screen Transition Overlay (Fallback) */}
@@ -289,6 +334,8 @@ export default function Home() {
         institutionName={institutionName}
         activeTermName={activeTermName}
         onOpenClearanceModal={() => setIsAcademicClearanceOpen(true)}
+        currentUser={currentUser}
+        onLogout={handleLogout}
       />
 
       {/* Main Workspace Body */}

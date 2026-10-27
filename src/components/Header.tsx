@@ -1,6 +1,6 @@
 'use client';
 
-import { Sun, Moon, School, ChevronDown, ExternalLink, Award } from 'lucide-react';
+import { Sun, Moon, School, ChevronDown, ExternalLink, Award, LogOut } from 'lucide-react';
 
 export type UserRole = 'ADMIN' | 'REGISTRAR' | 'CASHIER';
 
@@ -14,6 +14,8 @@ interface HeaderProps {
   institutionName: string;
   activeTermName: string;
   onOpenClearanceModal?: () => void;
+  currentUser?: any;
+  onLogout?: () => void;
 }
 
 export default function Header({
@@ -26,6 +28,8 @@ export default function Header({
   institutionName,
   activeTermName,
   onOpenClearanceModal,
+  currentUser,
+  onLogout,
 }: HeaderProps) {
   const roleProfiles: Record<UserRole, { name: string; title: string; initials: string }> = {
     ADMIN: {
@@ -148,13 +152,13 @@ export default function Header({
             <ExternalLink size={12} style={{ opacity: 0.6 }} />
           </a>
 
-          {/* User Account Info */}
+          {/* User Account Info & Logout */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.55rem',
-              padding: '0.25rem 0.5rem',
+              gap: '0.65rem',
+              padding: '0.25rem 0.55rem',
               borderRadius: 'var(--radius-md)',
               background: 'var(--bg-surface-elevated)',
               border: '1px solid var(--border-subtle)',
@@ -162,8 +166,8 @@ export default function Header({
           >
             <div
               style={{
-                width: '24px',
-                height: '24px',
+                width: '26px',
+                height: '26px',
                 borderRadius: 'var(--radius-sm)',
                 background: 'var(--border-default)',
                 color: 'var(--text-primary)',
@@ -174,16 +178,33 @@ export default function Header({
                 justifyContent: 'center',
               }}
             >
-              {roleProfiles[currentRole].initials}
+              {currentUser?.name ? currentUser.name.split(' ').map((n: string) => n[0]).slice(0, 2).join('') : roleProfiles[currentRole].initials}
             </div>
             <div style={{ textAlign: 'left', lineHeight: 1.2 }}>
               <div style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                {roleProfiles[currentRole].name}
+                {currentUser?.name || roleProfiles[currentRole].name}
               </div>
               <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>
-                {roleProfiles[currentRole].title}
+                {currentUser?.role || roleProfiles[currentRole].title}
               </div>
             </div>
+
+            {onLogout && (
+              <button
+                onClick={onLogout}
+                className="btn-link"
+                style={{
+                  fontSize: '0.72rem',
+                  padding: '0.2rem 0.4rem',
+                  marginLeft: '0.25rem',
+                  color: 'var(--text-muted)',
+                }}
+                title="Sign out from SIAS"
+              >
+                <LogOut size={13} />
+                <span>Exit</span>
+              </button>
+            )}
           </div>
 
           {/* Clean Theme Toggle Button */}

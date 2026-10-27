@@ -64,6 +64,12 @@ export default function StudentGradesPortal({
   };
 
   useEffect(() => {
+    if (initialStudentId) {
+      setSelectedStudentId(initialStudentId);
+    }
+  }, [initialStudentId]);
+
+  useEffect(() => {
     fetchStudentGrades(selectedStudentId);
   }, [selectedStudentId]);
 

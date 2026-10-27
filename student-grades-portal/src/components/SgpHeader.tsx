@@ -10,18 +10,24 @@ import {
   ExternalLink,
   Activity,
   Layers,
+  LogOut,
+  User,
 } from 'lucide-react';
 
 interface SgpHeaderProps {
   activePortalView: 'FACULTY' | 'STUDENT';
   setActivePortalView: (view: 'FACULTY' | 'STUDENT') => void;
   academicTerm?: string;
+  session?: any;
+  onLogout?: () => void;
 }
 
 export default function SgpHeader({
   activePortalView,
   setActivePortalView,
   academicTerm = 'A.Y. 2024-2025 1st Semester',
+  session,
+  onLogout,
 }: SgpHeaderProps) {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
@@ -125,28 +131,87 @@ export default function SgpHeader({
           </div>
         </div>
 
-        {/* Center: SGP Segmented Portal Switcher */}
-        <div className="segmented-control">
-          <button
-            onClick={() => setActivePortalView('FACULTY')}
-            className={`segmented-btn ${activePortalView === 'FACULTY' ? 'active' : ''}`}
-            style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
-          >
-            <Users size={14} />
-            <span>Faculty Grade Sheets</span>
-          </button>
-          <button
-            onClick={() => setActivePortalView('STUDENT')}
-            className={`segmented-btn ${activePortalView === 'STUDENT' ? 'active' : ''}`}
-            style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
-          >
-            <Award size={14} />
-            <span>Student Grades & Clearance</span>
-          </button>
-        </div>
+        {/* Center: SGP Segmented Portal Switcher (Visible if Faculty or Admin) */}
+        {session?.type !== 'STUDENT' && (
+          <div className="segmented-control">
+            <button
+              onClick={() => setActivePortalView('FACULTY')}
+              className={`segmented-btn ${activePortalView === 'FACULTY' ? 'active' : ''}`}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+            >
+              <Users size={14} />
+              <span>Faculty Grade Sheets</span>
+            </button>
+            <button
+              onClick={() => setActivePortalView('STUDENT')}
+              className={`segmented-btn ${activePortalView === 'STUDENT' ? 'active' : ''}`}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+            >
+              <Award size={14} />
+              <span>Student Grades & Clearance</span>
+            </button>
+          </div>
+        )}
 
-        {/* Right: Cross-Link to SIAS System & Theme */}
+        {/* Right: User Profile, Sign Out, Cross-Link to SIAS System & Theme */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          {/* Active Logged-In User Badge */}
+          {session && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.55rem',
+                padding: '0.25rem 0.55rem',
+                borderRadius: 'var(--radius-md)',
+                background: 'var(--bg-surface-elevated)',
+                border: '1px solid var(--border-subtle)',
+              }}
+            >
+              <div
+                style={{
+                  width: '24px',
+                  height: '24px',
+                  borderRadius: 'var(--radius-sm)',
+                  background: 'var(--border-default)',
+                  color: 'var(--text-primary)',
+                  fontSize: '0.72rem',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {session.type === 'STUDENT' ? 'ST' : 'FC'}
+              </div>
+              <div style={{ textAlign: 'left', lineHeight: 1.2 }}>
+                <div style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  {session.data?.name || (session.type === 'STUDENT' ? session.data?.firstName : 'User')}
+                </div>
+                <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>
+                  {session.type === 'STUDENT' ? `StudentNo: ${session.data?.studentNo}` : 'Faculty Member'}
+                </div>
+              </div>
+
+              {onLogout && (
+                <button
+                  onClick={onLogout}
+                  className="btn-link"
+                  style={{
+                    fontSize: '0.72rem',
+                    padding: '0.2rem 0.4rem',
+                    marginLeft: '0.2rem',
+                    color: 'var(--text-muted)',
+                  }}
+                  title="Sign out from SGP"
+                >
+                  <LogOut size={13} />
+                  <span>Exit</span>
+                </button>
+              )}
+            </div>
+          )}
+
           <a
             href="http://localhost:3000"
             target="_blank"
@@ -156,7 +221,7 @@ export default function SgpHeader({
             title="Open Student Information & Accounting System (Registrar / Cashier) on Port 3000"
           >
             <Layers size={13} />
-            <span>Open SIAS System</span>
+            <span>Open SIAS</span>
             <ExternalLink size={12} style={{ opacity: 0.6 }} />
           </a>
 
